@@ -9,15 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CovidStats">
-		<activity android:name="com.nerdscorner.covid.stats.ui.activities.MainActivity">
-		</activity>
-        <activity android:name="com.nerdscorner.covid.stats.ui.activities.StatsActivity">
+        <activity android:name="com.nerdscorner.covid.stats.ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.nerdscorner.covid.stats.ui.activities.StatsCtiActivity" />
+        <activity android:name="com.nerdscorner.covid.stats.ui.activities.StatsByCityActivity" />
     </application>
 
 </manifest>

@@ -15,8 +15,8 @@ class MainActivity : BaseActivity<MainPresenter>() {
         setContentView(R.layout.main_activity)
 
         presenter = MainPresenter(
-                MainView(this),
-                MainModel()
+            MainView(this),
+            MainModel()
         )
     }
 }
