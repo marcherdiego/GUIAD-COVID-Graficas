@@ -6,25 +6,27 @@ import com.nerdscorner.covid.stats.domain.CitiesData
 
 class StatsByCityModel : StatsModel() {
     override val dataFileName = "data/estadisticasUY_porDepto_detalle.csv"
-    
+
     private lateinit var citiesData: CitiesData
+    
+    var selectedCity = 0
+    var selectedStat = 0
+    
+    val allCities = CitiesData.getAllCities()
+    val availableStats = CitiesData.getStats()
 
     override fun loadChartsData(activity: Activity) {
         super.loadChartsData(activity)
         citiesData = CitiesData(csvLines)
     }
 
-    fun getCitiesDataSets(cities: List<String>, colorsList: List<Int>): List<ILineDataSet> {
-        return CitiesData
-            .getDataIndexes()
-            .mapIndexed { index, dataIndex ->
-                val colorIndex = index % colorsList.size
-                citiesData.getDataSet(dataIndex, cities, colorsList[colorIndex], colorsList[colorIndex])
-            }
+    fun getCityDataSets(colorsList: List<Int>): ILineDataSet {
+        val selectedCities = if (selectedCity == 0) {
+            allCities
+        } else {
+            listOf(allCities[selectedCity])
+        }
+        val selectedStat = availableStats[selectedStat]
+        return citiesData.getDataSet(selectedStat.index, selectedCities, colorsList.first(), colorsList.first())
     }
-
-    fun getCities(): List<String> {
-        return CitiesData.getAllCities()
-    }
-
 }

@@ -8,12 +8,13 @@ class CitiesData(csvLines: List<String>) : DataObject(csvLines) {
     fun getDataSet(dataIndex: Int, selectedCities: List<String>, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
         val dataLines = csvLines
             .asSequence()
-            .drop(1)
+            .drop(1) //Drop header
             .groupBy {
                 it.split(COMMA)[INDEX_DATE]
             }
             .map { dateEntries ->
-                dateEntries
+                val date = dateEntries.key
+                val valuesSum = dateEntries
                     .value
                     .map {
                         val dataTokens = it.split(COMMA)
@@ -25,9 +26,9 @@ class CitiesData(csvLines: List<String>) : DataObject(csvLines) {
                         }
                     }
                     .reduce { acc, s -> acc + s }
-                    .toString()
+                return@map "$date,$valuesSum"
             }
-        return getDataSet(headers, dataLines, 0, 0, color, valueTextColor)
+        return getDataSet(headers, dataLines, 0, 1, color, valueTextColor)
     }
 
     companion object {
@@ -42,6 +43,7 @@ class CitiesData(csvLines: List<String>) : DataObject(csvLines) {
         const val INDEX_TOTAL_RECOVERED = 8
         const val INDEX_TOTAL_CASES = 9
 
+        const val TODOS = "Todo el país"
         const val ARTIGAS = "Artigas(UY-AR)"
         const val CANELONES = "Canelones(UY-CA)"
         const val CERRO_LARGO = "Cerro Largo(UY-CL)"
@@ -63,6 +65,7 @@ class CitiesData(csvLines: List<String>) : DataObject(csvLines) {
         const val TREINTA_Y_TRES = "Treinta y Tres(UY-TT)"
 
         fun getAllCities() = listOf(
+            TODOS,
             ARTIGAS,
             CANELONES,
             CERRO_LARGO,
@@ -84,15 +87,15 @@ class CitiesData(csvLines: List<String>) : DataObject(csvLines) {
             TREINTA_Y_TRES
         )
 
-        fun getDataIndexes() = listOf(
-            INDEX_IN_COURSE,
-            INDEX_NEW_CASES_CALCULATED,
-            INDEX_NEW_CASES_APP,
-            INDEX_NEW_DECEASES,
-            INDEX_TOTAL_DECEASES,
-            INDEX_NEW_RECOVERED,
-            INDEX_TOTAL_RECOVERED,
-            INDEX_TOTAL_CASES
+        fun getStats() = listOf(
+            Stat("Casos en curso", INDEX_IN_COURSE),
+            Stat("Nuevos casos (calculado)", INDEX_NEW_CASES_CALCULATED),
+            Stat("Nuevos casos (App)", INDEX_NEW_CASES_APP),
+            Stat("Nuevos fallecidos", INDEX_NEW_DECEASES),
+            Stat("Total de fallecidos", INDEX_TOTAL_DECEASES),
+            Stat("Nuevos recuperados", INDEX_NEW_RECOVERED),
+            Stat("Total de recuperados", INDEX_TOTAL_RECOVERED),
+            Stat("Total de casos", INDEX_TOTAL_CASES)
         )
     }
 }
