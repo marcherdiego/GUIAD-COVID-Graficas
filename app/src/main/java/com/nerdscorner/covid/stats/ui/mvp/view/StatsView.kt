@@ -1,7 +1,9 @@
 package com.nerdscorner.covid.stats.ui.mvp.view
 
 import android.graphics.Color
+import android.widget.SpinnerAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatSpinner
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -10,23 +12,41 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.covid.stats.R
+import com.nerdscorner.covid.stats.domain.Stat
+import com.nerdscorner.covid.stats.extensions.setItemSelectedListener
+import com.nerdscorner.covid.stats.extensions.setSelectedItemsChangedListener
+import com.nerdscorner.covid.stats.ui.adapter.StatsAdapter
 import com.nerdscorner.mvplib.events.view.BaseActivityView
 
 abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activity) {
     private val chart: LineChart = activity.findViewById(R.id.chart)
+    private val citiesSelector: AppCompatSpinner = activity.findViewById(R.id.cities_selector)
+    private val statSelector: AppCompatSpinner = activity.findViewById(R.id.stat_selector)
+
+    init {
+        citiesSelector.setItemSelectedListener {
+            bus.post(CitySelectedEvent(it))
+        }
+    }
+
+    fun setCitiesAdapter(adapter: SpinnerAdapter) {
+        citiesSelector.adapter = adapter
+    }
+
+    fun setStatsAdapter(adapter: StatsAdapter) {
+        statSelector.adapter = adapter
+        statSelector.setSelectedItemsChangedListener {
+            bus.post(StatsSelectedEvent(it))
+        }
+    }
 
     fun setChartsData(dataSets: List<ILineDataSet>) {
+        chart.clear()
+        styleAxis(dataSets.firstOrNull() ?: return)
         chart.data = LineData(dataSets)
-        styleAxis(dataSets.first())
         chart.invalidate()
     }
 
-    fun setChartsData(dataSet: ILineDataSet) {
-        chart.data = LineData(dataSet)
-        styleAxis(dataSet)
-        chart.invalidate()
-    }
-    
     private fun styleAxis(dataSet: ILineDataSet) {
         chart.getAxis(YAxis.AxisDependency.RIGHT).textColor = Color.WHITE
         chart.getAxis(YAxis.AxisDependency.LEFT).textColor = Color.WHITE
@@ -42,4 +62,7 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
             }
         }
     }
+
+    class CitySelectedEvent(val position: Int)
+    class StatsSelectedEvent(val selectedStats: List<Stat>)
 }

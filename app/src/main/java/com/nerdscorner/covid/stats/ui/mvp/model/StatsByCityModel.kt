@@ -5,28 +5,26 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.covid.stats.domain.CitiesData
 
 class StatsByCityModel : StatsModel() {
-    override val dataFileName = "data/estadisticasUY_porDepto_detalle.csv"
-
     private lateinit var citiesData: CitiesData
-    
-    var selectedCity = 0
-    var selectedStat = 0
-    
-    val allCities = CitiesData.getAllCities()
-    val availableStats = CitiesData.getStats()
+
+    override val dataFileName = CitiesData.DATA_FILE_NAME
+    override val availableStats = citiesData.getStats()
 
     override fun loadChartsData(activity: Activity) {
         super.loadChartsData(activity)
         citiesData = CitiesData(csvLines)
     }
 
-    fun getCityDataSets(colorsList: List<Int>): ILineDataSet {
+    override fun getDataSet(colorsList: List<Int>): List<ILineDataSet> {
         val selectedCities = if (selectedCity == 0) {
             allCities
         } else {
             listOf(allCities[selectedCity])
         }
-        val selectedStat = availableStats[selectedStat]
-        return citiesData.getDataSet(selectedStat.index, selectedCities, colorsList.first(), colorsList.first())
+        
+        return selectedStats.map {
+            val chartColor = colorsList[it.index % colorsList.size]
+            citiesData.getDataSet(it.index, selectedCities, chartColor, chartColor)
+        }
     }
 }

@@ -6,29 +6,33 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 class CtiData(csvLines: List<String>) : DataObject(csvLines) {
 
     fun getDataSet(dataIndex: Int, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
-        return getDataSet(headers, dataLines, INDEX_DATE, dataIndex, color, valueTextColor)
+        return getDataSet(dataLines, INDEX_DATE, dataIndex, color, valueTextColor)
     }
 
-    companion object {
-        private const val INDEX_DATE = 1
-        const val INDEX_PATIENTS_QUANTITY = 2
-        const val INDEX_TOTAL_OCCUPATION = 3
-        const val INDEX_COVID_OCCUPATION = 4
-        const val INDEX_OPERATIVE_BEDS = 5
-        const val INDEX_OCCUPIED_BEDS = 6
-        const val INDEX_NEW_PATIENTS = 7
-        const val INDEX_DECEASES = 8
-        const val INDEX_MEDICAL_DISCHARGES = 9
+    override val dataOffset = 2
 
-        fun getDataIndexes() = listOf(
-            INDEX_PATIENTS_QUANTITY,
-            INDEX_TOTAL_OCCUPATION,
-            INDEX_COVID_OCCUPATION,
-            INDEX_OPERATIVE_BEDS,
-            INDEX_OCCUPIED_BEDS,
-            INDEX_NEW_PATIENTS,
-            INDEX_DECEASES,
-            INDEX_MEDICAL_DISCHARGES
-        )
+    override fun getStats() = listOf(
+        Stat("Pacientes internados", INDEX_PATIENTS_QUANTITY),
+        Stat("Ocupación total (%)", INDEX_TOTAL_OCCUPATION),
+        Stat("Ocupación por Covid (%)", INDEX_COVID_OCCUPATION),
+        Stat("Camas operativas", INDEX_OPERATIVE_BEDS),
+        Stat("Camas ocupadas", INDEX_OCCUPIED_BEDS),
+        Stat("Nuevos pacientes", INDEX_NEW_PATIENTS),
+        Stat("Defunciones", INDEX_DECEASES),
+        Stat("Altas médicas", INDEX_MEDICAL_DISCHARGES)
+    )
+
+    companion object {
+        const val DATA_FILE_NAME = "data/estadisticasUY_cti.csv"
+        
+        private const val INDEX_DATE = 1
+        private const val INDEX_PATIENTS_QUANTITY = 2
+        private const val INDEX_TOTAL_OCCUPATION = 3
+        private const val INDEX_COVID_OCCUPATION = 4
+        private const val INDEX_OPERATIVE_BEDS = 5
+        private const val INDEX_OCCUPIED_BEDS = 6
+        private const val INDEX_NEW_PATIENTS = 7
+        private const val INDEX_DECEASES = 8
+        private const val INDEX_MEDICAL_DISCHARGES = 9
     }
 }

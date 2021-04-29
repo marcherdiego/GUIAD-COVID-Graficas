@@ -28,41 +28,56 @@ class CitiesData(csvLines: List<String>) : DataObject(csvLines) {
                     .reduce { acc, s -> acc + s }
                 return@map "$date,$valuesSum"
             }
-        return getDataSet(headers, dataLines, 0, 1, color, valueTextColor)
+        return getDataSet(dataLines, 0, 1, color, valueTextColor)
     }
 
-    companion object {
-        private const val INDEX_DATE = 0
-        const val INDEX_CITY = 1
-        const val INDEX_IN_COURSE = 2
-        const val INDEX_NEW_CASES_CALCULATED = 3
-        const val INDEX_NEW_CASES_APP = 4
-        const val INDEX_NEW_DECEASES = 5
-        const val INDEX_TOTAL_DECEASES = 6
-        const val INDEX_NEW_RECOVERED = 7
-        const val INDEX_TOTAL_RECOVERED = 8
-        const val INDEX_TOTAL_CASES = 9
+    override val dataOffset = 1
 
-        const val TODOS = "Todo el país"
-        const val ARTIGAS = "Artigas(UY-AR)"
-        const val CANELONES = "Canelones(UY-CA)"
-        const val CERRO_LARGO = "Cerro Largo(UY-CL)"
-        const val COLONIA = "Colonia(UY-CO)"
-        const val DURAZNO = "Durazno(UY-DU)"
-        const val FLORES = "Flores(UY-FS)"
-        const val FLORIDA = "Florida(UY-FD)"
-        const val LAVALLEJA = "Lavalleja(UY-LA)"
-        const val MALDONADO = "Maldonado(UY-MA)"
-        const val MONTEVIDEO = "Montevideo(UY-MO)"
-        const val PAYSANDU = "Paysandú(UY-PA)"
-        const val RIO_NEGRO = "Río Negro(UY-RN)"
-        const val RIVERA = "Rivera(UY-RV)"
-        const val ROCHA = "Rocha(UY-RO)"
-        const val SALTO = "Salto(UY-SA)"
-        const val SAN_JOSE = "San José(UY-SJ)"
-        const val SORIANO = "Soriano(UY-SO)"
-        const val TACUAREMBO = "Tacuarembó(UY-TA)"
-        const val TREINTA_Y_TRES = "Treinta y Tres(UY-TT)"
+    override fun getStats() = listOf(
+        Stat("Casos en curso", INDEX_IN_COURSE),
+        Stat("Nuevos casos (calculado)", INDEX_NEW_CASES_CALCULATED),
+        Stat("Nuevos casos (App)", INDEX_NEW_CASES_APP),
+        Stat("Nuevos fallecidos", INDEX_NEW_DECEASES),
+        Stat("Total de fallecidos", INDEX_TOTAL_DECEASES),
+        Stat("Nuevos recuperados", INDEX_NEW_RECOVERED),
+        Stat("Total de recuperados", INDEX_TOTAL_RECOVERED),
+        Stat("Total de casos", INDEX_TOTAL_CASES)
+    )
+
+    companion object {
+        const val DATA_FILE_NAME = "data/estadisticasUY_porDepto_detalle.csv"
+        
+        private const val INDEX_DATE = 0
+        private const val INDEX_CITY = 1
+        private const val INDEX_IN_COURSE = 2
+        private const val INDEX_NEW_CASES_CALCULATED = 3
+        private const val INDEX_NEW_CASES_APP = 4
+        private const val INDEX_NEW_DECEASES = 5
+        private const val INDEX_TOTAL_DECEASES = 6
+        private const val INDEX_NEW_RECOVERED = 7
+        private const val INDEX_TOTAL_RECOVERED = 8
+        private const val INDEX_TOTAL_CASES = 9
+
+        private const val TODOS = "Todo el país"
+        private const val ARTIGAS = "Artigas(UY-AR)"
+        private const val CANELONES = "Canelones(UY-CA)"
+        private const val CERRO_LARGO = "Cerro Largo(UY-CL)"
+        private const val COLONIA = "Colonia(UY-CO)"
+        private const val DURAZNO = "Durazno(UY-DU)"
+        private const val FLORES = "Flores(UY-FS)"
+        private const val FLORIDA = "Florida(UY-FD)"
+        private const val LAVALLEJA = "Lavalleja(UY-LA)"
+        private const val MALDONADO = "Maldonado(UY-MA)"
+        private const val MONTEVIDEO = "Montevideo(UY-MO)"
+        private const val PAYSANDU = "Paysandú(UY-PA)"
+        private const val RIO_NEGRO = "Río Negro(UY-RN)"
+        private const val RIVERA = "Rivera(UY-RV)"
+        private const val ROCHA = "Rocha(UY-RO)"
+        private const val SALTO = "Salto(UY-SA)"
+        private const val SAN_JOSE = "San José(UY-SJ)"
+        private const val SORIANO = "Soriano(UY-SO)"
+        private const val TACUAREMBO = "Tacuarembó(UY-TA)"
+        private const val TREINTA_Y_TRES = "Treinta y Tres(UY-TT)"
 
         fun getAllCities() = listOf(
             TODOS,
@@ -85,17 +100,6 @@ class CitiesData(csvLines: List<String>) : DataObject(csvLines) {
             SORIANO,
             TACUAREMBO,
             TREINTA_Y_TRES
-        )
-
-        fun getStats() = listOf(
-            Stat("Casos en curso", INDEX_IN_COURSE),
-            Stat("Nuevos casos (calculado)", INDEX_NEW_CASES_CALCULATED),
-            Stat("Nuevos casos (App)", INDEX_NEW_CASES_APP),
-            Stat("Nuevos fallecidos", INDEX_NEW_DECEASES),
-            Stat("Total de fallecidos", INDEX_TOTAL_DECEASES),
-            Stat("Nuevos recuperados", INDEX_NEW_RECOVERED),
-            Stat("Total de recuperados", INDEX_TOTAL_RECOVERED),
-            Stat("Total de casos", INDEX_TOTAL_CASES)
         )
     }
 }
