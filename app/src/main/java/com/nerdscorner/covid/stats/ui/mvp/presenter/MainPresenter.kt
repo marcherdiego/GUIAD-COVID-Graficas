@@ -1,5 +1,6 @@
 package com.nerdscorner.covid.stats.ui.mvp.presenter
 
+import com.nerdscorner.covid.stats.ui.activities.GeneralStatsActivity
 import com.nerdscorner.covid.stats.ui.activities.StatsByCityActivity
 import com.nerdscorner.covid.stats.ui.activities.StatsCtiActivity
 import com.nerdscorner.mvplib.events.presenter.BaseActivityPresenter
@@ -17,5 +18,10 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     @Subscribe
     fun onCitiesButtonClicked(event: MainView.CitiesButtonClickedEvent) {
         startActivity(StatsByCityActivity::class.java)
+    }
+    
+    @Subscribe
+    fun onGeneralStatsButtonClicked(event: MainView.GeneralStatsButtonClickedEvent) {
+        startActivity(GeneralStatsActivity::class.java)
     }
 }

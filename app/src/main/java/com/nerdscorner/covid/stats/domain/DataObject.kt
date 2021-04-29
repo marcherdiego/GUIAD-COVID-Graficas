@@ -7,20 +7,21 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
 abstract class DataObject(protected val csvLines: List<String>) {
     protected val dataLines = csvLines.drop(1) //Drop header
-    
+
     abstract fun getStats(): List<Stat>
-    
+
     fun getDataSet(
         dataLines: List<String>,
         dateIndex: Int,
         valueIndex: Int,
-        label: String, 
+        statFactorMultiplier: Float,
+        label: String,
         @ColorInt color: Int,
         @ColorInt valueTextColor: Int
     ): ILineDataSet {
         val entries = dataLines.mapIndexed { index, line ->
             val dataToken = line.split(COMMA)
-            Entry(index.toFloat(), dataToken[valueIndex].toFloat(), dataToken[dateIndex])
+            Entry(index.toFloat(), dataToken[valueIndex].toFloat() * statFactorMultiplier, dataToken[dateIndex])
         }
         return LineDataSet(entries, label).apply {
             this.color = color
@@ -31,7 +32,7 @@ abstract class DataObject(protected val csvLines: List<String>) {
             this.setDrawHighlightIndicators(true)
         }
     }
-    
+
     companion object {
         const val COMMA = ","
     }

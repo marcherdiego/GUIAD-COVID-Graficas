@@ -6,7 +6,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 class CtiData(csvLines: List<String>) : DataObject(csvLines) {
 
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
-        return getDataSet(dataLines, INDEX_DATE, stat.index, stat.name, color, valueTextColor)
+        return getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor)
     }
 
     override fun getStats() = listOf(

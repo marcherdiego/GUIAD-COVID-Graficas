@@ -28,7 +28,7 @@ class CitiesData(csvLines: List<String>) : DataObject(csvLines) {
                     .reduce { acc, s -> acc + s }
                 return@map "$date,$valuesSum"
             }
-        return getDataSet(dataLines, 0, 1, stat.name, color, valueTextColor)
+        return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor)
     }
 
     override fun getStats() = listOf(
@@ -44,7 +44,7 @@ class CitiesData(csvLines: List<String>) : DataObject(csvLines) {
 
     companion object {
         const val DATA_FILE_NAME = "data/estadisticasUY_porDepto_detalle.csv"
-        
+
         private const val INDEX_DATE = 0
         private const val INDEX_CITY = 1
         private const val INDEX_IN_COURSE = 2

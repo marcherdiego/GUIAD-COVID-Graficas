@@ -18,10 +18,12 @@ abstract class StatsModel : BaseEventsModel() {
     var selectedCity = 0
     var selectedStats = listOf<Stat>()
 
-    open fun loadChartsData(activity: Activity) {
+    fun loadChartsData(activity: Activity) {
         csvLines = getAssetsFileLines(activity, dataFileName)
+        buildDataObject()
     }
 
+    abstract fun buildDataObject()
     abstract fun getDataSet(colorsList: List<Int>): List<ILineDataSet>
 
     private fun getAssetsFileLines(activity: Activity, fileName: String): List<String> {

@@ -8,8 +8,10 @@ class MainView(activity: MainActivity) : BaseActivityView(activity) {
     init {
         onClick(R.id.cti_button, CtiButtonClickedEvent())
         onClick(R.id.cities_button, CitiesButtonClickedEvent())
+        onClick(R.id.general_stats_button, GeneralStatsButtonClickedEvent())
     }
 
     class CtiButtonClickedEvent
     class CitiesButtonClickedEvent
+    class GeneralStatsButtonClickedEvent
 }

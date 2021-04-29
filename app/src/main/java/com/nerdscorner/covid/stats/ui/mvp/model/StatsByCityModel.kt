@@ -1,6 +1,5 @@
 package com.nerdscorner.covid.stats.ui.mvp.model
 
-import android.app.Activity
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.covid.stats.domain.CitiesData
 
@@ -10,8 +9,7 @@ class StatsByCityModel : StatsModel() {
     override val dataFileName = CitiesData.DATA_FILE_NAME
     override val availableStats by lazy { citiesData.getStats() }
 
-    override fun loadChartsData(activity: Activity) {
-        super.loadChartsData(activity)
+    override fun buildDataObject() {
         citiesData = CitiesData(csvLines)
     }
 

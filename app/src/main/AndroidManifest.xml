@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CovidStats">
+		<activity android:name="com.nerdscorner.covid.stats.ui.activities.GeneralStatsActivity">
+		</activity>
         <activity android:name="com.nerdscorner.covid.stats.ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

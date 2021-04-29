@@ -21,11 +21,11 @@ import com.nerdscorner.mvplib.events.view.BaseActivityView
 
 abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activity) {
     private val chart: LineChart = activity.findViewById(R.id.chart)
-    private val citiesSelector: AppCompatSpinner = activity.findViewById(R.id.cities_selector)
+    private val citiesSelector: AppCompatSpinner? = activity.findViewById(R.id.cities_selector)
     private val statSelector: AppCompatSpinner = activity.findViewById(R.id.stat_selector)
 
     init {
-        citiesSelector.setItemSelectedListener {
+        citiesSelector?.setItemSelectedListener {
             bus.post(CitySelectedEvent(it))
         }
         chart.setNoDataText("No hay datos seleccionados...")
@@ -40,7 +40,7 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
     }
 
     fun setCitiesAdapter(adapter: SpinnerAdapter) {
-        citiesSelector.adapter = adapter
+        citiesSelector?.adapter = adapter
     }
 
     fun setStatsAdapter(adapter: StatsAdapter) {
