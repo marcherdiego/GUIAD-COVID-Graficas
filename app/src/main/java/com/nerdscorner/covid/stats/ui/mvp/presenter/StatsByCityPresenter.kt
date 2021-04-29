@@ -7,11 +7,6 @@ import org.greenrobot.eventbus.Subscribe
 
 class StatsByCityPresenter(view: StatsByCityView, model: StatsByCityModel) :
     StatsPresenter<StatsByCityView, StatsByCityModel>(view, model) {
-    init {
-        view.withActivity {
-            view.setChartsData(model.getDataSet(graphColors))
-        }
-    }
 
     @Subscribe
     fun onCitySelected(event: StatsView.CitySelectedEvent) {

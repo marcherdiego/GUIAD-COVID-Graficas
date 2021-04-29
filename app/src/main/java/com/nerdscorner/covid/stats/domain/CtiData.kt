@@ -5,11 +5,9 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
 class CtiData(csvLines: List<String>) : DataObject(csvLines) {
 
-    fun getDataSet(dataIndex: Int, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
-        return getDataSet(dataLines, INDEX_DATE, dataIndex, color, valueTextColor)
+    fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
+        return getDataSet(dataLines, INDEX_DATE, stat.index, stat.name, color, valueTextColor)
     }
-
-    override val dataOffset = 2
 
     override fun getStats() = listOf(
         Stat("Pacientes internados", INDEX_PATIENTS_QUANTITY),
@@ -24,7 +22,7 @@ class CtiData(csvLines: List<String>) : DataObject(csvLines) {
 
     companion object {
         const val DATA_FILE_NAME = "data/estadisticasUY_cti.csv"
-        
+
         private const val INDEX_DATE = 1
         private const val INDEX_PATIENTS_QUANTITY = 2
         private const val INDEX_TOTAL_OCCUPATION = 3

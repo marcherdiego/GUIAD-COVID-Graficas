@@ -16,6 +16,7 @@ import com.nerdscorner.covid.stats.domain.Stat
 import com.nerdscorner.covid.stats.extensions.setItemSelectedListener
 import com.nerdscorner.covid.stats.extensions.setSelectedItemsChangedListener
 import com.nerdscorner.covid.stats.ui.adapter.StatsAdapter
+import com.nerdscorner.covid.stats.ui.custom.ChartMarker
 import com.nerdscorner.mvplib.events.view.BaseActivityView
 
 abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activity) {
@@ -26,6 +27,15 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
     init {
         citiesSelector.setItemSelectedListener {
             bus.post(CitySelectedEvent(it))
+        }
+        chart.setNoDataText("No hay datos seleccionados...")
+        chart.isHighlightPerDragEnabled = true
+        chart.isHighlightPerTapEnabled = true
+        chart.marker = ChartMarker(activity, R.layout.custom_chart_marker)
+        chart.legend.apply {
+            textColor = Color.WHITE
+            isWordWrapEnabled = true
+            xEntrySpace = activity.resources.getDimensionPixelSize(R.dimen.legend_horizontal_margin).toFloat()
         }
     }
 

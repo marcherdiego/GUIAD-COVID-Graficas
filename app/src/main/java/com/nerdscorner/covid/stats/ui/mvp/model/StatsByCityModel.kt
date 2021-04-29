@@ -8,7 +8,7 @@ class StatsByCityModel : StatsModel() {
     private lateinit var citiesData: CitiesData
 
     override val dataFileName = CitiesData.DATA_FILE_NAME
-    override val availableStats = citiesData.getStats()
+    override val availableStats by lazy { citiesData.getStats() }
 
     override fun loadChartsData(activity: Activity) {
         super.loadChartsData(activity)
@@ -21,10 +21,9 @@ class StatsByCityModel : StatsModel() {
         } else {
             listOf(allCities[selectedCity])
         }
-        
-        return selectedStats.map {
-            val chartColor = colorsList[it.index % colorsList.size]
-            citiesData.getDataSet(it.index, selectedCities, chartColor, chartColor)
+        return selectedStats.map { stat ->
+            val chartColor = colorsList[stat.index % colorsList.size]
+            citiesData.getDataSet(stat, selectedCities, chartColor, chartColor)
         }
     }
 }

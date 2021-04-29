@@ -11,8 +11,8 @@ import android.widget.TextView
 import com.nerdscorner.covid.stats.R
 import com.nerdscorner.covid.stats.domain.Stat
 
-class StatsAdapter(private val ctx: Context, private val listState: List<Stat>) :
-    ArrayAdapter<Stat?>(ctx, R.layout.simple_spinner_layout, listState) {
+class StatsAdapter(private val ctx: Context, private val stats: List<Stat>) :
+    ArrayAdapter<Stat?>(ctx, R.layout.simple_spinner_layout, stats) {
 
     private var itemsChangedListener: (selectedValues: List<Stat>) -> Unit = {}
     private var isFromView = false
@@ -38,22 +38,38 @@ class StatsAdapter(private val ctx: Context, private val listState: List<Stat>) 
         } else {
             holder = convertView.tag as ViewHolder
         }
-        holder.textView.text = listState[position].toString()
-
-        // To check weather checked event fire from getview() or user input
-        isFromView = true
-        holder.checkBox.isChecked = listState[position].selected
-        isFromView = false
-        if (position == 0) {
-            holder.checkBox.visibility = View.INVISIBLE
-        } else {
-            holder.checkBox.visibility = View.VISIBLE
+        with(holder.textView) {
+            text = stats[position].toString()
+            val stat = stats[position]
+            if (stat.isDummy().not()) {
+                setOnClickListener {
+                    stats[position].toggle()
+                    isFromView = true
+                    holder.checkBox.isChecked = stats[position].selected
+                    isFromView = false
+                    itemsChangedListener(stats.filter { it.selected })
+                }
+            }
         }
-        holder.checkBox.tag = position
-        holder.checkBox.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            if (isFromView.not()) {
-                listState[position].selected = isChecked
-                itemsChangedListener(listState.filter { it.selected })
+
+        with(holder.checkBox) {
+            isFromView = true
+            isChecked = stats[position].selected
+            isFromView = false
+            visibility = if (position == 0) {
+                View.INVISIBLE
+            } else {
+                View.VISIBLE
+            }
+            tag = position
+            setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+                if (isFromView.not()) {
+                    val stat = stats[position]
+                    if (stat.isDummy().not()) {
+                        stats[position].selected = isChecked
+                        itemsChangedListener(stats.filter { it.selected })
+                    }
+                }
             }
         }
         return convertView!!

@@ -11,7 +11,6 @@ class StatsCtiPresenter(view: StatsCtiView, model: StatsCtiModel) : StatsPresent
     init {
         view.withActivity {
             view.setCitiesAdapter(ArrayAdapter(this, R.layout.simple_spinner_layout, listOf(model.allCities.first())))
-            view.setChartsData(model.getDataSet(graphColors))
         }
     }
 

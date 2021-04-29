@@ -5,7 +5,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
 class CitiesData(csvLines: List<String>) : DataObject(csvLines) {
 
-    fun getDataSet(dataIndex: Int, selectedCities: List<String>, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
+    fun getDataSet(stat: Stat, selectedCities: List<String>, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
         val dataLines = csvLines
             .asSequence()
             .drop(1) //Drop header
@@ -20,7 +20,7 @@ class CitiesData(csvLines: List<String>) : DataObject(csvLines) {
                         val dataTokens = it.split(COMMA)
                         val city = dataTokens[INDEX_CITY]
                         if (city in selectedCities) {
-                            dataTokens[dataIndex].toInt()
+                            dataTokens[stat.index].toInt()
                         } else {
                             0
                         }
@@ -28,10 +28,8 @@ class CitiesData(csvLines: List<String>) : DataObject(csvLines) {
                     .reduce { acc, s -> acc + s }
                 return@map "$date,$valuesSum"
             }
-        return getDataSet(dataLines, 0, 1, color, valueTextColor)
+        return getDataSet(dataLines, 0, 1, stat.name, color, valueTextColor)
     }
-
-    override val dataOffset = 1
 
     override fun getStats() = listOf(
         Stat("Casos en curso", INDEX_IN_COURSE),
