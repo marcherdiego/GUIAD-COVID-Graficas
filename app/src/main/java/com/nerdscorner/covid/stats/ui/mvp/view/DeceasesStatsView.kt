@@ -6,7 +6,6 @@ import com.nerdscorner.covid.stats.ui.activities.DeceasesStatsActivity
 
 class DeceasesStatsView(activity: DeceasesStatsActivity) : StatsView(activity) {
 
-
     fun setStatsAdapter(adapter: SpinnerAdapter) {
         statSelector.adapter = adapter
         statSelector.setItemSelectedListener {

@@ -20,7 +20,7 @@ class CitiesData private constructor() : DataObject() {
                         val dataTokens = it.split(COMMA)
                         val city = dataTokens[INDEX_CITY]
                         if (city in selectedCities) {
-                            dataTokens[stat.index].toFloat()
+                            dataTokens[stat.index].toFloatOrNull() ?: 0f
                         } else {
                             0f
                         }

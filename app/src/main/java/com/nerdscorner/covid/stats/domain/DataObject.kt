@@ -31,7 +31,7 @@ abstract class DataObject {
             }
             .mapIndexed { index, line ->
                 val dataToken = line.split(COMMA)
-                Entry(index.toFloat(), dataToken[valueIndex].toFloat() * statFactorMultiplier, dataToken[dateIndex])
+                Entry(index.toFloat(), (dataToken[valueIndex].toFloatOrNull() ?: 0f) * statFactorMultiplier, dataToken[dateIndex])
             }
         return LineDataSet(entries, label).apply {
             this.color = color
