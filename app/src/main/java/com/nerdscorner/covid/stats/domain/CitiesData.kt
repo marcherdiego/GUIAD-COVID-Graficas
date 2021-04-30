@@ -99,5 +99,27 @@ class CitiesData : DataObject(data) {
             TACUAREMBO,
             TREINTA_Y_TRES
         )
+
+        fun getAllCitiesNames() = listOf(
+            "Artigas",
+            "Canelones",
+            "Cerro Largo",
+            "Colonia",
+            "Durazno",
+            "Flores",
+            "Florida",
+            "Lavalleja",
+            "Maldonado",
+            "Montevideo",
+            "Paysandú",
+            "Río Negro",
+            "Rivera",
+            "Rocha",
+            "Salto",
+            "San José",
+            "Soriano",
+            "Tacuarembó",
+            "Treinta y Tres"
+        )
     }
 }

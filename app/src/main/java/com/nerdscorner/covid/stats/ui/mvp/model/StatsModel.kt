@@ -7,7 +7,7 @@ import com.nerdscorner.mvplib.events.model.BaseEventsModel
 
 abstract class StatsModel : BaseEventsModel() {
 
-    val allCities = CitiesData.getAllCities().toMutableList()
+    var allCities = CitiesData.getAllCities()
     abstract val availableStats: List<Stat>
 
     // State vars
