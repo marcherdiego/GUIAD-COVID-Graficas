@@ -1,6 +1,12 @@
 package com.nerdscorner.covid.stats.domain
 
-data class Stat(val name: String, val index: Int = DUMMY, var selected: Boolean = false, val factor: Float = DEFAULT_FACTOR) {
+data class Stat(
+    val name: String,
+    val index: Int = DUMMY,
+    var selected: Boolean = false,
+    val factor: Float = DEFAULT_FACTOR,
+    val isSorted: Boolean = false
+) {
     override fun toString() = name
 
     fun toggle() {

@@ -12,7 +12,7 @@ class DeceasesData : DataObject(data) {
             .groupBy {
                 it.split(COMMA)[stat.index]
             }
-        if (stat == ageStat) {
+        if (stat.isSorted) {
             dataMap = dataMap.toSortedMap()
         }
         val dataLines = dataMap.map { dateEntries ->
@@ -44,6 +44,6 @@ class DeceasesData : DataObject(data) {
         private const val INDEX_AGE = 2
 
         private val dateStat = Stat("Por fecha", INDEX_DATE)
-        private val ageStat = Stat("Por edades", INDEX_AGE)
+        private val ageStat = Stat("Por edades", INDEX_AGE, isSorted = true)
     }
 }
