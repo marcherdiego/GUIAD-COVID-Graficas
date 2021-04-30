@@ -12,7 +12,7 @@ import com.nerdscorner.covid.stats.ui.mvp.view.StatsByCityView
 class StatsByCityActivity : BaseActivity<StatsByCityPresenter>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.stats_by_city_activity)
+        setContentView(R.layout.chart_with_city_selector)
 
         presenter = StatsByCityPresenter(
             StatsByCityView(this),

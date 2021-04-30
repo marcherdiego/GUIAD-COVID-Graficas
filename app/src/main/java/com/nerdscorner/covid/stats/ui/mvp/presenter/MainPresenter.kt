@@ -11,7 +11,6 @@ import com.nerdscorner.covid.stats.ui.mvp.view.MainView
 import com.nerdscorner.mvplib.events.presenter.BaseActivityPresenter
 import org.greenrobot.eventbus.Subscribe
 
-
 class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<MainView, MainModel>(view, model) {
 
     private var progressDialog: ProgressDialogFragment? = null
@@ -47,6 +46,7 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
 
     @Subscribe
     fun onStatsFetchedSuccessfully(event: MainModel.StatsFetchedSuccessfullyEvent) {
+        MainModel.hasData = true
         model.setLastUpdateDateTime()
         refreshLastUpdateTime()
         hideLoadingState()
@@ -96,14 +96,16 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
         progressDialog?.dismiss()
     }
 
-    private fun triggerRefreshData() {
-        showLoadingState()
+    private fun triggerRefreshData(shouldShowProgress: Boolean) {
+        if (shouldShowProgress) {
+            showLoadingState()
+        }
         model.fetchStats()
     }
 
     override fun onResume() {
         super.onResume()
-        triggerRefreshData()
+        triggerRefreshData(MainModel.hasData.not())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -113,7 +115,7 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_refresh -> triggerRefreshData()
+            R.id.action_refresh -> triggerRefreshData(true)
         }
         return true
     }

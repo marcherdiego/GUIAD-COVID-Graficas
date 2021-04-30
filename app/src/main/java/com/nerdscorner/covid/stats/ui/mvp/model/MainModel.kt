@@ -14,7 +14,6 @@ import java.util.*
 class MainModel : BaseEventsModel() {
     private val statsService = ServiceGenerator.createService(StatsService::class.java)
     private val enqueuedCalls = mutableListOf<Call<*>>()
-
     private val failedRequestCallback: (NetworkException) -> Unit = {
         it.throwable?.printStackTrace()
         bus.post(StatsFetchedFailedEvent())
@@ -62,4 +61,8 @@ class MainModel : BaseEventsModel() {
 
     class StatsFetchedSuccessfullyEvent
     class StatsFetchedFailedEvent
+    
+    companion object {
+        var hasData = false
+    }
 }

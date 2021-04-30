@@ -12,7 +12,7 @@ import com.nerdscorner.covid.stats.ui.mvp.view.P7StatsView
 class P7StatsActivity : BaseActivity<P7StatsPresenter>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.p7_stats_activity)
+        setContentView(R.layout.chart_with_city_selector)
 
         presenter = P7StatsPresenter(
             P7StatsView(this),
