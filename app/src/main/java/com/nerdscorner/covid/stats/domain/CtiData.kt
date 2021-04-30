@@ -10,14 +10,14 @@ class CtiData : DataObject(data) {
     }
 
     override fun getStats() = listOf(
-        Stat("Pacientes internados", INDEX_PATIENTS_QUANTITY),
-        Stat("Ocupación total (%)", INDEX_TOTAL_OCCUPATION),
-        Stat("Ocupación por Covid (%)", INDEX_COVID_OCCUPATION),
-        Stat("Camas operativas", INDEX_OPERATIVE_BEDS),
-        Stat("Camas ocupadas", INDEX_OCCUPIED_BEDS),
-        Stat("Nuevos pacientes", INDEX_NEW_PATIENTS),
-        Stat("Defunciones", INDEX_DECEASES),
-        Stat("Altas médicas", INDEX_MEDICAL_DISCHARGES)
+        patientsQuantityStat,
+        totalOccupationStat,
+        covidOccupationStat,
+        operativeBedsStat,
+        occupiedBedsStat,
+        newPatientsStat,
+        deceasesStat,
+        medicalDischargesStat
     )
 
     companion object {
@@ -32,5 +32,14 @@ class CtiData : DataObject(data) {
         private const val INDEX_NEW_PATIENTS = 7
         private const val INDEX_DECEASES = 8
         private const val INDEX_MEDICAL_DISCHARGES = 9
+
+        val patientsQuantityStat = Stat("Pacientes internados", INDEX_PATIENTS_QUANTITY)
+        val totalOccupationStat = Stat("Ocupación total (%)", INDEX_TOTAL_OCCUPATION)
+        val covidOccupationStat = Stat("Ocupación por Covid (%)", INDEX_COVID_OCCUPATION)
+        val operativeBedsStat = Stat("Camas operativas", INDEX_OPERATIVE_BEDS)
+        val occupiedBedsStat = Stat("Camas ocupadas", INDEX_OCCUPIED_BEDS)
+        val newPatientsStat = Stat("Nuevos pacientes", INDEX_NEW_PATIENTS)
+        val deceasesStat = Stat("Defunciones", INDEX_DECEASES)
+        val medicalDischargesStat = Stat("Altas médicas", INDEX_MEDICAL_DISCHARGES)
     }
 }

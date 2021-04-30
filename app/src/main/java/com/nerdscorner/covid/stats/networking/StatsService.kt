@@ -15,4 +15,10 @@ interface StatsService {
 
     @GET("estadisticasUY_fallecimientos.csv")
     fun getDeceases(): Call<String>
+
+    @GET("estadisticasUY_p7.csv")
+    fun getP7StatisticsByCity(): Call<String>
+
+    @GET("estadisticasUY_p7nacional.csv")
+    fun getP7Statistics(): Call<String>
 }

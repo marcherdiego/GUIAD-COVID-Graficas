@@ -1,9 +1,6 @@
 package com.nerdscorner.covid.stats.ui.mvp.presenter
 
-import com.nerdscorner.covid.stats.ui.activities.DeceasesStatsActivity
-import com.nerdscorner.covid.stats.ui.activities.GeneralStatsActivity
-import com.nerdscorner.covid.stats.ui.activities.StatsByCityActivity
-import com.nerdscorner.covid.stats.ui.activities.StatsCtiActivity
+import com.nerdscorner.covid.stats.ui.activities.*
 import com.nerdscorner.covid.stats.ui.fragment.MessageDialogFragment
 import com.nerdscorner.covid.stats.ui.fragment.ProgressDialogFragment
 import com.nerdscorner.mvplib.events.presenter.BaseActivityPresenter
@@ -34,6 +31,11 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     @Subscribe
     fun onDeceasesStatsButtonClicked(event: MainView.DeceasesStatsButtonClickedEvent) {
         startActivity(DeceasesStatsActivity::class.java)
+    }
+
+    @Subscribe
+    fun onP7StatsButtonClicked(event: MainView.P7StatsButtonClickedEvent) {
+        startActivity(P7StatsActivity::class.java)
     }
 
     @Subscribe

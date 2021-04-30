@@ -8,9 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:ellipsize="marquee"
+        android:layout_toStartOf="@+id/checkbox"
         android:padding="8dp"
-        android:singleLine="true"
         android:text="Text"
         android:textAlignment="inherit"
         android:textSize="16sp" />

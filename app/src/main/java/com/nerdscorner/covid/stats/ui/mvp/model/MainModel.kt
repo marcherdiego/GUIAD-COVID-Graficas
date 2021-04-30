@@ -1,9 +1,6 @@
 package com.nerdscorner.covid.stats.ui.mvp.model
 
-import com.nerdscorner.covid.stats.domain.CitiesData
-import com.nerdscorner.covid.stats.domain.CtiData
-import com.nerdscorner.covid.stats.domain.DeceasesData
-import com.nerdscorner.covid.stats.domain.GeneralStatsData
+import com.nerdscorner.covid.stats.domain.*
 import com.nerdscorner.covid.stats.exceptions.NetworkException
 import com.nerdscorner.covid.stats.networking.ServiceGenerator
 import com.nerdscorner.covid.stats.networking.StatsService
@@ -25,6 +22,8 @@ class MainModel : BaseEventsModel() {
         fetchStatsByCity()
         fetchGeneralStats()
         fetchDeceasesStats()
+        fetchP7Stats()
+        fetchP7ByCityStats()
     }
 
     private fun fetchCtiStats() {
@@ -68,6 +67,30 @@ class MainModel : BaseEventsModel() {
         call.enqueueResponseNotNull(
             success = {
                 DeceasesData.data = it.trim()
+                removePendingCall(call)
+            },
+            fail = failedRequestCallback
+        )
+        enqueuedCalls.add(call)
+    }
+
+    private fun fetchP7Stats() {
+        val call = statsService.getP7Statistics()
+        call.enqueueResponseNotNull(
+            success = {
+                P7Data.data = it.trim()
+                removePendingCall(call)
+            },
+            fail = failedRequestCallback
+        )
+        enqueuedCalls.add(call)
+    }
+
+    private fun fetchP7ByCityStats() {
+        val call = statsService.getP7StatisticsByCity()
+        call.enqueueResponseNotNull(
+            success = {
+                P7ByCityData.data = it.trim()
                 removePendingCall(call)
             },
             fail = failedRequestCallback

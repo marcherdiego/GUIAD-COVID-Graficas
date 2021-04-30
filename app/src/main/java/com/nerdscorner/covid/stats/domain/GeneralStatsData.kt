@@ -3,26 +3,26 @@ package com.nerdscorner.covid.stats.domain
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
-class GeneralStatsData: DataObject(data) {
+class GeneralStatsData : DataObject(data) {
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
         return getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor)
     }
 
     override fun getStats() = listOf(
-        Stat("Casos en curso", INDEX_IN_COURSE),
-        Stat("Nuevos casos (Ajustado)", INDEX_NEW_CASES_ADJUSTED),
-        Stat("Nuevos casos (Original)", INDEX_NEW_CASES_ORIGINAL),
-        Stat("Nuevos fallecidos", INDEX_NEW_DECEASES),
-        Stat("Total de fallecidos", INDEX_TOTAL_DECEASES),
-        Stat("Total en CTI", INDEX_TOTAL_CTI),
-        Stat("Nuevos recuperados", INDEX_NEW_RECOVERED),
-        Stat("Total de recuperados", INDEX_TOTAL_RECOVERED),
-        Stat("Tests realizados", INDEX_NEW_TESTS),
-        Stat("Total tests realizados", INDEX_TOTAL_TESTS),
-        Stat("Total de casos", INDEX_TOTAL_CASES),
-        Stat("Altas médicas", INDEX_MEDICAL_DISCHARGES),
-        Stat("Reportados fuera de fecha", INDEX_REPORTED_OUT_OF_DATE),
-        Stat("Positividad (%)", INDEX_POSITIVITY, factor = 100f)
+        inCourseStat,
+        newCasesAdjustedStat,
+        newCasesOriginalStat,
+        newDeceasesStat,
+        totalDeceasesStat,
+        totalCtiStat,
+        newRecoveredStat,
+        totalRecoveredStat,
+        newTestsStat,
+        totalTestsStat,
+        totalCasesStat,
+        medicalDischargesStat,
+        reportedOutOfDateStat,
+        positivityStat
     )
 
     companion object {
@@ -46,5 +46,20 @@ class GeneralStatsData: DataObject(data) {
         private const val INDEX_MEDICAL_DISCHARGES = 15
         private const val INDEX_REPORTED_OUT_OF_DATE = 16
         private const val INDEX_POSITIVITY = 17
+
+        val inCourseStat = Stat("Casos en curso", INDEX_IN_COURSE)
+        val newCasesAdjustedStat = Stat("Nuevos casos (Ajustado)", INDEX_NEW_CASES_ADJUSTED)
+        val newCasesOriginalStat = Stat("Nuevos casos (Original)", INDEX_NEW_CASES_ORIGINAL)
+        val newDeceasesStat = Stat("Nuevos fallecidos", INDEX_NEW_DECEASES)
+        val totalDeceasesStat = Stat("Total de fallecidos", INDEX_TOTAL_DECEASES)
+        val totalCtiStat = Stat("Total en CTI", INDEX_TOTAL_CTI)
+        val newRecoveredStat = Stat("Nuevos recuperados", INDEX_NEW_RECOVERED)
+        val totalRecoveredStat = Stat("Total de recuperados", INDEX_TOTAL_RECOVERED)
+        val newTestsStat = Stat("Tests realizados", INDEX_NEW_TESTS)
+        val totalTestsStat = Stat("Total tests realizados", INDEX_TOTAL_TESTS)
+        val totalCasesStat = Stat("Total de casos", INDEX_TOTAL_CASES)
+        val medicalDischargesStat = Stat("Altas médicas", INDEX_MEDICAL_DISCHARGES)
+        val reportedOutOfDateStat = Stat("Reportados fuera de fecha", INDEX_REPORTED_OUT_OF_DATE)
+        val positivityStat = Stat("Positividad (%)", INDEX_POSITIVITY, factor = 100f)
     }
 }

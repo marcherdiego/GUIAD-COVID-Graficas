@@ -20,9 +20,9 @@ class CitiesData : DataObject(data) {
                         val dataTokens = it.split(COMMA)
                         val city = dataTokens[INDEX_CITY]
                         if (city in selectedCities) {
-                            dataTokens[stat.index].toInt()
+                            dataTokens[stat.index].toFloat()
                         } else {
-                            0
+                            0f
                         }
                     }
                     .reduce { acc, s -> acc + s }
@@ -32,14 +32,14 @@ class CitiesData : DataObject(data) {
     }
 
     override fun getStats() = listOf(
-        Stat("Casos en curso", INDEX_IN_COURSE),
-        Stat("Nuevos casos (calculado)", INDEX_NEW_CASES_CALCULATED),
-        Stat("Nuevos casos (App)", INDEX_NEW_CASES_APP),
-        Stat("Nuevos fallecidos", INDEX_NEW_DECEASES),
-        Stat("Total de fallecidos", INDEX_TOTAL_DECEASES),
-        Stat("Nuevos recuperados", INDEX_NEW_RECOVERED),
-        Stat("Total de recuperados", INDEX_TOTAL_RECOVERED),
-        Stat("Total de casos", INDEX_TOTAL_CASES)
+        inCourseStat,
+        newCasesCalculatedStat,
+        newCasesAppStat,
+        newDeceasesStat,
+        totalDeceasesStat,
+        newRecoveredStat,
+        totalRecoveredStat,
+        totalCasesStat
     )
 
     companion object {
@@ -55,6 +55,15 @@ class CitiesData : DataObject(data) {
         private const val INDEX_NEW_RECOVERED = 7
         private const val INDEX_TOTAL_RECOVERED = 8
         private const val INDEX_TOTAL_CASES = 9
+
+        val inCourseStat = Stat("Casos en curso", INDEX_IN_COURSE)
+        val newCasesCalculatedStat = Stat("Nuevos casos (calculado)", INDEX_NEW_CASES_CALCULATED)
+        val newCasesAppStat = Stat("Nuevos casos (App)", INDEX_NEW_CASES_APP)
+        val newDeceasesStat = Stat("Nuevos fallecidos", INDEX_NEW_DECEASES)
+        val totalDeceasesStat = Stat("Total de fallecidos", INDEX_TOTAL_DECEASES)
+        val newRecoveredStat = Stat("Nuevos recuperados", INDEX_NEW_RECOVERED)
+        val totalRecoveredStat = Stat("Total de recuperados", INDEX_TOTAL_RECOVERED)
+        val totalCasesStat = Stat("Total de casos", INDEX_TOTAL_CASES)
 
         private const val TODOS = "Todo el país"
         private const val ARTIGAS = "Artigas(UY-AR)"

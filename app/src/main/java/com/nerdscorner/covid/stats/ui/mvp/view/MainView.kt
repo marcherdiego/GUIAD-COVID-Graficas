@@ -11,10 +11,12 @@ class MainView(activity: MainActivity) : BaseActivityView(activity) {
         onClick(R.id.cities_button, CitiesButtonClickedEvent())
         onClick(R.id.general_stats_button, GeneralStatsButtonClickedEvent())
         onClick(R.id.deceases_stats_button, DeceasesStatsButtonClickedEvent())
+        onClick(R.id.p7_stats_button, P7StatsButtonClickedEvent())
     }
 
     class CtiButtonClickedEvent
     class CitiesButtonClickedEvent
     class GeneralStatsButtonClickedEvent
     class DeceasesStatsButtonClickedEvent
+    class P7StatsButtonClickedEvent
 }

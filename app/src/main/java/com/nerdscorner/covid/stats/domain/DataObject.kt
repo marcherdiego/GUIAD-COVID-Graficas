@@ -11,7 +11,7 @@ abstract class DataObject(data: String?) {
 
     abstract fun getStats(): List<Stat>
 
-    fun getDataSet(
+    protected fun getDataSet(
         dataLines: List<String>,
         dateIndex: Int,
         valueIndex: Int,
