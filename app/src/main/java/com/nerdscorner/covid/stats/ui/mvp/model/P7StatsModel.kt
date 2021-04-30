@@ -6,8 +6,8 @@ import com.nerdscorner.covid.stats.domain.P7ByCityData
 import com.nerdscorner.covid.stats.domain.P7Data
 
 class P7StatsModel : StatsModel() {
-    private var p7Data = P7Data()
-    private var p7ByCityData = P7ByCityData()
+    private var p7Data = P7Data.getInstance()
+    private var p7ByCityData = P7ByCityData.getInstance()
     
     init {
         allCities = CitiesData.getAllCitiesNames()

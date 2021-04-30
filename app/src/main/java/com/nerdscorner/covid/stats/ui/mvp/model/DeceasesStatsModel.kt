@@ -5,7 +5,7 @@ import com.nerdscorner.covid.stats.domain.CitiesData
 import com.nerdscorner.covid.stats.domain.DeceasesData
 
 class DeceasesStatsModel : StatsModel() {
-    private var deceasesData = DeceasesData()
+    private var deceasesData = DeceasesData.getInstance()
 
     init {
         allCities = CitiesData.getAllCitiesNames()

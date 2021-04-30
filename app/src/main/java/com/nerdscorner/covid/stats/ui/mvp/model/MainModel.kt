@@ -18,79 +18,22 @@ class MainModel : BaseEventsModel() {
     }
 
     fun fetchStats() {
-        fetchCtiStats()
-        fetchStatsByCity()
-        fetchGeneralStats()
-        fetchDeceasesStats()
-        fetchP7Stats()
-        fetchP7ByCityStats()
+        enqueuedCalls.forEach { 
+            it.cancel()
+        }
+        enqueuedCalls.clear()
+        fetchStat(statsService.getStatsByCity(), CitiesData.getInstance())
+        fetchStat(statsService.getCtiStats(), CtiData.getInstance())
+        fetchStat(statsService.getDeceases(), DeceasesData.getInstance())
+        fetchStat(statsService.getGeneralStats(), GeneralStatsData.getInstance())
+        fetchStat(statsService.getP7StatisticsByCity(), P7ByCityData.getInstance())
+        fetchStat(statsService.getP7Statistics(), P7Data.getInstance())
     }
 
-    private fun fetchCtiStats() {
-        val call = statsService.getCtiStats()
+    private fun fetchStat(call: Call<String>, dataObject: DataObject) {
         call.enqueueResponseNotNull(
             success = {
-                CtiData.data = it
-                removePendingCall(call)
-            },
-            fail = failedRequestCallback
-        )
-        enqueuedCalls.add(call)
-    }
-
-    private fun fetchStatsByCity() {
-        val call = statsService.getStatsByCity()
-        call.enqueueResponseNotNull(
-            success = {
-                CitiesData.data = it.trim()
-                removePendingCall(call)
-            },
-            fail = failedRequestCallback
-        )
-        enqueuedCalls.add(call)
-    }
-
-    private fun fetchGeneralStats() {
-        val call = statsService.getGeneralStats()
-        call.enqueueResponseNotNull(
-            success = {
-                GeneralStatsData.data = it.trim()
-                removePendingCall(call)
-            },
-            fail = failedRequestCallback
-        )
-        enqueuedCalls.add(call)
-    }
-
-    private fun fetchDeceasesStats() {
-        val call = statsService.getDeceases()
-        call.enqueueResponseNotNull(
-            success = {
-                DeceasesData.data = it.trim()
-                removePendingCall(call)
-            },
-            fail = failedRequestCallback
-        )
-        enqueuedCalls.add(call)
-    }
-
-    private fun fetchP7Stats() {
-        val call = statsService.getP7Statistics()
-        call.enqueueResponseNotNull(
-            success = {
-                P7Data.data = it.trim()
-                removePendingCall(call)
-            },
-            fail = failedRequestCallback
-        )
-        enqueuedCalls.add(call)
-    }
-
-    private fun fetchP7ByCityStats() {
-        val call = statsService.getP7StatisticsByCity()
-        call.enqueueResponseNotNull(
-            success = {
-                P7ByCityData.data = it.trim()
+                dataObject.setData(it)
                 removePendingCall(call)
             },
             fail = failedRequestCallback

@@ -3,7 +3,7 @@ package com.nerdscorner.covid.stats.domain
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
-class GeneralStatsData : DataObject(data) {
+class GeneralStatsData private constructor() : DataObject() {
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
         return getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor)
     }
@@ -26,7 +26,9 @@ class GeneralStatsData : DataObject(data) {
     )
 
     companion object {
-        var data: String? = null
+        private val instance = GeneralStatsData()
+
+        fun getInstance() = instance
 
         private const val INDEX_DATE = 0
         private const val INDEX_DAY = 1

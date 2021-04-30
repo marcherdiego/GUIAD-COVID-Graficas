@@ -3,7 +3,7 @@ package com.nerdscorner.covid.stats.domain
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
-class P7ByCityData : DataObject(data) {
+class P7ByCityData private constructor() : DataObject() {
 
     fun getDataSet(stat: Stat, selectedCities: List<String>, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
         val dataLines = csvLines
@@ -34,7 +34,9 @@ class P7ByCityData : DataObject(data) {
     override fun getStats() = listOf(p7Stat, p7Per100KStat)
 
     companion object {
-        var data: String? = null
+        private val instance = P7ByCityData()
+
+        fun getInstance() = instance
 
         private const val INDEX_DATE = 0
         private const val INDEX_CITY = 1

@@ -4,7 +4,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.covid.stats.domain.CitiesData
 
 class StatsByCityModel : StatsModel() {
-    private var citiesData = CitiesData()
+    private var citiesData = CitiesData.getInstance()
 
     override val availableStats by lazy { citiesData.getStats() }
 

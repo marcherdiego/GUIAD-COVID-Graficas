@@ -4,7 +4,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.covid.stats.domain.CtiData
 
 class StatsCtiModel : StatsModel() {
-    private var ctiData = CtiData()
+    private var ctiData = CtiData.getInstance()
 
     override val availableStats by lazy { ctiData.getStats() }
     
