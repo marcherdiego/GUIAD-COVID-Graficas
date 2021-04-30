@@ -4,15 +4,10 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.covid.stats.domain.CtiData
 
 class StatsCtiModel : StatsModel() {
-    private lateinit var ctiData: CtiData
+    private var ctiData = CtiData()
 
-    override val dataFileName = CtiData.DATA_FILE_NAME
     override val availableStats by lazy { ctiData.getStats() }
     
-    override fun buildDataObject() {
-        ctiData = CtiData(csvLines)
-    }
-
     override fun getDataSet(colorsList: List<Int>): List<ILineDataSet> {
         return selectedStats.map { stat ->
             val chartColor = colorsList[stat.index % colorsList.size]

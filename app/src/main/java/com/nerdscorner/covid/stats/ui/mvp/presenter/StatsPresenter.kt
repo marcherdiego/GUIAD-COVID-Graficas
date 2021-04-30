@@ -15,7 +15,6 @@ abstract class StatsPresenter<V : StatsView, M : StatsModel>(view: V, model: M) 
 
     init {
         view.withActivity {
-            model.loadChartsData(this)
             graphColors.add(ContextCompat.getColor(this, R.color.graph1))
             graphColors.add(ContextCompat.getColor(this, R.color.graph2))
             graphColors.add(ContextCompat.getColor(this, R.color.graph3))

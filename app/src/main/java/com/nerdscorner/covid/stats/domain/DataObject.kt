@@ -5,7 +5,8 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
-abstract class DataObject(protected val csvLines: List<String>) {
+abstract class DataObject(data: String?) {
+    protected val csvLines = data?.split(LINE_FEED) ?: listOf()
     protected val dataLines = csvLines.drop(1) //Drop header
 
     abstract fun getStats(): List<Stat>
@@ -19,10 +20,14 @@ abstract class DataObject(protected val csvLines: List<String>) {
         @ColorInt color: Int,
         @ColorInt valueTextColor: Int
     ): ILineDataSet {
-        val entries = dataLines.mapIndexed { index, line ->
-            val dataToken = line.split(COMMA)
-            Entry(index.toFloat(), dataToken[valueIndex].toFloat() * statFactorMultiplier, dataToken[dateIndex])
-        }
+        val entries = dataLines
+            .filterNot { 
+                it.trim() == EMPTY_STRING 
+            }
+            .mapIndexed { index, line ->
+                val dataToken = line.split(COMMA)
+                Entry(index.toFloat(), dataToken[valueIndex].toFloat() * statFactorMultiplier, dataToken[dateIndex])
+            }
         return LineDataSet(entries, label).apply {
             this.color = color
             this.valueTextColor = valueTextColor
@@ -34,6 +39,8 @@ abstract class DataObject(protected val csvLines: List<String>) {
     }
 
     companion object {
+        const val EMPTY_STRING = ""
+        const val LINE_FEED = "\n"
         const val COMMA = ","
     }
 }
