@@ -2,6 +2,7 @@ package com.nerdscorner.covid.stats.ui.mvp.model
 
 import com.nerdscorner.covid.stats.domain.CitiesData
 import com.nerdscorner.covid.stats.domain.CtiData
+import com.nerdscorner.covid.stats.domain.DeceasesData
 import com.nerdscorner.covid.stats.domain.GeneralStatsData
 import com.nerdscorner.covid.stats.exceptions.NetworkException
 import com.nerdscorner.covid.stats.networking.ServiceGenerator
@@ -23,6 +24,7 @@ class MainModel : BaseEventsModel() {
         fetchCtiStats()
         fetchStatsByCity()
         fetchGeneralStats()
+        fetchDeceasesStats()
     }
 
     private fun fetchCtiStats() {
@@ -41,7 +43,7 @@ class MainModel : BaseEventsModel() {
         val call = statsService.getStatsByCity()
         call.enqueueResponseNotNull(
             success = {
-                CitiesData.data = it
+                CitiesData.data = it.trim()
                 removePendingCall(call)
             },
             fail = failedRequestCallback
@@ -53,7 +55,19 @@ class MainModel : BaseEventsModel() {
         val call = statsService.getGeneralStats()
         call.enqueueResponseNotNull(
             success = {
-                GeneralStatsData.data = it
+                GeneralStatsData.data = it.trim()
+                removePendingCall(call)
+            },
+            fail = failedRequestCallback
+        )
+        enqueuedCalls.add(call)
+    }
+
+    private fun fetchDeceasesStats() {
+        val call = statsService.getDeceases()
+        call.enqueueResponseNotNull(
+            success = {
+                DeceasesData.data = it.trim()
                 removePendingCall(call)
             },
             fail = failedRequestCallback

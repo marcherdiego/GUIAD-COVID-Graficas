@@ -22,7 +22,7 @@ import com.nerdscorner.mvplib.events.view.BaseActivityView
 abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activity) {
     private val chart: LineChart = activity.findViewById(R.id.chart)
     private val citiesSelector: AppCompatSpinner? = activity.findViewById(R.id.cities_selector)
-    private val statSelector: AppCompatSpinner = activity.findViewById(R.id.stat_selector)
+    protected val statSelector: AppCompatSpinner = activity.findViewById(R.id.stat_selector)
 
     init {
         citiesSelector?.setItemSelectedListener {

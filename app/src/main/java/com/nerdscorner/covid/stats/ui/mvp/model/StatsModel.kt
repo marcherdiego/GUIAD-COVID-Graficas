@@ -7,7 +7,7 @@ import com.nerdscorner.mvplib.events.model.BaseEventsModel
 
 abstract class StatsModel : BaseEventsModel() {
 
-    val allCities = CitiesData.getAllCities()
+    val allCities = CitiesData.getAllCities().toMutableList()
     abstract val availableStats: List<Stat>
 
     // State vars
@@ -22,5 +22,9 @@ abstract class StatsModel : BaseEventsModel() {
             .apply {
                 add(0, Stat("Seleccionar"))
             }
+    }
+
+    fun setSelectedStatIndex(index: Int) {
+        selectedStats = listOf(availableStats[index])
     }
 }
