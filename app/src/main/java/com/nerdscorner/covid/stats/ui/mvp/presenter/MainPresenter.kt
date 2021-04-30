@@ -1,17 +1,24 @@
 package com.nerdscorner.covid.stats.ui.mvp.presenter
 
+import android.view.Menu
+import android.view.MenuItem
+import com.nerdscorner.covid.stats.R
 import com.nerdscorner.covid.stats.ui.activities.*
 import com.nerdscorner.covid.stats.ui.fragment.MessageDialogFragment
 import com.nerdscorner.covid.stats.ui.fragment.ProgressDialogFragment
-import com.nerdscorner.mvplib.events.presenter.BaseActivityPresenter
-
 import com.nerdscorner.covid.stats.ui.mvp.model.MainModel
 import com.nerdscorner.covid.stats.ui.mvp.view.MainView
+import com.nerdscorner.mvplib.events.presenter.BaseActivityPresenter
 import org.greenrobot.eventbus.Subscribe
+
 
 class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<MainView, MainModel>(view, model) {
 
     private var progressDialog: ProgressDialogFragment? = null
+
+    init {
+        refreshLastUpdateTime()
+    }
 
     @Subscribe
     fun onCtiButtonClicked(event: MainView.CtiButtonClickedEvent) {
@@ -40,6 +47,8 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
 
     @Subscribe
     fun onStatsFetchedSuccessfully(event: MainModel.StatsFetchedSuccessfullyEvent) {
+        model.setLastUpdateDateTime()
+        refreshLastUpdateTime()
         hideLoadingState()
     }
 
@@ -47,6 +56,15 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     fun onStatsStatsFetchedFailed(event: MainModel.StatsFetchedFailedEvent) {
         hideLoadingState()
         showErrorState()
+    }
+
+    @Subscribe
+    fun onCreditsButtonClicked(event: MainView.CreditsButtonClickedEvent) {
+        startActivity(CreditsActivity::class.java)
+    }
+
+    private fun refreshLastUpdateTime() {
+        view.setLastUpdateDate("Última actualización: ${model.getLastUpdateDateTime()}")
     }
 
     private fun showLoadingState() {
@@ -78,9 +96,25 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
         progressDialog?.dismiss()
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun triggerRefreshData() {
         showLoadingState()
         model.fetchStats()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        triggerRefreshData()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        view.activity?.menuInflater?.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_refresh -> triggerRefreshData()
+        }
+        return true
     }
 }

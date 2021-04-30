@@ -4,6 +4,7 @@ import android.widget.ArrayAdapter
 import com.nerdscorner.covid.stats.R
 import com.nerdscorner.covid.stats.ui.mvp.model.DeceasesStatsModel
 import com.nerdscorner.covid.stats.ui.mvp.view.DeceasesStatsView
+import com.nerdscorner.covid.stats.ui.mvp.view.StatsView
 import org.greenrobot.eventbus.Subscribe
 
 class DeceasesStatsPresenter(view: DeceasesStatsView, model: DeceasesStatsModel) :
@@ -13,6 +14,12 @@ class DeceasesStatsPresenter(view: DeceasesStatsView, model: DeceasesStatsModel)
         view.withActivity {
             view.setStatsAdapter(ArrayAdapter(this, R.layout.simple_spinner_layout, model.availableStats))
         }
+    }
+
+    @Subscribe
+    fun onCitySelected(event: StatsView.CitySelectedEvent) {
+        model.selectedCity = event.position
+        view.setChartsData(model.getDataSet(graphColors))
     }
     
     @Subscribe

@@ -8,7 +8,7 @@ class DeceasesStatsModel : StatsModel() {
     private var deceasesData = DeceasesData.getInstance()
 
     init {
-        allCities = CitiesData.getAllCitiesNames()
+        allCities = CitiesData.getAllCitiesNamesIncludingAll()
     }
 
     override val availableStats by lazy { deceasesData.getStats() }

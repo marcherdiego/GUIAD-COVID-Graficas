@@ -67,7 +67,7 @@ class CitiesData private constructor() : DataObject() {
         val totalRecoveredStat = Stat("Total de recuperados", INDEX_TOTAL_RECOVERED)
         val totalCasesStat = Stat("Total de casos", INDEX_TOTAL_CASES)
 
-        private const val TODOS = "Todo el país"
+        const val TODOS = "Todo el país"
         private const val ARTIGAS = "Artigas(UY-AR)"
         private const val CANELONES = "Canelones(UY-CA)"
         private const val CERRO_LARGO = "Cerro Largo(UY-CL)"
@@ -132,5 +132,7 @@ class CitiesData private constructor() : DataObject() {
             "Tacuarembó",
             "Treinta y Tres"
         )
+
+        fun getAllCitiesNamesIncludingAll() = getAllCitiesNames().toMutableList().apply { add(0, TODOS) }
     }
 }

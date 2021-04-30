@@ -5,8 +5,11 @@ import com.nerdscorner.covid.stats.exceptions.NetworkException
 import com.nerdscorner.covid.stats.networking.ServiceGenerator
 import com.nerdscorner.covid.stats.networking.StatsService
 import com.nerdscorner.covid.stats.networking.enqueueResponseNotNull
+import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 import com.nerdscorner.mvplib.events.model.BaseEventsModel
 import retrofit2.Call
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainModel : BaseEventsModel() {
     private val statsService = ServiceGenerator.createService(StatsService::class.java)
@@ -18,7 +21,7 @@ class MainModel : BaseEventsModel() {
     }
 
     fun fetchStats() {
-        enqueuedCalls.forEach { 
+        enqueuedCalls.forEach {
             it.cancel()
         }
         enqueuedCalls.clear()
@@ -33,7 +36,7 @@ class MainModel : BaseEventsModel() {
     private fun fetchStat(call: Call<String>, dataObject: DataObject) {
         call.enqueueResponseNotNull(
             success = {
-                dataObject.setData(it)
+                dataObject.setData(it.trim())
                 removePendingCall(call)
             },
             fail = failedRequestCallback
@@ -46,6 +49,15 @@ class MainModel : BaseEventsModel() {
         if (enqueuedCalls.isEmpty()) {
             bus.post(StatsFetchedSuccessfullyEvent())
         }
+    }
+
+    fun getLastUpdateDateTime(): String {
+        return SharedPreferencesUtils.getLastUpdateDateTime() ?: "Nunca"
+    }
+
+    fun setLastUpdateDateTime() {
+        val dateTime = SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.getDefault()).format(Date())
+        SharedPreferencesUtils.setLastUpdateDateTime(dateTime)
     }
 
     class StatsFetchedSuccessfullyEvent
