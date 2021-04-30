@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatSpinner
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.LineData
@@ -40,18 +39,7 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
         chart.isHighlightPerDragEnabled = true
         chart.isHighlightPerTapEnabled = true
         chart.marker = ChartMarker(activity, R.layout.custom_chart_marker)
-        chart.legend.apply {
-            orientation = if (isPortrait) {
-                Legend.LegendOrientation.HORIZONTAL
-            } else {
-                Legend.LegendOrientation.VERTICAL
-            }
-            textColor = Color.WHITE
-            isWordWrapEnabled = true
-            xEntrySpace = activity.resources.getDimensionPixelSize(R.dimen.legend_horizontal_margin).toFloat()
-
-            isEnabled = false
-        }
+        chart.legend.isEnabled = false
     }
 
     fun setCitiesAdapter(adapter: SpinnerAdapter) {
