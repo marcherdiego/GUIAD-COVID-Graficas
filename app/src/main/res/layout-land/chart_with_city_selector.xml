@@ -3,35 +3,56 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:id="@+id/city_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Departamento"
+        app:layout_constraintBottom_toBottomOf="@+id/cities_selector"
+        app:layout_constraintEnd_toStartOf="@+id/cities_selector"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cities_selector" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/cities_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:padding="8dp"
+        app:layout_constraintStart_toEndOf="@+id/city_label"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/stat_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="Dato"
         app:layout_constraintBottom_toBottomOf="@+id/stat_selector"
-        app:layout_constraintEnd_toStartOf="@+id/stat_selector"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cities_selector"
         app:layout_constraintTop_toTopOf="@+id/stat_selector" />
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/stat_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="9dp"
         android:padding="8dp"
         app:layout_constraintStart_toEndOf="@+id/stat_label"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/stat_selector"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stat_selector" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
