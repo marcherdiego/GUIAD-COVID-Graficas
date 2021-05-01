@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/loading_dialog_background"
+        android:clipToPadding="false"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="32dp">
@@ -32,9 +33,17 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/action_button"
+            android:id="@+id/primary_action_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
             android:text="Reintentar" />
+
+        <Button
+            android:id="@+id/secondary_action_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Cancelar" />
     </LinearLayout>
 </FrameLayout>

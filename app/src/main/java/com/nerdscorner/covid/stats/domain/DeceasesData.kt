@@ -2,6 +2,7 @@ package com.nerdscorner.covid.stats.domain
 
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 
 class DeceasesData private constructor() : DataObject() {
 
@@ -35,6 +36,10 @@ class DeceasesData private constructor() : DataObject() {
     }
 
     override fun getStats() = listOf(dateStat, ageStat)
+
+    override fun persist(data: String?) {
+        SharedPreferencesUtils.saveDeceasesData(data)
+    }
 
     companion object {
         private val instance = DeceasesData()

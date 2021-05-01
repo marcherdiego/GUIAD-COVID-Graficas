@@ -50,13 +50,11 @@ class MainModel : BaseEventsModel() {
         }
     }
 
-    fun getLastUpdateDateTime(): String {
-        return SharedPreferencesUtils.getLastUpdateDateTime() ?: "Nunca"
-    }
+    fun getLastUpdateDateTime() = SharedPreferencesUtils.getLastUpdateDateTime()
 
     fun setLastUpdateDateTime() {
         val dateTime = SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.getDefault()).format(Date())
-        SharedPreferencesUtils.setLastUpdateDateTime(dateTime)
+        SharedPreferencesUtils.saveLastUpdateDateTime(dateTime)
     }
 
     class StatsFetchedSuccessfullyEvent

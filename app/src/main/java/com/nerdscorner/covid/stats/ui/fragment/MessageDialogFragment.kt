@@ -17,7 +17,9 @@ import com.nerdscorner.mvplib.events.bus.Bus
 class MessageDialogFragment : DialogFragment() {
     private val bus = Bus.newInstance
     private lateinit var presenter: MessageDialogPresenter
-    private var actionCallback: () -> Unit = {}
+    private var primaryActionCallback: (() -> Unit)? = null
+    private var secondaryActionCallback: (() -> Unit)? = null
+    private var dismissListener: (() -> Unit)? = null
 
     private val customLayoutId by lazy {
         arguments?.getInt(CUSTOM_VIEW) ?: throw IllegalStateException("ProgressDialogFragment created with no layout id")
@@ -43,7 +45,9 @@ class MessageDialogFragment : DialogFragment() {
 
         arguments?.apply {
             presenter.setConfiguration(
-                message = getString(MESSAGE)
+                message = getString(MESSAGE),
+                isPrimaryActionVisible = primaryActionCallback != null,
+                isSecondaryActionVisible = secondaryActionCallback != null,
             )
         }
     }
@@ -70,9 +74,19 @@ class MessageDialogFragment : DialogFragment() {
         show(fm, TAG)
     }
 
-    fun onActionButtonClicked() {
+    fun onPrimaryActionButtonClicked() {
         dismiss()
-        actionCallback()
+        primaryActionCallback?.invoke()
+    }
+
+    fun onSecondaryActionButtonClicked() {
+        dismiss()
+        secondaryActionCallback?.invoke()
+    }
+
+    override fun dismiss() {
+        dismissListener?.invoke()
+        super.dismiss()
     }
 
     companion object {
@@ -101,19 +115,15 @@ class MessageDialogFragment : DialogFragment() {
             fragmentManager: FragmentManager,
             text: String? = null,
             cancelable: Boolean = true,
-            actionCallback: () -> Unit = {}
+            primaryActionCallback: (() -> Unit)? = null,
+            secondaryActionCallback: (() -> Unit)? = null,
+            dismissListener: (() -> Unit)? = null
         ): MessageDialogFragment {
-            val existingFragment = searchFragment(fragmentManager)
-            return if (existingFragment == null) {
-                val result = newInstance(
-                    text = text,
-                    cancelable = cancelable
-                )
-                result.actionCallback = actionCallback
-                result.show(fragmentManager)
-                result
-            } else {
-                existingFragment
+            return searchFragment(fragmentManager) ?: newInstance(text = text, cancelable = cancelable).apply {
+                this.primaryActionCallback = primaryActionCallback
+                this.secondaryActionCallback = secondaryActionCallback
+                this.dismissListener = dismissListener
+                show(fragmentManager, TAG)
             }
         }
     }

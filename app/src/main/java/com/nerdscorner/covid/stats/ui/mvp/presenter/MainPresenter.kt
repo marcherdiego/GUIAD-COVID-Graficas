@@ -14,6 +14,7 @@ import org.greenrobot.eventbus.Subscribe
 class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<MainView, MainModel>(view, model) {
 
     private var progressDialog: ProgressDialogFragment? = null
+    private var errorDialog: MessageDialogFragment? = null
 
     init {
         refreshLastUpdateTime()
@@ -64,7 +65,8 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     }
 
     private fun refreshLastUpdateTime() {
-        view.setLastUpdateDate("Última actualización: ${model.getLastUpdateDateTime()}")
+        val lastUpdate = model.getLastUpdateDateTime() ?: "Nunca"
+        view.setLastUpdateDate("Última actualización: $lastUpdate")
     }
 
     private fun showLoadingState() {
@@ -79,14 +81,25 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     }
 
     private fun showErrorState() {
+        if (errorDialog != null) {
+            return
+        }
         view.withFragmentManager {
-            MessageDialogFragment.showProgressDialog(
+            errorDialog = MessageDialogFragment.showProgressDialog(
                 fragmentManager = this,
                 text = "Error al actualizar los datos",
                 cancelable = true,
-                actionCallback = {
+                primaryActionCallback = {
                     showLoadingState()
                     model.fetchStats()
+                },
+                secondaryActionCallback = if (model.getLastUpdateDateTime() == null) {
+                    null
+                } else {
+                    {}
+                },
+                dismissListener = {
+                    errorDialog = null
                 }
             )
         }
@@ -106,6 +119,12 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     override fun onResume() {
         super.onResume()
         triggerRefreshData(MainModel.hasData.not())
+    }
+
+    override fun onPause() {
+        super.onPause()
+        progressDialog?.dismiss()
+        errorDialog?.dismiss()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -2,6 +2,7 @@ package com.nerdscorner.covid.stats.domain
 
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 
 class P7ByCityData private constructor() : DataObject() {
 
@@ -32,6 +33,10 @@ class P7ByCityData private constructor() : DataObject() {
     }
 
     override fun getStats() = listOf(p7Stat, p7Per100KStat)
+
+    override fun persist(data: String?) {
+        SharedPreferencesUtils.saveP7ByCityData(data)
+    }
 
     companion object {
         private val instance = P7ByCityData()

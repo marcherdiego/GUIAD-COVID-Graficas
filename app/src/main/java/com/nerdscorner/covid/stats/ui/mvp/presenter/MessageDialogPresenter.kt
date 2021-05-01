@@ -10,7 +10,7 @@ import org.greenrobot.eventbus.Subscribe
 class MessageDialogPresenter(view: MessageDialogView, model: MessageDialogModel, bus: Bus) :
     BaseFragmentPresenter<MessageDialogView, MessageDialogModel>(view, model, bus) {
 
-    fun setConfiguration(message: String?) {
+    fun setConfiguration(message: String?, isPrimaryActionVisible: Boolean, isSecondaryActionVisible: Boolean) {
         view.showTickImage()
         if (message == null) {
             view.hideMessage()
@@ -18,10 +18,25 @@ class MessageDialogPresenter(view: MessageDialogView, model: MessageDialogModel,
             view.setMessage(message)
             view.showMessage()
         }
+        if (isPrimaryActionVisible) {
+            view.showPrimaryActionButton()
+        } else {
+            view.hidePrimaryActionButton()
+        }
+        if (isSecondaryActionVisible) {
+            view.showSecondaryActionButton()
+        } else {
+            view.hideSecondaryActionButton()
+        }
     }
-    
+
     @Subscribe
-    fun onActionButtonClicked(event: MessageDialogView.ActionButtonClickedEvent) {
-        (view.fragment as? MessageDialogFragment)?.onActionButtonClicked()
+    fun onPrimaryActionButtonClicked(event: MessageDialogView.PrimaryActionButtonClickedEvent) {
+        (view.fragment as? MessageDialogFragment)?.onPrimaryActionButtonClicked()
+    }
+
+    @Subscribe
+    fun onSecondaryActionButtonClicked(event: MessageDialogView.SecondaryActionButtonClickedEvent) {
+        (view.fragment as? MessageDialogFragment)?.onSecondaryActionButtonClicked()
     }
 }

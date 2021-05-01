@@ -12,9 +12,12 @@ abstract class DataObject {
     fun setData(data: String?) {
         csvLines = data?.split(LINE_FEED) ?: listOf()
         dataLines = csvLines.drop(1) //Drop header
+        persist(data)
     }
 
     abstract fun getStats(): List<Stat>
+    
+    protected abstract fun persist(data: String?)
 
     protected fun getDataSet(
         dataLines: List<String>,

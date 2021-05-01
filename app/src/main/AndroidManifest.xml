@@ -12,11 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CovidStats">
-		<activity android:name="com.nerdscorner.covid.stats.ui.activities.CreditsActivity">
-		</activity>
-        <activity android:name="com.nerdscorner.covid.stats.ui.activities.P7StatsActivity" />
-        <activity android:name="com.nerdscorner.covid.stats.ui.activities.DeceasesStatsActivity" />
-        <activity android:name="com.nerdscorner.covid.stats.ui.activities.GeneralStatsActivity" />
         <activity android:name="com.nerdscorner.covid.stats.ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,8 +19,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.nerdscorner.covid.stats.ui.activities.StatsCtiActivity" />
-        <activity android:name="com.nerdscorner.covid.stats.ui.activities.StatsByCityActivity" />
+        <activity
+            android:name="com.nerdscorner.covid.stats.ui.activities.CreditsActivity"
+            android:label="Créditos" />
+        <activity
+            android:name="com.nerdscorner.covid.stats.ui.activities.P7StatsActivity"
+            android:label="Estadísticas p7" />
+        <activity
+            android:name="com.nerdscorner.covid.stats.ui.activities.DeceasesStatsActivity"
+            android:label="Estadísticas de fallecidos" />
+        <activity
+            android:name="com.nerdscorner.covid.stats.ui.activities.GeneralStatsActivity"
+            android:label="Estadísticas generales" />
+        <activity
+            android:name="com.nerdscorner.covid.stats.ui.activities.StatsCtiActivity"
+            android:label="Datos CTI" />
+        <activity
+            android:name="com.nerdscorner.covid.stats.ui.activities.StatsByCityActivity"
+            android:label="Datos por departamento" />
     </application>
 
 </manifest>
