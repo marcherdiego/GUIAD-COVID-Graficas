@@ -3,6 +3,8 @@ package com.nerdscorner.covid.stats.domain
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
+import java.text.SimpleDateFormat
+import java.util.*
 
 class GeneralStatsData private constructor() : DataObject() {
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
@@ -28,6 +30,16 @@ class GeneralStatsData private constructor() : DataObject() {
 
     override fun persist(data: String?) {
         SharedPreferencesUtils.saveGeneralData(data)
+    }
+
+    fun getNewCasesForDate(date: Date): String {
+        val filterDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date)
+        val dataLine = csvLines.firstOrNull { it.split(COMMA)[INDEX_DATE] == filterDate }
+        return if (dataLine == null) {
+            "N/A"
+        } else {
+            dataLine.split(COMMA)[INDEX_NEW_CASES_ORIGINAL]
+        }
     }
 
     companion object {
