@@ -42,10 +42,12 @@ class DatePicker @JvmOverloads constructor(context: Context, attrs: AttributeSet
         this.editable = editable
     }
 
-    fun setDate(date: Date) {
+    fun setDate(date: Date, manualUpdate: Boolean = false) {
         this.date = date
         text = DateUtils.formatDate(date)
-        datePickedListener?.invoke(date)
+        if (manualUpdate.not()) {
+            datePickedListener?.invoke(date)
+        }
     }
 
     fun setDatePickedListener(datePickedListener: ((date: Date) -> Unit)?) {

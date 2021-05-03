@@ -16,6 +16,20 @@ class P7Data private constructor() : DataObject() {
         SharedPreferencesUtils.saveP7Data(data)
     }
 
+    fun getStatsForDate(filterDate: String): StatsForDate {
+        val dataLine = csvLines.firstOrNull { it.split(COMMA)[INDEX_DATE] == filterDate }
+        return if (dataLine == null) {
+            StatsForDate()
+        } else {
+            val dataTokens = dataLine.split(COMMA)
+            StatsForDate(p7 = dataTokens[INDEX_P7])
+        }
+    }
+
+    data class StatsForDate(
+        val p7: String = "N/A"
+    )
+
     companion object {
         private val instance = P7Data()
 

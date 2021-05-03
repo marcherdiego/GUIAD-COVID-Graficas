@@ -2,9 +2,8 @@ package com.nerdscorner.covid.stats.domain
 
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.covid.stats.extensions.format
 import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
-import java.text.SimpleDateFormat
-import java.util.*
 
 class GeneralStatsData private constructor() : DataObject() {
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
@@ -32,14 +31,68 @@ class GeneralStatsData private constructor() : DataObject() {
         SharedPreferencesUtils.saveGeneralData(data)
     }
 
-    fun getNewCasesForDate(filterDate: String): String {
+    fun getStatsForDate(filterDate: String, filterPreviousDayDate: String): StatsForDate {
         val dataLine = csvLines.firstOrNull { it.split(COMMA)[INDEX_DATE] == filterDate }
         return if (dataLine == null) {
-            "N/A"
+            StatsForDate()
         } else {
-            dataLine.split(COMMA)[INDEX_NEW_CASES_ORIGINAL]
+            val dateP7Stats = P7Data.getInstance().getStatsForDate(filterDate)
+            val previousDayP7Stats = P7Data.getInstance().getStatsForDate(filterPreviousDayDate)
+            val dataTokens = dataLine.split(COMMA)
+            StatsForDate(
+                inCourse = dataTokens[INDEX_IN_COURSE],
+                newCasesAdjusted = dataTokens[INDEX_NEW_CASES_ADJUSTED],
+                newCasesOriginal = dataTokens[INDEX_NEW_CASES_ORIGINAL],
+                totalCases = dataTokens[INDEX_TOTAL_CASES],
+                newDeceases = dataTokens[INDEX_NEW_DECEASES],
+                totalDeceases = dataTokens[INDEX_TOTAL_DECEASES],
+                totalCti = dataTokens[INDEX_TOTAL_CTI],
+                newRecovered = dataTokens[INDEX_NEW_RECOVERED],
+                totalRecovered = dataTokens[INDEX_TOTAL_RECOVERED],
+                newTests = dataTokens[INDEX_NEW_TESTS],
+                totalTests = dataTokens[INDEX_TOTAL_TESTS],
+                medicalDischarges = dataTokens[INDEX_MEDICAL_DISCHARGES],
+                reportedOutOfDate = dataTokens[INDEX_REPORTED_OUT_OF_DATE],
+                positivity = dataTokens[INDEX_POSITIVITY],
+                harvardIndex = dateP7Stats.p7,
+                indexVariation = getStatDelta(dateP7Stats.p7, previousDayP7Stats.p7)
+            )
+        }
+
+    }
+
+    private fun getStatDelta(stat1: String, stat2: String): String {
+        return try {
+            val delta = stat1.toFloat() - stat2.toFloat()
+            val sign = when {
+                delta > 0 -> "+"
+                delta < 0 -> "-"
+                else -> ""
+            }
+            "$sign${delta.format()}"
+        } catch (e: Exception) {
+            "N/A"
         }
     }
+
+    data class StatsForDate(
+        val inCourse: String = "N/A",
+        val newCasesAdjusted: String = "N/A",
+        val newCasesOriginal: String = "N/A",
+        val totalCases: String = "N/A",
+        val newDeceases: String = "N/A",
+        val totalDeceases: String = "N/A",
+        val totalCti: String = "N/A",
+        val newRecovered: String = "N/A",
+        val totalRecovered: String = "N/A",
+        val newTests: String = "N/A",
+        val totalTests: String = "N/A",
+        val medicalDischarges: String = "N/A",
+        val reportedOutOfDate: String = "N/A",
+        val positivity: String = "N/A",
+        val harvardIndex: String = "N/A",
+        val indexVariation: String = "N/A"
+    )
 
     companion object {
         private val instance = GeneralStatsData()

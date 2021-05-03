@@ -11,11 +11,17 @@ import com.nerdscorner.covid.stats.R
 class RawStat @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : RelativeLayout(context, attrs, defStyleAttr) {
-    
+
     private val statTitle: TextView
-    
+
     init {
-        LayoutInflater.from(context).inflate(R.layout.raw_stat, this, true)
+        val viewToAdd = LayoutInflater.from(context).inflate(R.layout.raw_stat, null, false)
+        viewToAdd.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
+            addRule(CENTER_IN_PARENT)
+        }
+        addView(viewToAdd)
+        
+        setBackgroundResource(R.color.raw_stat_background)
         
         val a = context.obtainStyledAttributes(attrs, R.styleable.RawStat, 0, 0)
         val title = a.getString(R.styleable.RawStat_stat_Title)
@@ -26,7 +32,7 @@ class RawStat @JvmOverloads constructor(
         statTitle = findViewById(R.id.stat_value)
         statTitle.text = value
     }
-    
+
     fun setValue(value: String) {
         statTitle.text = value
     }
