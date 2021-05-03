@@ -2,4 +2,5 @@
 <resources>
     <color name="raw_stat_background">#2E2E2E</color>
     <color name="raw_stat_buttons_color">#DDDDDD</color>
+    <color name="graph_text_color">#FAFAFA</color>
 </resources>

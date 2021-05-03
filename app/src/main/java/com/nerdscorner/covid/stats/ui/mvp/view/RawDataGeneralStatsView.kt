@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -151,10 +152,12 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
     }
 
     private fun styleAxis(dataSet: ILineDataSet) {
-        chart.getAxis(YAxis.AxisDependency.LEFT).textColor = Color.WHITE
+        val chartTextColor = ContextCompat.getColor(activity ?: return, R.color.graph_text_color)
+        chart.getAxis(YAxis.AxisDependency.LEFT).textColor = chartTextColor
+        chart.getAxis(YAxis.AxisDependency.RIGHT).textColor = chartTextColor
         chart.xAxis.apply {
             position = XAxis.XAxisPosition.BOTH_SIDED
-            textColor = Color.WHITE
+            textColor = chartTextColor
             granularity = 1f
             valueFormatter = object : ValueFormatter() {
                 override fun getAxisLabel(value: Float, axis: AxisBase?): String {

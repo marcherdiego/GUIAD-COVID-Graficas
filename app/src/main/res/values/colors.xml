@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="graph_text_color">#131313</color>
     <color name="graph1">#FFFFFF</color>
     <color name="graph2">#F44336</color>
     <color name="graph3">#E91E63</color>
