@@ -7,11 +7,11 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
 abstract class DataObject {
     protected lateinit var csvLines: List<String>
-    protected lateinit var dataLines: List<String>
+    protected lateinit var dataLines: MutableList<String>
 
-    fun setData(data: String?) {
+    open fun setData(data: String?) {
         csvLines = data?.split(LINE_FEED) ?: listOf()
-        dataLines = csvLines.drop(1) //Drop header
+        dataLines = csvLines.drop(1).toMutableList() //Drop header
         persist(data)
     }
 

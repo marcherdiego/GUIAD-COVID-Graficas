@@ -6,6 +6,8 @@ import com.nerdscorner.covid.stats.domain.P7Data
 import com.nerdscorner.covid.stats.domain.Stat
 import com.nerdscorner.covid.stats.ui.custom.RawStat
 import com.nerdscorner.covid.stats.utils.ColorUtils
+import com.nerdscorner.covid.stats.utils.isSameDayOrAfter
+import com.nerdscorner.covid.stats.utils.isSameDayOrBefore
 import com.nerdscorner.mvplib.events.model.BaseEventsModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -17,6 +19,8 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
     private val selectedStats = mutableListOf<Stat>()
 
     var currentDate = Date()
+    var maxDateReached = true
+    var minDateReached = false
 
     fun getStatsForDate(): GeneralStatsData.StatsForDate {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -54,6 +58,12 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
         return generalStatsDataSet.union(p7DataSet).toList()
     }
 
+    fun getXValueForDate(): Float {
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val filterDate = dateFormat.format(currentDate)
+        return p7Data.indexOfDate(filterDate)
+    }
+
     private fun getDateWithOffset(field: Int, offset: Int): Date {
         return Calendar.getInstance().apply {
             time = currentDate
@@ -63,8 +73,19 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
 
     private fun setDateFieldOffset(field: Int, offset: Int) {
         val newDate = getDateWithOffset(field, offset)
-        if (newDate.after(MIN_DATE) && newDate.before(Date())) {
-            currentDate = newDate
+        val today = Date()
+        maxDateReached = false
+        minDateReached = false
+        currentDate = when {
+            newDate.isSameDayOrAfter(today) -> {
+                maxDateReached = true
+                today
+            }
+            newDate.isSameDayOrBefore(MIN_DATE) -> {
+                minDateReached = true
+                MIN_DATE
+            }
+            else -> newDate
         }
     }
 
@@ -74,6 +95,21 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
             selectedStats.add(stat ?: return)
         } else {
             selectedStats.remove(stat)
+        }
+    }
+
+    fun updateCurrentDate(stringDate: String) {
+        maxDateReached = false
+        minDateReached = false
+        currentDate = try {
+            val dateTokens = stringDate.split("/")
+            val year = dateTokens[2].toInt()
+            val month = dateTokens[1].toInt() - 1
+            val day = dateTokens[0].toInt()
+            GregorianCalendar(year, month, day).time
+        } catch (e: Exception) {
+            maxDateReached = true
+            Date()
         }
     }
 

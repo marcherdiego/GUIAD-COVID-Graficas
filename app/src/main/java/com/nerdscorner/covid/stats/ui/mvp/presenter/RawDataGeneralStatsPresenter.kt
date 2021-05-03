@@ -28,42 +28,71 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
         )
         view.setMinDate(RawDataGeneralStatsModel.MIN_DATE)
         refreshDateStats()
+        refreshDateSeekButtons()
     }
 
     @Subscribe
     fun onDatePicked(event: RawDataGeneralStatsView.DatePickedEvent) {
         model.currentDate = event.date
         refreshDateStats()
+        refreshDateSeekButtons()
     }
 
     @Subscribe
     fun onBackDayButtonClicked(event: RawDataGeneralStatsView.BackDayButtonClickedEvent) {
         model.setDayOffset(-1)
         refreshDateStats()
+        refreshDateSeekButtons()
     }
 
     @Subscribe
     fun onBackMonthButtonClicked(event: RawDataGeneralStatsView.BackMonthButtonClickedEvent) {
         model.setMonthOffset(-1)
         refreshDateStats()
+        refreshDateSeekButtons()
     }
 
     @Subscribe
     fun onForwardDayButtonClicked(event: RawDataGeneralStatsView.ForwardDayButtonClickedEvent) {
         model.setDayOffset(1)
         refreshDateStats()
+        refreshDateSeekButtons()
     }
 
     @Subscribe
     fun onForwardMonthButtonClicked(event: RawDataGeneralStatsView.ForwardMonthButtonClickedEvent) {
         model.setMonthOffset(1)
         refreshDateStats()
+        refreshDateSeekButtons()
     }
 
     @Subscribe
     fun onStatClicked(event: RawDataGeneralStatsView.StatClickedEvent) {
         model.updateSelectedStats(event.rawStat)
         view.setChartsData(model.getDataSet())
+    }
+    
+    @Subscribe
+    fun onChartValueSelected(event: RawDataGeneralStatsView.ChartValueSelectedEvent) {
+        val selectedDate = (event.entry?.data as? String)?.split(" - ")?.get(0) ?: return
+        model.updateCurrentDate(selectedDate)
+        view.manualHighlightUpdate = true
+        refreshDateStats()
+        view.manualHighlightUpdate = false
+        refreshDateSeekButtons()
+    }
+    
+    private fun refreshDateSeekButtons() {
+        if (model.maxDateReached) {
+            view.disableForwardButtons()
+        } else {
+            view.enableForwardButtons()
+        }
+        if (model.minDateReached) {
+            view.disableBackButtons()
+        } else {
+            view.enableBackButtons()
+        }
     }
 
     private fun refreshDateStats() {
@@ -83,5 +112,6 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
             harvardIndex = statsForDate.harvardIndex.formatNumberString(),
             indexVariation = statsForDate.indexVariation.formatNumberString()
         )
+        view.setChartSelectedItem(model.getXValueForDate())
     }
 }

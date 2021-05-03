@@ -1,17 +1,21 @@
 package com.nerdscorner.covid.stats.ui.mvp.view
 
-import android.graphics.Color
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.nerdscorner.covid.stats.R
 import com.nerdscorner.covid.stats.domain.Stat
 import com.nerdscorner.mvplib.events.view.BaseActivityView
@@ -25,6 +29,11 @@ import java.util.*
 class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActivityView(activity) {
     private val datePicker: DatePicker = activity.findViewById(R.id.date_picker)
 
+    private val backDayButton: ImageView = activity.findViewById(R.id.back_day_button)
+    private val backMonthButton: ImageView = activity.findViewById(R.id.back_month_button)
+    private val forwardDayButton: ImageView = activity.findViewById(R.id.forward_day_button)
+    private val forwardMonthButton: ImageView = activity.findViewById(R.id.forward_month_button)
+
     private val newCases: RawStat = activity.findViewById(R.id.new_cases)
     private val totalCases: RawStat = activity.findViewById(R.id.total_cases)
     private val ctiCases: RawStat = activity.findViewById(R.id.cti_cases)
@@ -37,8 +46,11 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
     private val positivity: RawStat = activity.findViewById(R.id.positivity)
     private val harvardIndex: RawStat = activity.findViewById(R.id.harvard_index)
     private val indexVariation: RawStat = activity.findViewById(R.id.index_variation)
+
     private val chart: LineChart = activity.findViewById(R.id.chart)
     private val legendsContainer: FlowLayout = activity.findViewById(R.id.legends_container)
+
+    var manualHighlightUpdate = false
 
     init {
         chart.setNoDataText("No hay datos seleccionados...")
@@ -46,14 +58,25 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
         chart.isHighlightPerTapEnabled = true
         chart.marker = ChartMarker(activity, R.layout.custom_chart_marker)
         chart.legend.isEnabled = false
-        
+        chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onValueSelected(entry: Entry?, h: Highlight?) {
+                if (manualHighlightUpdate) {
+                    return
+                }
+                bus.post(ChartValueSelectedEvent(entry))
+            }
+
+            override fun onNothingSelected() {
+            }
+        })
+
         datePicker.setDatePickedListener {
             bus.post(DatePickedEvent(it))
         }
-        onClick(R.id.back_day_button, BackDayButtonClickedEvent())
-        onClick(R.id.back_month_button, BackMonthButtonClickedEvent())
-        onClick(R.id.forward_day_button, ForwardDayButtonClickedEvent())
-        onClick(R.id.forward_month_button, ForwardMonthButtonClickedEvent())
+        onClick(backDayButton, BackDayButtonClickedEvent())
+        onClick(backMonthButton, BackMonthButtonClickedEvent())
+        onClick(forwardDayButton, ForwardDayButtonClickedEvent())
+        onClick(forwardMonthButton, ForwardMonthButtonClickedEvent())
 
         listOf(
             newCases,
@@ -151,6 +174,16 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
         }
     }
 
+    fun setChartSelectedItem(x: Float) {
+        if (x == -1f) {
+            chart.highlightValue(null)
+        } else {
+            chart.data?.dataSets?.forEachIndexed { index, dataSet ->
+                chart.highlightValue(x, index)
+            }
+        }
+    }
+
     private fun styleAxis(dataSet: ILineDataSet) {
         val chartTextColor = ContextCompat.getColor(activity ?: return, R.color.graph_text_color)
         chart.getAxis(YAxis.AxisDependency.LEFT).textColor = chartTextColor
@@ -171,8 +204,32 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
         }
     }
 
-    class DatePickedEvent(val date: Date)
+    fun disableForwardButtons() {
+        val disabledColorFilter = ContextCompat.getColor(activity ?: return, R.color.raw_stat_buttons_unselected_color)
+        forwardDayButton.setColorFilter(disabledColorFilter, PorterDuff.Mode.SRC_IN)
+        forwardMonthButton.setColorFilter(disabledColorFilter, PorterDuff.Mode.SRC_IN)
+    }
 
+    fun enableForwardButtons() {
+        val enabledColorFilter = ContextCompat.getColor(activity ?: return, R.color.raw_stat_buttons_selected_color)
+        forwardDayButton.setColorFilter(enabledColorFilter, PorterDuff.Mode.SRC_IN)
+        forwardMonthButton.setColorFilter(enabledColorFilter, PorterDuff.Mode.SRC_IN)
+    }
+
+    fun disableBackButtons() {
+        val disabledColorFilter = ContextCompat.getColor(activity ?: return, R.color.raw_stat_buttons_unselected_color)
+        backDayButton.setColorFilter(disabledColorFilter, PorterDuff.Mode.SRC_IN)
+        backMonthButton.setColorFilter(disabledColorFilter, PorterDuff.Mode.SRC_IN)
+    }
+
+    fun enableBackButtons() {
+        val enabledColorFilter = ContextCompat.getColor(activity ?: return, R.color.raw_stat_buttons_selected_color)
+        backDayButton.setColorFilter(enabledColorFilter, PorterDuff.Mode.SRC_IN)
+        backMonthButton.setColorFilter(enabledColorFilter, PorterDuff.Mode.SRC_IN)
+    }
+
+    class DatePickedEvent(val date: Date)
+    class ChartValueSelectedEvent(val entry: Entry?)
     class StatClickedEvent(val rawStat: RawStat)
 
     class BackDayButtonClickedEvent

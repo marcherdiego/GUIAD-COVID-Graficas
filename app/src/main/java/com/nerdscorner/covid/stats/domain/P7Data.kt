@@ -3,11 +3,24 @@ package com.nerdscorner.covid.stats.domain
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
+import java.text.SimpleDateFormat
+import java.util.*
 
 class P7Data private constructor() : DataObject() {
 
+    val cachedDatesIndexes = mutableListOf<String>()
+
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
         return getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor)
+    }
+
+    override fun setData(data: String?) {
+        super.setData(data)
+        dataLines.addAll(0, getMissingDummyData())
+        cachedDatesIndexes.clear()
+        dataLines.forEach {
+            cachedDatesIndexes.add(it.split(COMMA)[INDEX_DATE])
+        }
     }
 
     override fun getStats() = listOf(p7Stat)
@@ -26,9 +39,22 @@ class P7Data private constructor() : DataObject() {
         }
     }
 
-    data class StatsForDate(
-        val p7: String = "N/A"
-    )
+    fun indexOfDate(filterDate: String) = cachedDatesIndexes.indexOf(filterDate).toFloat()
+
+    private fun getMissingDummyData(): List<String> {
+        val startDate = GregorianCalendar(2020, 2, 25)
+        val endDate = GregorianCalendar(2020, 4, 6)
+        val result = mutableListOf<String>()
+        do {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val filterDate = dateFormat.format(startDate.time)
+            result.add("$filterDate,0")
+            startDate.add(Calendar.DATE, 1)
+        } while (startDate.before(endDate))
+        return result
+    }
+
+    data class StatsForDate(val p7: String = "N/A")
 
     companion object {
         private val instance = P7Data()
