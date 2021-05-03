@@ -32,8 +32,7 @@ class GeneralStatsData private constructor() : DataObject() {
         SharedPreferencesUtils.saveGeneralData(data)
     }
 
-    fun getNewCasesForDate(date: Date): String {
-        val filterDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date)
+    fun getNewCasesForDate(filterDate: String): String {
         val dataLine = csvLines.firstOrNull { it.split(COMMA)[INDEX_DATE] == filterDate }
         return if (dataLine == null) {
             "N/A"

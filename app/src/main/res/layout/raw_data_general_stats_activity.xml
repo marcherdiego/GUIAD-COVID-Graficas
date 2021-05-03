@@ -1,45 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:rawStat="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <com.nerdscorner.covid.stats.ui.custom.DatePicker
-        android:id="@+id/date_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="01/05/2021"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/date_picker_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_picker">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/new_cases_label"
-            style="@style/TextAppearance.AppCompat.Body2"
+            android:id="@+id/date_picker_label"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Casos nuevos"
+            android:text="Fecha"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/new_cases"
-            style="@style/TextAppearance.AppCompat.Body1"
+        <com.nerdscorner.covid.stats.ui.custom.DatePicker
+            android:id="@+id/date_picker"
+            style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="4.938"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="6dp"
+            android:text="01/05/2021"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/new_cases_label" />
+            app:layout_constraintTop_toBottomOf="@+id/date_picker_label" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.nerdscorner.covid.stats.ui.custom.RawStat
+        android:id="@+id/new_cases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_picker_container"
+        rawStat:stat_Title="Casos nuevos"
+        rawStat:stat_Value="4.938" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

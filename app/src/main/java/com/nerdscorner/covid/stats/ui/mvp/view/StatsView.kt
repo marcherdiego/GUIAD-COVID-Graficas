@@ -1,6 +1,5 @@
 package com.nerdscorner.covid.stats.ui.mvp.view
 
-import android.content.res.Configuration
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +24,6 @@ import com.nerdscorner.mvplib.events.view.BaseActivityView
 import com.nex3z.flowlayout.FlowLayout
 
 abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activity) {
-    private val isPortrait = activity.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
     private val chart: LineChart = activity.findViewById(R.id.chart)
     private val legendsContainer: FlowLayout = activity.findViewById(R.id.legends_container)
     private val citiesSelector: AppCompatSpinner? = activity.findViewById(R.id.cities_selector)
