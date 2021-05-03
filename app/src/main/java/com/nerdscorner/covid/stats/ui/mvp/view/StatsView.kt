@@ -1,6 +1,5 @@
 package com.nerdscorner.covid.stats.ui.mvp.view
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.SpinnerAdapter
@@ -31,10 +30,14 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
     protected val statSelector: AppCompatSpinner = activity.findViewById(R.id.stat_selector)
 
     init {
+        activity.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+        }
         citiesSelector?.setItemSelectedListener {
             bus.post(CitySelectedEvent(it))
         }
         chart.setNoDataText("No hay datos seleccionados...")
+        chart.setNoDataTextColor(ContextCompat.getColor(activity, R.color.graph_text_color))
         chart.isHighlightPerDragEnabled = true
         chart.isHighlightPerTapEnabled = true
         chart.marker = ChartMarker(activity, R.layout.custom_chart_marker)

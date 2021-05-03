@@ -1,5 +1,6 @@
 package com.nerdscorner.covid.stats.ui.mvp.presenter
 
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
@@ -15,6 +16,16 @@ abstract class StatsPresenter<V : StatsView, M : StatsModel>(view: V, model: M) 
         view.withActivity {
             view.setCitiesAdapter(ArrayAdapter(this, R.layout.simple_spinner_layout, model.allCities))
             view.setStatsAdapter(StatsAdapter(this, model.getStatsStateList()))
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                view.activity?.finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

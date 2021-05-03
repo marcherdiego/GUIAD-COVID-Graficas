@@ -1,5 +1,6 @@
 package com.nerdscorner.covid.stats.ui.mvp.presenter
 
+import android.view.MenuItem
 import com.nerdscorner.covid.stats.domain.GeneralStatsData
 import com.nerdscorner.covid.stats.domain.P7Data
 import com.nerdscorner.covid.stats.extensions.formatNumberString
@@ -113,5 +114,15 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
             indexVariation = statsForDate.indexVariation.formatNumberString()
         )
         view.setChartSelectedItem(model.getXValueForDate())
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                view.activity?.finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

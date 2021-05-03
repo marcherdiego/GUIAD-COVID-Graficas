@@ -66,7 +66,6 @@ class GeneralStatsData private constructor() : DataObject() {
             val delta = stat1.toFloat() - stat2.toFloat()
             val sign = when {
                 delta > 0 -> "+"
-                delta < 0 -> "-"
                 else -> ""
             }
             "$sign${delta.format()}"
