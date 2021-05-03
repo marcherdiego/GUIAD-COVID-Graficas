@@ -17,6 +17,6 @@ class StatsCtiPresenter(view: StatsCtiView, model: StatsCtiModel) : StatsPresent
     @Subscribe
     fun onStatSelected(event: StatsView.StatsSelectedEvent) {
         model.selectedStats = event.selectedStats
-        view.setChartsData(model.getDataSet(graphColors))
+        view.setChartsData(model.getDataSet())
     }
 }

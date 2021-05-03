@@ -2,13 +2,15 @@ package com.nerdscorner.covid.stats.ui.mvp.model
 
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.covid.stats.domain.CitiesData
+import com.nerdscorner.covid.stats.utils.ColorUtils
 
 class StatsByCityModel : StatsModel() {
     private var citiesData = CitiesData.getInstance()
 
     override val availableStats by lazy { citiesData.getStats() }
 
-    override fun getDataSet(colorsList: List<Int>): List<ILineDataSet> {
+    override fun getDataSet(): List<ILineDataSet> {
+        val colorsList = ColorUtils.graphColors
         val selectedCities = if (selectedCity == 0) {
             allCities
         } else {

@@ -11,12 +11,12 @@ class StatsByCityPresenter(view: StatsByCityView, model: StatsByCityModel) :
     @Subscribe
     fun onCitySelected(event: StatsView.CitySelectedEvent) {
         model.selectedCity = event.position
-        view.setChartsData(model.getDataSet(graphColors))
+        view.setChartsData(model.getDataSet())
     }
 
     @Subscribe
     fun onStatSelected(event: StatsView.StatsSelectedEvent) {
         model.selectedStats = event.selectedStats
-        view.setChartsData(model.getDataSet(graphColors))
+        view.setChartsData(model.getDataSet())
     }
 }

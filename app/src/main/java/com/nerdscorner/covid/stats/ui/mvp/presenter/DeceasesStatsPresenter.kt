@@ -19,12 +19,12 @@ class DeceasesStatsPresenter(view: DeceasesStatsView, model: DeceasesStatsModel)
     @Subscribe
     fun onCitySelected(event: StatsView.CitySelectedEvent) {
         model.selectedCity = event.position
-        view.setChartsData(model.getDataSet(graphColors))
+        view.setChartsData(model.getDataSet())
     }
     
     @Subscribe
     fun onStatIndexSelectedEvent(event: DeceasesStatsView.StatIndexSelectedEvent) {
         model.setSelectedStatIndex(event.position)
-        view.setChartsData(model.getDataSet(graphColors))
+        view.setChartsData(model.getDataSet())
     }
 }

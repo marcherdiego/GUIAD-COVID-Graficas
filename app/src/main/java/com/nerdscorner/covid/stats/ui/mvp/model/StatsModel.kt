@@ -14,7 +14,7 @@ abstract class StatsModel : BaseEventsModel() {
     var selectedCity = 0
     var selectedStats = listOf<Stat>()
 
-    abstract fun getDataSet(colorsList: List<Int>): List<ILineDataSet>
+    abstract fun getDataSet(): List<ILineDataSet>
 
     fun getStatsStateList(): List<Stat> {
         return availableStats

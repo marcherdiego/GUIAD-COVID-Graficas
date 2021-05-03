@@ -4,11 +4,12 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.covid.stats.domain.CitiesData
 import com.nerdscorner.covid.stats.domain.P7ByCityData
 import com.nerdscorner.covid.stats.domain.P7Data
+import com.nerdscorner.covid.stats.utils.ColorUtils
 
 class P7StatsModel : StatsModel() {
     private var p7Data = P7Data.getInstance()
     private var p7ByCityData = P7ByCityData.getInstance()
-    
+
     init {
         allCities = CitiesData.getAllCitiesNames()
     }
@@ -20,7 +21,8 @@ class P7StatsModel : StatsModel() {
             .toList()
     }
 
-    override fun getDataSet(colorsList: List<Int>): List<ILineDataSet> {
+    override fun getDataSet(): List<ILineDataSet> {
+        val colorsList = ColorUtils.graphColors
         val selectedCities = listOf(allCities[selectedCity])
         return selectedStats.map { stat ->
             val chartColor = colorsList[stat.index % colorsList.size]

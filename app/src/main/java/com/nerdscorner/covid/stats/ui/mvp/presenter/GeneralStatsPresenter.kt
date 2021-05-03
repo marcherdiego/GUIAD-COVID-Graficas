@@ -11,6 +11,6 @@ class GeneralStatsPresenter(view: GeneralStatsView, model: GeneralStatsModel) :
     @Subscribe
     fun onStatSelected(event: StatsView.StatsSelectedEvent) {
         model.selectedStats = event.selectedStats
-        view.setChartsData(model.getDataSet(graphColors))
+        view.setChartsData(model.getDataSet())
     }
 }

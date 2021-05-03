@@ -34,36 +34,6 @@
         app:layout_constraintEnd_toStartOf="@+id/back_day_button"
         app:layout_constraintTop_toTopOf="@+id/date_picker_container" />
 
-    <ImageView
-        android:id="@+id/forward_day_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="10dp"
-        android:rotation="180"
-        android:src="@drawable/ic_back"
-        app:layout_constraintBottom_toBottomOf="@+id/date_picker_container"
-        app:layout_constraintStart_toEndOf="@+id/date_picker_container"
-        app:layout_constraintTop_toTopOf="@+id/date_picker_container" />
-
-    <ImageView
-        android:id="@+id/forward_month_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="10dp"
-        android:rotation="180"
-        android:src="@drawable/ic_rewind"
-        app:layout_constraintBottom_toBottomOf="@+id/date_picker_container"
-        app:layout_constraintStart_toEndOf="@+id/forward_day_button"
-        app:layout_constraintTop_toTopOf="@+id/date_picker_container" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/date_picker_container"
         android:layout_width="wrap_content"
@@ -94,149 +64,212 @@
             app:layout_constraintTop_toBottomOf="@+id/date_picker_label" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.nerdscorner.covid.stats.ui.custom.RawStat
-        android:id="@+id/new_cases"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_picker_container"
-        rawStat:stat_Title="Casos nuevos"
-        rawStat:stat_Value="4.938" />
-
-    <com.nerdscorner.covid.stats.ui.custom.RawStat
-        android:id="@+id/total_cases"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/forward_day_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
-        app:layout_constraintTop_toTopOf="@+id/new_cases"
-        rawStat:stat_Title="Casos totales"
-        rawStat:stat_Value="4.938" />
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="10dp"
+        android:rotation="180"
+        android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="@+id/date_picker_container"
+        app:layout_constraintStart_toEndOf="@+id/date_picker_container"
+        app:layout_constraintTop_toTopOf="@+id/date_picker_container" />
 
-    <com.nerdscorner.covid.stats.ui.custom.RawStat
-        android:id="@+id/cti_cases"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_cases"
-        rawStat:stat_Title="Casos en CTI"
-        rawStat:stat_Value="4.938" />
-
-    <com.nerdscorner.covid.stats.ui.custom.RawStat
-        android:id="@+id/active_cases"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/forward_month_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
-        app:layout_constraintTop_toTopOf="@+id/cti_cases"
-        rawStat:stat_Title="Casos activos"
-        rawStat:stat_Value="4.938" />
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="10dp"
+        android:rotation="180"
+        android:src="@drawable/ic_rewind"
+        app:layout_constraintBottom_toBottomOf="@+id/date_picker_container"
+        app:layout_constraintStart_toEndOf="@+id/forward_day_button"
+        app:layout_constraintTop_toTopOf="@+id/date_picker_container" />
 
-    <com.nerdscorner.covid.stats.ui.custom.RawStat
-        android:id="@+id/recovered_cases"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cti_cases"
-        rawStat:stat_Title="Recuperados"
-        rawStat:stat_Value="4.938" />
+        app:layout_constraintTop_toBottomOf="@+id/date_picker_container">
 
-    <com.nerdscorner.covid.stats.ui.custom.RawStat
-        android:id="@+id/total_Recovered"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
-        app:layout_constraintTop_toTopOf="@+id/recovered_cases"
-        rawStat:stat_Title="Recuperados totales"
-        rawStat:stat_Value="4.938" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <com.nerdscorner.covid.stats.ui.custom.RawStat
-        android:id="@+id/deceases"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recovered_cases"
-        rawStat:stat_Title="Fallecidos"
-        rawStat:stat_Value="4.938" />
+            <com.nerdscorner.covid.stats.ui.custom.RawStat
+                android:id="@+id/new_cases"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                rawStat:stat_Title="Casos nuevos"
+                rawStat:stat_Value="4.938" />
 
-    <com.nerdscorner.covid.stats.ui.custom.RawStat
-        android:id="@+id/total_deceases"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
-        app:layout_constraintTop_toTopOf="@+id/deceases"
-        rawStat:stat_Title="Fallecidos totales"
-        rawStat:stat_Value="4.938" />
+            <com.nerdscorner.covid.stats.ui.custom.RawStat
+                android:id="@+id/total_cases"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+                app:layout_constraintTop_toTopOf="@+id/new_cases"
+                rawStat:stat_Title="Casos totales"
+                rawStat:stat_Value="4.938" />
 
-    <com.nerdscorner.covid.stats.ui.custom.RawStat
-        android:id="@+id/new_tests"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deceases"
-        rawStat:stat_Title="Tests realizados"
-        rawStat:stat_Value="4.938" />
+            <com.nerdscorner.covid.stats.ui.custom.RawStat
+                android:id="@+id/cti_cases"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/new_cases"
+                rawStat:stat_Title="Casos en CTI"
+                rawStat:stat_Value="4.938" />
 
-    <com.nerdscorner.covid.stats.ui.custom.RawStat
-        android:id="@+id/positivity"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
-        app:layout_constraintTop_toTopOf="@+id/new_tests"
-        rawStat:stat_Title="% de tests positivos"
-        rawStat:stat_Value="4.938" />
+            <com.nerdscorner.covid.stats.ui.custom.RawStat
+                android:id="@+id/active_cases"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+                app:layout_constraintTop_toTopOf="@+id/cti_cases"
+                rawStat:stat_Title="Casos activos"
+                rawStat:stat_Value="4.938" />
 
-    <com.nerdscorner.covid.stats.ui.custom.RawStat
-        android:id="@+id/harvard_index"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_tests"
-        rawStat:stat_Title="Índice de Harvard"
-        rawStat:stat_Value="4.938" />
+            <com.nerdscorner.covid.stats.ui.custom.RawStat
+                android:id="@+id/recovered_cases"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cti_cases"
+                rawStat:stat_Title="Recuperados"
+                rawStat:stat_Value="4.938" />
 
-    <com.nerdscorner.covid.stats.ui.custom.RawStat
-        android:id="@+id/index_variation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
-        app:layout_constraintTop_toTopOf="@+id/harvard_index"
-        rawStat:stat_Title="Variación de índice"
-        rawStat:stat_Value="4.938" />
+            <com.nerdscorner.covid.stats.ui.custom.RawStat
+                android:id="@+id/total_Recovered"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+                app:layout_constraintTop_toTopOf="@+id/recovered_cases"
+                rawStat:stat_Title="Recuperados totales"
+                rawStat:stat_Value="4.938" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/vertical_guideline"
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent=".5" />
+            <com.nerdscorner.covid.stats.ui.custom.RawStat
+                android:id="@+id/deceases"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recovered_cases"
+                rawStat:stat_Title="Fallecidos"
+                rawStat:stat_Value="4.938" />
 
+            <com.nerdscorner.covid.stats.ui.custom.RawStat
+                android:id="@+id/total_deceases"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+                app:layout_constraintTop_toTopOf="@+id/deceases"
+                rawStat:stat_Title="Fallecidos totales"
+                rawStat:stat_Value="4.938" />
+
+            <com.nerdscorner.covid.stats.ui.custom.RawStat
+                android:id="@+id/new_tests"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/deceases"
+                rawStat:stat_Title="Tests realizados"
+                rawStat:stat_Value="4.938" />
+
+            <com.nerdscorner.covid.stats.ui.custom.RawStat
+                android:id="@+id/positivity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+                app:layout_constraintTop_toTopOf="@+id/new_tests"
+                rawStat:stat_Title="% de tests positivos"
+                rawStat:stat_Value="4.938" />
+
+            <com.nerdscorner.covid.stats.ui.custom.RawStat
+                android:id="@+id/harvard_index"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/new_tests"
+                rawStat:stat_Title="Índice de Harvard"
+                rawStat:stat_Value="4.938" />
+
+            <com.nerdscorner.covid.stats.ui.custom.RawStat
+                android:id="@+id/index_variation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+                app:layout_constraintTop_toTopOf="@+id/harvard_index"
+                rawStat:stat_Title="Variación de índice"
+                rawStat:stat_Value="4.938" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vertical_guideline"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".5" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:minHeight="300dp"
+                app:layout_constraintBottom_toTopOf="@+id/legends_container"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/index_variation" />
+
+            <com.nex3z.flowlayout.FlowLayout
+                android:id="@+id/legends_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

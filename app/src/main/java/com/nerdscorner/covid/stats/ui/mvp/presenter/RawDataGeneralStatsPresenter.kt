@@ -1,5 +1,7 @@
 package com.nerdscorner.covid.stats.ui.mvp.presenter
 
+import com.nerdscorner.covid.stats.domain.GeneralStatsData
+import com.nerdscorner.covid.stats.domain.P7Data
 import com.nerdscorner.covid.stats.extensions.formatNumberString
 import com.nerdscorner.mvplib.events.presenter.BaseActivityPresenter
 
@@ -11,6 +13,19 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
     BaseActivityPresenter<RawDataGeneralStatsView, RawDataGeneralStatsModel>(view, model) {
 
     init {
+        view.getStats(
+            newCases = GeneralStatsData.newCasesAdjustedStat,
+            totalCases = GeneralStatsData.totalCasesStat,
+            ctiCases = GeneralStatsData.totalCtiStat,
+            activeCases = GeneralStatsData.inCourseStat,
+            recoveredCases = GeneralStatsData.newRecoveredStat,
+            totalRecovered = GeneralStatsData.totalRecoveredStat,
+            deceases = GeneralStatsData.newDeceasesStat,
+            totalDeceases = GeneralStatsData.totalDeceasesStat,
+            newTests = GeneralStatsData.newTestsStat,
+            positivity = GeneralStatsData.positivityStat,
+            harvardIndex = P7Data.p7Stat
+        )
         view.setMinDate(RawDataGeneralStatsModel.MIN_DATE)
         refreshDateStats()
     }
@@ -45,10 +60,16 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
         refreshDateStats()
     }
 
+    @Subscribe
+    fun onStatClicked(event: RawDataGeneralStatsView.StatClickedEvent) {
+        model.updateSelectedStats(event.rawStat)
+        view.setChartsData(model.getDataSet())
+    }
+
     private fun refreshDateStats() {
         val statsForDate = model.getStatsForDate()
         view.setDate(model.currentDate)
-        view.setNewCases(
+        view.getStatsValues(
             newCases = statsForDate.newRecovered.formatNumberString(),
             totalCases = statsForDate.totalCases.formatNumberString(),
             ctiCases = statsForDate.totalCti.formatNumberString(),
