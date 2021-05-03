@@ -14,7 +14,7 @@ import com.nerdscorner.covid.stats.domain.Stat
 class StatsAdapter(private val ctx: Context, private val stats: List<Stat>) :
     ArrayAdapter<Stat?>(ctx, R.layout.simple_spinner_layout, stats) {
 
-    private var itemsChangedListener: (selectedValues: List<Stat>) -> Unit = {}
+    private var itemsChangedListener: (selectedValues: ArrayList<Stat>) -> Unit = {}
     private var isFromView = false
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -47,7 +47,7 @@ class StatsAdapter(private val ctx: Context, private val stats: List<Stat>) :
                     isFromView = true
                     holder.checkBox.isChecked = stats[position].selected
                     isFromView = false
-                    itemsChangedListener(stats.filter { it.selected })
+                    itemsChangedListener(ArrayList(stats.filter { it.selected }))
                 }
             }
         }
@@ -67,7 +67,7 @@ class StatsAdapter(private val ctx: Context, private val stats: List<Stat>) :
                     val stat = stats[position]
                     if (stat.isDummy().not()) {
                         stats[position].selected = isChecked
-                        itemsChangedListener(stats.filter { it.selected })
+                        itemsChangedListener(ArrayList(stats.filter { it.selected }))
                     }
                 }
             }
@@ -75,7 +75,7 @@ class StatsAdapter(private val ctx: Context, private val stats: List<Stat>) :
         return convertView!!
     }
 
-    fun setSelectedItemsChangedListener(itemsChangedListener: (selectedValues: List<Stat>) -> Unit) {
+    fun setSelectedItemsChangedListener(itemsChangedListener: (selectedValues: ArrayList<Stat>) -> Unit) {
         this.itemsChangedListener = itemsChangedListener
     }
 

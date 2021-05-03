@@ -46,6 +46,19 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
     private val positivity: RawStat = activity.findViewById(R.id.positivity)
     private val harvardIndex: RawStat = activity.findViewById(R.id.harvard_index)
     private val indexVariation: RawStat = activity.findViewById(R.id.index_variation)
+    private val rawStatsList = listOf(
+        newCases,
+        totalCases,
+        ctiCases,
+        activeCases,
+        recoveredCases,
+        totalRecovered,
+        deceases,
+        totalDeceases,
+        newTests,
+        positivity,
+        harvardIndex
+    )
 
     private val chart: LineChart = activity.findViewById(R.id.chart)
     private val legendsContainer: FlowLayout = activity.findViewById(R.id.legends_container)
@@ -53,7 +66,7 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
     var manualHighlightUpdate = false
 
     init {
-        activity.supportActionBar?.apply { 
+        activity.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
         }
         chart.setNoDataText("No hay datos seleccionados...")
@@ -82,19 +95,7 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
         onClick(forwardDayButton, ForwardDayButtonClickedEvent())
         onClick(forwardMonthButton, ForwardMonthButtonClickedEvent())
 
-        listOf(
-            newCases,
-            totalCases,
-            ctiCases,
-            activeCases,
-            recoveredCases,
-            totalRecovered,
-            deceases,
-            totalDeceases,
-            newTests,
-            positivity,
-            harvardIndex
-        ).forEach { rawStat ->
+        rawStatsList.forEach { rawStat ->
             rawStat.setOnClickListener {
                 bus.post(StatClickedEvent(rawStat))
             }
@@ -182,8 +183,8 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
         if (x == -1f) {
             chart.highlightValue(null)
         } else {
-            chart.data?.dataSets?.forEachIndexed { index, dataSet ->
-                chart.highlightValue(x, index)
+            chart.data?.dataSets?.let {
+                chart.highlightValue(x, 0)
             }
         }
     }
@@ -230,6 +231,13 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
         val enabledColorFilter = ContextCompat.getColor(activity ?: return, R.color.raw_stat_buttons_selected_color)
         backDayButton.setColorFilter(enabledColorFilter, PorterDuff.Mode.SRC_IN)
         backMonthButton.setColorFilter(enabledColorFilter, PorterDuff.Mode.SRC_IN)
+    }
+
+    fun refreshSelectedRawStats(selectedStats: ArrayList<Stat>) {
+        rawStatsList.forEach { rawStat ->
+            rawStat.itemSelected = rawStat.stat in selectedStats
+            rawStat.updateSelectedState()
+        }
     }
 
     class DatePickedEvent(val date: Date)

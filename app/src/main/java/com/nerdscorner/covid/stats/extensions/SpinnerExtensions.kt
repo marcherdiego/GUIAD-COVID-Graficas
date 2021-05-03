@@ -15,6 +15,6 @@ fun AppCompatSpinner.setItemSelectedListener(listener: (position: Int) -> Unit) 
     }
 }
 
-fun AppCompatSpinner.setSelectedItemsChangedListener(listener: (selectedValues: List<Stat>) -> Unit) {
+fun AppCompatSpinner.setSelectedItemsChangedListener(listener: (selectedValues: ArrayList<Stat>) -> Unit) {
     (adapter as? StatsAdapter)?.setSelectedItemsChangedListener(listener)
 }

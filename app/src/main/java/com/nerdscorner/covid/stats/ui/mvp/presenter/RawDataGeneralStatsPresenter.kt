@@ -1,14 +1,18 @@
 package com.nerdscorner.covid.stats.ui.mvp.presenter
 
+import android.os.Bundle
 import android.view.MenuItem
 import com.nerdscorner.covid.stats.domain.GeneralStatsData
 import com.nerdscorner.covid.stats.domain.P7Data
+import com.nerdscorner.covid.stats.domain.Stat
 import com.nerdscorner.covid.stats.extensions.formatNumberString
 import com.nerdscorner.mvplib.events.presenter.BaseActivityPresenter
 
 import com.nerdscorner.covid.stats.ui.mvp.model.RawDataGeneralStatsModel
 import com.nerdscorner.covid.stats.ui.mvp.view.RawDataGeneralStatsView
 import org.greenrobot.eventbus.Subscribe
+import java.util.*
+import kotlin.collections.ArrayList
 
 class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawDataGeneralStatsModel) :
     BaseActivityPresenter<RawDataGeneralStatsView, RawDataGeneralStatsModel>(view, model) {
@@ -28,8 +32,6 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
             harvardIndex = P7Data.p7Stat
         )
         view.setMinDate(RawDataGeneralStatsModel.MIN_DATE)
-        refreshDateStats()
-        refreshDateSeekButtons()
     }
 
     @Subscribe
@@ -71,8 +73,9 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
     fun onStatClicked(event: RawDataGeneralStatsView.StatClickedEvent) {
         model.updateSelectedStats(event.rawStat)
         view.setChartsData(model.getDataSet())
+        view.setChartSelectedItem(model.getXValueForDate())
     }
-    
+
     @Subscribe
     fun onChartValueSelected(event: RawDataGeneralStatsView.ChartValueSelectedEvent) {
         val selectedDate = (event.entry?.data as? String)?.split(" - ")?.get(0) ?: return
@@ -82,7 +85,7 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
         view.manualHighlightUpdate = false
         refreshDateSeekButtons()
     }
-    
+
     private fun refreshDateSeekButtons() {
         if (model.maxDateReached) {
             view.disableForwardButtons()
@@ -116,6 +119,14 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
         view.setChartSelectedItem(model.getXValueForDate())
     }
 
+    override fun onResume() {
+        super.onResume()
+        refreshDateSeekButtons()
+        view.refreshSelectedRawStats(model.selectedStats)
+        view.setChartsData(model.getDataSet())
+        refreshDateStats()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             android.R.id.home -> {
@@ -123,6 +134,25 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putSerializable("current_date", model.currentDate)
+        outState.putBoolean("max_date_reached", model.maxDateReached)
+        outState.putBoolean("min_date_reached", model.minDateReached)
+        outState.putSerializable("selected_stats", model.selectedStats)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState?.let {
+            model.currentDate = it.getSerializable("current_date") as Date
+            model.maxDateReached = it.getBoolean("max_date_reached", true)
+            model.minDateReached = it.getBoolean("min_date_reached", false)
+            val selectedStats = it.getSerializable("selected_stats") as ArrayList<Stat>
+            model.updateSelectedStats(selectedStats)
         }
     }
 }

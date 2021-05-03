@@ -19,4 +19,9 @@ class StatsCtiPresenter(view: StatsCtiView, model: StatsCtiModel) : StatsPresent
         model.selectedStats = event.selectedStats
         view.setChartsData(model.getDataSet())
     }
+
+    override fun onResume() {
+        super.onResume()
+        view.setChartsData(model.getDataSet())
+    }
 }

@@ -1,9 +1,8 @@
 package com.nerdscorner.covid.stats.ui.mvp.presenter
 
+import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ArrayAdapter
-import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import com.nerdscorner.covid.stats.R
 import com.nerdscorner.covid.stats.domain.Stat
 import com.nerdscorner.covid.stats.ui.adapter.StatsAdapter
@@ -26,6 +25,27 @@ abstract class StatsPresenter<V : StatsView, M : StatsModel>(view: V, model: M) 
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("selected_city", model.selectedCity)
+        outState.putSerializable("selected_stats", model.selectedStats)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState?.let {
+            model.selectedCity = it.getInt("selected_city")
+            val selectedStats = it.getSerializable("selected_stats") as ArrayList<Stat>
+            model.selectedStats.addAll(
+                model.availableStats.filter { availableStat ->
+                    availableStat.name in selectedStats.map { selectedStat ->
+                        selectedStat.name
+                    }
+                }
+            )
         }
     }
 }

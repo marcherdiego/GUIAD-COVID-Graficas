@@ -16,8 +16,8 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
 
     private val generalStatsData = GeneralStatsData.getInstance()
     private val p7Data = P7Data.getInstance()
-    private val selectedStats = mutableListOf<Stat>()
 
+    val selectedStats = arrayListOf<Stat>()
     var currentDate = Date()
     var maxDateReached = true
     var minDateReached = false
@@ -110,6 +110,19 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
         } catch (e: Exception) {
             maxDateReached = true
             Date()
+        }
+    }
+
+    fun updateSelectedStats(selectedStats: ArrayList<Stat>) {
+        selectedStats.forEach { stat ->
+            generalStatsData
+                .getStats()
+                .firstOrNull {
+                    it.name == stat.name
+                }
+                ?.let {
+                    this.selectedStats.add(it)
+                }
         }
     }
 

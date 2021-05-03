@@ -19,4 +19,9 @@ class StatsByCityPresenter(view: StatsByCityView, model: StatsByCityModel) :
         model.selectedStats = event.selectedStats
         view.setChartsData(model.getDataSet())
     }
+
+    override fun onResume() {
+        super.onResume()
+        view.setChartsData(model.getDataSet())
+    }
 }

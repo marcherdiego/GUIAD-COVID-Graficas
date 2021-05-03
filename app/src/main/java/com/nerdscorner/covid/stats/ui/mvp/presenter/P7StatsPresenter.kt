@@ -18,4 +18,9 @@ class P7StatsPresenter(view: P7StatsView, model: P7StatsModel) : StatsPresenter<
         model.selectedStats = event.selectedStats
         view.setChartsData(model.getDataSet())
     }
+
+    override fun onResume() {
+        super.onResume()
+        view.setChartsData(model.getDataSet())
+    }
 }

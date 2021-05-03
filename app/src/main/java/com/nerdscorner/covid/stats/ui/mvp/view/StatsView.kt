@@ -88,5 +88,5 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
     }
 
     class CitySelectedEvent(val position: Int)
-    class StatsSelectedEvent(val selectedStats: List<Stat>)
+    class StatsSelectedEvent(val selectedStats: ArrayList<Stat>)
 }

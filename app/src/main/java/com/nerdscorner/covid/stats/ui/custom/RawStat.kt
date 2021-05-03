@@ -53,21 +53,25 @@ class RawStat @JvmOverloads constructor(
     fun setValue(value: String) {
         statTitle.text = value
     }
+    
+    fun updateSelectedState() {
+        chartIcon.setColorFilter(
+            ContextCompat.getColor(
+                context,
+                if (itemSelected) {
+                    R.color.raw_stat_buttons_selected_color
+                } else {
+                    R.color.raw_stat_buttons_unselected_color
+                }
+            ),
+            PorterDuff.Mode.SRC_IN
+        )
+    }
 
     override fun setOnClickListener(listener: OnClickListener?) {
         super.setOnClickListener {
             itemSelected = itemSelected.not()
-            chartIcon.setColorFilter(
-                ContextCompat.getColor(
-                    context,
-                    if (itemSelected) {
-                        R.color.raw_stat_buttons_selected_color
-                    } else {
-                        R.color.raw_stat_buttons_unselected_color
-                    }
-                ),
-                PorterDuff.Mode.SRC_IN
-            )
+            updateSelectedState()
             listener?.onClick(this)
         }
     }

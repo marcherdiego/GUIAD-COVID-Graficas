@@ -27,4 +27,9 @@ class DeceasesStatsPresenter(view: DeceasesStatsView, model: DeceasesStatsModel)
         model.setSelectedStatIndex(event.position)
         view.setChartsData(model.getDataSet())
     }
+
+    override fun onResume() {
+        super.onResume()
+        view.setChartsData(model.getDataSet())
+    }
 }

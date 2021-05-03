@@ -12,7 +12,7 @@ abstract class StatsModel : BaseEventsModel() {
 
     // State vars
     var selectedCity = 0
-    var selectedStats = listOf<Stat>()
+    var selectedStats = arrayListOf<Stat>()
 
     abstract fun getDataSet(): List<ILineDataSet>
 
@@ -25,6 +25,6 @@ abstract class StatsModel : BaseEventsModel() {
     }
 
     fun setSelectedStatIndex(index: Int) {
-        selectedStats = listOf(availableStats[index])
+        selectedStats = arrayListOf(availableStats[index])
     }
 }
