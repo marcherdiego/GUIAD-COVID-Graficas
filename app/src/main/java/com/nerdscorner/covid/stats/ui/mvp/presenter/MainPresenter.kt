@@ -44,7 +44,12 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     fun onP7StatsButtonClicked(event: MainView.P7StatsButtonClickedEvent) {
         startActivity(P7StatsActivity::class.java)
     }
-    
+
+    @Subscribe
+    fun onMobilityStatsButtonClicked(event: MainView.MobilityStatsButtonClickedEvent) {
+        startActivity(MobilityActivity::class.java)
+    }
+
     @Subscribe
     fun onRawDataGeneralStatsButtonClicked(event: MainView.RawDataGeneralStatsButtonClickedEvent) {
         startActivity(RawDataGeneralStatsActivity::class.java)

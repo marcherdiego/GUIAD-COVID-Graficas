@@ -22,10 +22,9 @@ class P7StatsModel : StatsModel() {
     }
 
     override fun getDataSet(): List<ILineDataSet> {
-        val colorsList = ColorUtils.graphColors
         val selectedCities = listOf(allCities[selectedCity])
         return selectedStats.map { stat ->
-            val chartColor = colorsList[stat.index % colorsList.size]
+            val chartColor = ColorUtils.getColor(stat.index)
             if (stat in p7Data.getStats()) {
                 p7Data.getDataSet(stat, chartColor, chartColor)
             } else {

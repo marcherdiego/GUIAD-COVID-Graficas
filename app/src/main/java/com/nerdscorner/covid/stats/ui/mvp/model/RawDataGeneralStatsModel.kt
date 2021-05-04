@@ -39,20 +39,19 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
     }
 
     fun getDataSet(): List<ILineDataSet> {
-        val colorsList = ColorUtils.graphColors
         val generalStatsDataSet = selectedStats
             .filter {
                 it != P7Data.p7Stat
             }
             .map { stat ->
-                val chartColor = colorsList[stat.index % colorsList.size]
+                val chartColor = ColorUtils.getColor(stat.index)
                 generalStatsData.getDataSet(stat, chartColor, chartColor)
             }
         val p7DataSet = selectedStats
             .filter {
                 it == P7Data.p7Stat
             }.map { stat ->
-                val chartColor = colorsList[(generalStatsData.getStats().size + stat.index) % colorsList.size]
+                val chartColor = ColorUtils.getColor(generalStatsData.getStats().size + stat.index)
                 p7Data.getDataSet(stat, chartColor, chartColor)
             }
         return generalStatsDataSet.union(p7DataSet).toList()

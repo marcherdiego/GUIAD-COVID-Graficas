@@ -30,6 +30,7 @@ class MainModel : BaseEventsModel() {
         fetchStat(statsService.getGeneralStats(), GeneralStatsData.getInstance())
         fetchStat(statsService.getP7StatisticsByCity(), P7ByCityData.getInstance())
         fetchStat(statsService.getP7Statistics(), P7Data.getInstance())
+        fetchStat(statsService.getMobilityStats(), MobilityData.getInstance())
     }
 
     private fun fetchStat(call: Call<String>, dataObject: DataObject) {

@@ -10,14 +10,13 @@ class StatsByCityModel : StatsModel() {
     override val availableStats by lazy { citiesData.getStats() }
 
     override fun getDataSet(): List<ILineDataSet> {
-        val colorsList = ColorUtils.graphColors
         val selectedCities = if (selectedCity == 0) {
             allCities
         } else {
             listOf(allCities[selectedCity])
         }
         return selectedStats.map { stat ->
-            val chartColor = colorsList[stat.index % colorsList.size]
+            val chartColor = ColorUtils.getColor(stat.index)
             citiesData.getDataSet(stat, selectedCities, chartColor, chartColor)
         }
     }

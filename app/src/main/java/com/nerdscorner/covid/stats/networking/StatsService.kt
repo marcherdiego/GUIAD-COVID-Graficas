@@ -21,4 +21,7 @@ interface StatsService {
 
     @GET("estadisticasUY_p7nacional.csv")
     fun getP7Statistics(): Call<String>
+
+    @GET("movilidad_uy.csv")
+    fun getMobilityStats(): Call<String>
 }

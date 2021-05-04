@@ -16,10 +16,11 @@ class MainView(activity: MainActivity) : BaseActivityView(activity) {
         onClick(R.id.general_stats_button, GeneralStatsButtonClickedEvent())
         onClick(R.id.deceases_stats_button, DeceasesStatsButtonClickedEvent())
         onClick(R.id.p7_stats_button, P7StatsButtonClickedEvent())
-        
+        onClick(R.id.mobility_stats_button, MobilityStatsButtonClickedEvent())
+
         // Raw data
         onClick(R.id.raw_data_general_stats_button, RawDataGeneralStatsButtonClickedEvent())
-        
+
         onClick(R.id.credits_button, CreditsButtonClickedEvent())
     }
 
@@ -33,7 +34,8 @@ class MainView(activity: MainActivity) : BaseActivityView(activity) {
     class GeneralStatsButtonClickedEvent
     class DeceasesStatsButtonClickedEvent
     class P7StatsButtonClickedEvent
-    
+    class MobilityStatsButtonClickedEvent
+
     // Raw data
     class RawDataGeneralStatsButtonClickedEvent
 

@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat
 import com.nerdscorner.covid.stats.R
 
 object ColorUtils {
-    val graphColors = mutableListOf<@ColorInt Int>()
+    private val graphColors = mutableListOf<@ColorInt Int>()
 
     fun init(context: Context) {
         graphColors.add(ContextCompat.getColor(context, R.color.graph1))
@@ -28,4 +28,7 @@ object ColorUtils {
         graphColors.add(ContextCompat.getColor(context, R.color.graph17))
         graphColors.add(ContextCompat.getColor(context, R.color.graph18))
     }
+
+    @ColorInt
+    fun getColor(index: Int) = graphColors[index % graphColors.size]
 }

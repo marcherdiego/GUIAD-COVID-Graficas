@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">GUIAD - Covid</string>
+    <string name="no_data_selected">No hay datos seleccionados…</string>
+
+    <string name="select">Seleccionar</string>
+    <plurals name="selected_stats">
+        <item quantity="one">%d seleccionado</item>
+        <item quantity="other">%d seleccionados</item>
+    </plurals>
 </resources>

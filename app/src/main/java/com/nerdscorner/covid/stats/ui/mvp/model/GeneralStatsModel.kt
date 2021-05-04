@@ -10,9 +10,8 @@ class GeneralStatsModel : StatsModel() {
     override val availableStats by lazy { generalStatsData.getStats() }
 
     override fun getDataSet(): List<ILineDataSet> {
-        val colorsList = ColorUtils.graphColors
         return selectedStats.map { stat ->
-            val chartColor = colorsList[stat.index % colorsList.size]
+            val chartColor = ColorUtils.getColor(stat.index)
             generalStatsData.getDataSet(stat, chartColor, chartColor)
         }
     }

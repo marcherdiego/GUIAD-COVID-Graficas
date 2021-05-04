@@ -20,7 +20,7 @@ abstract class StatsModel : BaseEventsModel() {
         return availableStats
             .toMutableList()
             .apply {
-                add(0, Stat("Seleccionar"))
+                add(0, Stat())
             }
     }
 

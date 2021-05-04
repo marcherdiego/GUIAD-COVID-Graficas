@@ -36,7 +36,7 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
         citiesSelector?.setItemSelectedListener {
             bus.post(CitySelectedEvent(it))
         }
-        chart.setNoDataText("No hay datos seleccionados...")
+        chart.setNoDataText(activity.getString(R.string.no_data_selected))
         chart.setNoDataTextColor(ContextCompat.getColor(activity, R.color.graph_text_color))
         chart.isHighlightPerDragEnabled = true
         chart.isHighlightPerTapEnabled = true
@@ -51,6 +51,7 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
     fun setStatsAdapter(adapter: StatsAdapter) {
         statSelector.adapter = adapter
         statSelector.setSelectedItemsChangedListener {
+            adapter.notifyDataSetChanged()
             bus.post(StatsSelectedEvent(it))
         }
     }

@@ -69,7 +69,7 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
         activity.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
         }
-        chart.setNoDataText("No hay datos seleccionados...")
+        chart.setNoDataText(activity.getString(R.string.no_data_selected))
         chart.setNoDataTextColor(ContextCompat.getColor(activity, R.color.graph_text_color))
         chart.isHighlightPerDragEnabled = true
         chart.isHighlightPerTapEnabled = true

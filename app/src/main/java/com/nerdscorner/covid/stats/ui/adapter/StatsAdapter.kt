@@ -13,6 +13,10 @@ import com.nerdscorner.covid.stats.domain.Stat
 
 class StatsAdapter(private val ctx: Context, private val stats: List<Stat>) :
     ArrayAdapter<Stat?>(ctx, R.layout.simple_spinner_layout, stats) {
+    
+    init {
+        updateHeaderState()
+    }
 
     private var itemsChangedListener: (selectedValues: ArrayList<Stat>) -> Unit = {}
     private var isFromView = false
@@ -63,6 +67,7 @@ class StatsAdapter(private val ctx: Context, private val stats: List<Stat>) :
             }
             tag = position
             setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+                updateHeaderState()
                 if (isFromView.not()) {
                     val stat = stats[position]
                     if (stat.isDummy().not()) {
@@ -73,6 +78,15 @@ class StatsAdapter(private val ctx: Context, private val stats: List<Stat>) :
             }
         }
         return convertView!!
+    }
+
+    private fun updateHeaderState() {
+        val selectedStats = stats.count { it.selected }
+        stats.first().name = if (selectedStats == 0) {
+            context.getString(R.string.select)
+        } else {
+            context.resources.getQuantityString(R.plurals.selected_stats, selectedStats, selectedStats)
+        }
     }
 
     fun setSelectedItemsChangedListener(itemsChangedListener: (selectedValues: ArrayList<Stat>) -> Unit) {
