@@ -6,12 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="8dp">
+    android:paddingEnd="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/date_selector_container"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_3"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,36 +20,37 @@
             android:id="@+id/back_month_button"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_marginEnd="6dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
             android:padding="10dp"
             android:src="@drawable/ic_rewind"
             app:layout_constraintBottom_toBottomOf="@+id/date_picker_container"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/back_day_button"
             app:layout_constraintTop_toTopOf="@+id/date_picker_container" />
 
         <ImageView
             android:id="@+id/back_day_button"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="6dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
             android:padding="10dp"
             android:src="@drawable/ic_back"
             app:layout_constraintBottom_toBottomOf="@+id/date_picker_container"
-            app:layout_constraintStart_toEndOf="@+id/back_month_button"
+            app:layout_constraintEnd_toStartOf="@+id/date_picker_container"
             app:layout_constraintTop_toTopOf="@+id/date_picker_container" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/date_picker_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintStart_toEndOf="@+id/back_day_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
@@ -79,7 +79,7 @@
             android:id="@+id/forward_day_button"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="6dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
@@ -94,7 +94,7 @@
             android:id="@+id/forward_month_button"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="6dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
@@ -104,6 +104,20 @@
             app:layout_constraintBottom_toBottomOf="@+id/date_picker_container"
             app:layout_constraintStart_toEndOf="@+id/forward_day_button"
             app:layout_constraintTop_toTopOf="@+id/date_picker_container" />
+
+        <TextView
+            android:id="@+id/today_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/today"
+            app:layout_constraintBottom_toBottomOf="@+id/forward_month_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/forward_month_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
@@ -280,6 +294,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/legends_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/vertical_guideline_3"
@@ -290,6 +305,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/vertical_guideline_3" />
