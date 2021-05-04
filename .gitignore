@@ -31,3 +31,5 @@ proguard/
 
 .DS_Store
 .navigation/
+
+app/release/
