@@ -1,12 +1,14 @@
 package com.nerdscorner.covid.stats.ui.mvp.view
 
+import android.widget.ImageView
 import android.widget.TextView
 import com.nerdscorner.covid.stats.R
+import com.nerdscorner.covid.stats.extensions.rotateCounterClockwise
 import com.nerdscorner.mvplib.events.view.BaseActivityView
 import com.nerdscorner.covid.stats.ui.activities.MainActivity
 
 class MainView(activity: MainActivity) : BaseActivityView(activity) {
-
+    private val rotateDeviceIcon: ImageView? = activity.findViewById(R.id.rotate_device_icon)
     private val lastUpdated: TextView = activity.findViewById(R.id.last_updated)
 
     init {
@@ -22,6 +24,8 @@ class MainView(activity: MainActivity) : BaseActivityView(activity) {
         onClick(R.id.raw_data_general_stats_button, RawDataGeneralStatsButtonClickedEvent())
 
         onClick(R.id.credits_button, CreditsButtonClickedEvent())
+
+        rotateDeviceIcon?.rotateCounterClockwise()
     }
 
     fun setLastUpdateDate(lastUpdateText: String) {

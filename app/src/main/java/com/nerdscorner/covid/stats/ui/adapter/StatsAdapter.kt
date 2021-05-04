@@ -61,7 +61,7 @@ class StatsAdapter(private val ctx: Context, private val stats: List<Stat>) :
             isChecked = stats[position].selected
             isFromView = false
             visibility = if (position == 0) {
-                View.INVISIBLE
+                View.GONE
             } else {
                 View.VISIBLE
             }

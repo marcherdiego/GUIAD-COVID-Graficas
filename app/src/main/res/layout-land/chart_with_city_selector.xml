@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/city"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/cities_selector"
         app:layout_constraintEnd_toStartOf="@+id/cities_selector"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/stat"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/stat_selector"
         app:layout_constraintStart_toEndOf="@+id/cities_selector"
         app:layout_constraintTop_toTopOf="@+id/stat_selector" />
