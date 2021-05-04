@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
-            android:text="Error al actualizar los datos"
+            android:text="@string/data_fetch_error_message"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -37,13 +37,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
-            android:text="Reintentar" />
+            android:text="@string/retry" />
 
         <Button
             android:id="@+id/secondary_action_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Cancelar" />
+            android:text="@string/cancel" />
     </LinearLayout>
 </FrameLayout>

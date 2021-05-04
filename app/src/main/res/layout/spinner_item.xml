@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -14,9 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/checkbox"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:layout_toEndOf="@+id/checkbox"
-        android:text="Text"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:text="Text" />
 </RelativeLayout>

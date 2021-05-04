@@ -32,10 +32,11 @@
                 android:id="@+id/cti_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:padding="8dp"
                 android:text="@string/cti_data"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/center_guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/graphs_label" />
 
@@ -43,10 +44,11 @@
                 android:id="@+id/cities_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:padding="8dp"
                 android:text="@string/data_by_city"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/center_guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cti_button" />
 
@@ -54,10 +56,11 @@
                 android:id="@+id/general_stats_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:padding="8dp"
                 android:text="@string/general_stats"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/center_guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cities_button" />
 
@@ -65,34 +68,37 @@
                 android:id="@+id/deceases_stats_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:padding="8dp"
                 android:text="@string/deceases_stats"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/general_stats_button" />
+                app:layout_constraintStart_toEndOf="@+id/center_guideline"
+                app:layout_constraintTop_toTopOf="@+id/cti_button" />
 
             <Button
                 android:id="@+id/p7_stats_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:padding="8dp"
                 android:text="@string/p7_stats"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/deceases_stats_button" />
+                app:layout_constraintStart_toEndOf="@+id/center_guideline"
+                app:layout_constraintTop_toTopOf="@+id/cities_button" />
 
             <Button
                 android:id="@+id/mobility_stats_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:padding="8dp"
                 android:text="@string/mobility_stats"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/p7_stats_button" />
+                app:layout_constraintStart_toEndOf="@+id/center_guideline"
+                app:layout_constraintTop_toTopOf="@+id/general_stats_button" />
 
             <TextView
                 android:id="@+id/raw_data_label"
@@ -108,12 +114,20 @@
                 android:id="@+id/raw_data_general_stats_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:padding="8dp"
                 android:text="@string/stats_and_charts"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/center_guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/raw_data_label" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/center_guideline"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -122,11 +136,10 @@
         android:id="@+id/credits_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:padding="8dp"
         android:text="@string/credits"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/last_updated"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView

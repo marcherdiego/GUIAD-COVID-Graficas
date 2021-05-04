@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="4dp">
 
     <View
@@ -20,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:text="Legend"
+        tools:text="Legend"
         app:layout_constraintStart_toEndOf="@+id/indicator"
         app:layout_constraintTop_toTopOf="parent" />
 

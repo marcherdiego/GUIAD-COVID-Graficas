@@ -3,6 +3,35 @@
     <string name="no_data_selected">No hay datos seleccionados…</string>
 
     <string name="select">Seleccionar</string>
+    <string name="city">Departamento</string>
+    <string name="stat">Dato</string>
+    <string name="general_data">Datos generales</string>
+    <string name="cti_data">Datos CTI</string>
+    <string name="data_by_city">Datos por departamento</string>
+    <string name="general_stats">Estadísticas generales</string>
+    <string name="deceases_stats">Estadísticas de fallecidos</string>
+    <string name="p7_stats">Estadísticas p7</string>
+    <string name="data_by_date">Datos por fecha</string>
+    <string name="mobility_stats">Estadísticas de movilidad</string>
+    <string name="stats_and_charts"><![CDATA[Estadísticas & Gráficas]]></string>
+    <string name="credits">Créditos</string>
+    <string name="refresh">Refresh</string>
+    <string name="data_fetch_error_message">Error al actualizar los datos</string>
+    <string name="retry">Reintentar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="fetching_data">Actualizando datos…</string>
+    <string name="date">Fecha</string>
+
+    <!-- Screens titles -->
+    <string name="mobility_data_title">Datos de movilidad</string>
+    <string name="credits_title">Créditos</string>
+    <string name="pt_stats_title">Estadísticas p7</string>
+    <string name="deceases_stats_title">Estadísticas de fallecidos</string>
+    <string name="general_stats_title">Estadísticas generales</string>
+    <string name="cti_stats_title">Datos CTI</string>
+    <string name="data_by_city_stats_title">Datos por departamento</string>
+
+    <!-- Plurals -->
     <plurals name="selected_stats">
         <item quantity="one">%d seleccionado</item>
         <item quantity="other">%d seleccionados</item>

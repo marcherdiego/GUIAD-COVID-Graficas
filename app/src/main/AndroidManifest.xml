@@ -14,7 +14,7 @@
         android:theme="@style/Theme.CovidStats">
         <activity
             android:name="com.nerdscorner.covid.stats.ui.activities.MobilityActivity"
-            android:label="Datos de movilidad" />
+            android:label="@string/mobility_data_title" />
         <activity
             android:name="com.nerdscorner.covid.stats.ui.activities.RawDataGeneralStatsActivity"
             android:label="Datos por fecha" />
@@ -27,22 +27,22 @@
         </activity>
         <activity
             android:name="com.nerdscorner.covid.stats.ui.activities.CreditsActivity"
-            android:label="Créditos" />
+            android:label="@string/credits_title" />
         <activity
             android:name="com.nerdscorner.covid.stats.ui.activities.P7StatsActivity"
-            android:label="Estadísticas p7" />
+            android:label="@string/pt_stats_title" />
         <activity
             android:name="com.nerdscorner.covid.stats.ui.activities.DeceasesStatsActivity"
-            android:label="Estadísticas de fallecidos" />
+            android:label="@string/deceases_stats_title" />
         <activity
             android:name="com.nerdscorner.covid.stats.ui.activities.GeneralStatsActivity"
-            android:label="Estadísticas generales" />
+            android:label="@string/general_stats_title" />
         <activity
             android:name="com.nerdscorner.covid.stats.ui.activities.StatsCtiActivity"
-            android:label="Datos CTI" />
+            android:label="@string/cti_stats_title" />
         <activity
             android:name="com.nerdscorner.covid.stats.ui.activities.StatsByCityActivity"
-            android:label="Datos por departamento" />
+            android:label="@string/data_by_city_stats_title" />
     </application>
 
 </manifest>

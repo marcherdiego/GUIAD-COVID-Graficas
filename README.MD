@@ -1,4 +1,4 @@
-# App de visualización de datos extraídos de GUIAD - COVID
+# Gráficos evolución Covid-19 en Uruguay
  
 GUIAD-COVID (Grupo Uruguayo Interdisciplinario de Análisis de Datos - COVID 19.)
 Referencia [GUIAD-COVID](https://guiad-covid.github.io/)
