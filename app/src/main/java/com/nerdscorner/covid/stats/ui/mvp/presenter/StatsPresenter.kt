@@ -11,12 +11,6 @@ import com.nerdscorner.covid.stats.ui.mvp.view.StatsView
 import com.nerdscorner.mvplib.events.presenter.BaseActivityPresenter
 
 abstract class StatsPresenter<V : StatsView, M : StatsModel>(view: V, model: M) : BaseActivityPresenter<V, M>(view, model) {
-    init {
-        view.withActivity {
-            view.setCitiesAdapter(ArrayAdapter(this, R.layout.simple_spinner_layout, model.allCities))
-            view.setStatsAdapter(StatsAdapter(this, model.getStatsStateList()))
-        }
-    }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
@@ -46,6 +40,17 @@ abstract class StatsPresenter<V : StatsView, M : StatsModel>(view: V, model: M) 
                     }
                 }
             )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        model.availableStats.forEach { stat ->
+            stat.selected = stat in model.selectedStats
+        }
+        view.withActivity {
+            view.setCitiesAdapter(ArrayAdapter(this, R.layout.simple_spinner_layout, model.allCities))
+            view.setStatsAdapter(StatsAdapter(this, model.getStatsStateList()))
         }
     }
 }
