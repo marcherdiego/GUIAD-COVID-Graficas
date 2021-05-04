@@ -5,6 +5,17 @@ Referencia [GUIAD-COVID](https://guiad-covid.github.io/)
 
 Todos los datos son extraídos de la página de github del grupo ubicados en [esta carpeta](https://github.com/GUIAD-COVID/datos-y-visualizaciones-GUIAD/tree/master/datos)
 
+Capturas de pantalla de la App
+-
+## Estadísticas generales
+![Estadísticas generales](googleplay/ss3.png)
+
+## Datos de movilidad
+![Datos de movilidad](googleplay/ss4.png)
+
+## Datos por fecha
+![Datos por fecha](googleplay/ss6.png)
+
 
 Librerías utilizadas
 -

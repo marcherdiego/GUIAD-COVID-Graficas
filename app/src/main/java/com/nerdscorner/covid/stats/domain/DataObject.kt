@@ -6,17 +6,15 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
 abstract class DataObject {
-    protected lateinit var csvLines: List<String>
     protected lateinit var dataLines: MutableList<String>
 
     open fun setData(data: String?) {
-        csvLines = data?.split(LINE_FEED) ?: listOf()
-        dataLines = csvLines.drop(1).toMutableList() //Drop header
+        dataLines = data?.split(LINE_FEED)?.drop(1)?.toMutableList() ?: mutableListOf() //Drop header
         persist(data)
     }
 
     abstract fun getStats(): List<Stat>
-    
+
     protected abstract fun persist(data: String?)
 
     protected fun getDataSet(

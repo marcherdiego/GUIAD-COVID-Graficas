@@ -7,9 +7,7 @@ import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 class P7ByCityData private constructor() : DataObject() {
 
     fun getDataSet(stat: Stat, selectedCities: List<String>, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
-        val dataLines = csvLines
-            .asSequence()
-            .drop(1) //Drop header
+        val dataLines = dataLines
             .groupBy {
                 it.split(COMMA)[INDEX_DATE]
             }

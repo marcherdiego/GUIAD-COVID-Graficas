@@ -32,7 +32,7 @@ class GeneralStatsData private constructor() : DataObject() {
     }
 
     fun getStatsForDate(filterDate: String, filterPreviousDayDate: String): StatsForDate {
-        val dataLine = csvLines.firstOrNull { it.split(COMMA)[INDEX_DATE] == filterDate }
+        val dataLine = dataLines.firstOrNull { it.split(COMMA)[INDEX_DATE] == filterDate }
         return if (dataLine == null) {
             StatsForDate()
         } else {

@@ -2,9 +2,20 @@ package com.nerdscorner.covid.stats.domain
 
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.covid.stats.utils.DateUtils
 import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 
 class MobilityData private constructor() : DataObject() {
+
+    override fun setData(data: String?) {
+        super.setData(data)
+        dataLines = dataLines.map { line ->
+            val dataTokens = line.split(COMMA).toMutableList()
+            val date = dataTokens[INDEX_DATE]
+            dataTokens[INDEX_DATE] = DateUtils.convertUsDateToUyDate(date)
+            dataTokens.joinToString()
+        }.toMutableList()
+    }
 
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
         return if (stat == mobilityIndexStat) {

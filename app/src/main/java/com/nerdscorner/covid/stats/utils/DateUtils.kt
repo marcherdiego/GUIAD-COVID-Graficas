@@ -4,13 +4,22 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtils {
-    private val OUTPUT_DATE_FORMAT = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+    private val US_DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+    private val UY_DATE_FORMAT = SimpleDateFormat("dd/MM/yyyy", Locale.US)
 
     fun formatDate(date: Date?): String {
         return if (date == null) {
             ""
         } else {
-            OUTPUT_DATE_FORMAT.format(date)
+            UY_DATE_FORMAT.format(date)
+        }
+    }
+
+    fun convertUsDateToUyDate(usDate: String): String {
+        return try {
+            UY_DATE_FORMAT.format(US_DATE_FORMAT.parse(usDate)!!)
+        } catch (e: Exception) {
+            usDate
         }
     }
 }
