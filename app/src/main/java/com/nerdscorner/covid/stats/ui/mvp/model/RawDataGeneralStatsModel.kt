@@ -72,6 +72,32 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
 
     private fun setDateFieldOffset(field: Int, offset: Int) {
         val newDate = getDateWithOffset(field, offset)
+        updateCurrentDate(newDate)
+    }
+
+    fun updateSelectedStats(rawStat: RawStat) {
+        val stat = rawStat.stat
+        if (rawStat.itemSelected) {
+            selectedStats.add(stat ?: return)
+        } else {
+            selectedStats.remove(stat)
+        }
+    }
+
+    fun updateCurrentDate(stringDate: String) {
+        val newDate = try {
+            val dateTokens = stringDate.split("/")
+            val year = dateTokens[2].toInt()
+            val month = dateTokens[1].toInt() - 1
+            val day = dateTokens[0].toInt()
+            GregorianCalendar(year, month, day).time
+        } catch (e: Exception) {
+            Date()
+        }
+        updateCurrentDate(newDate)
+    }
+
+    fun updateCurrentDate(newDate: Date) {
         val today = Date()
         maxDateReached = false
         minDateReached = false
@@ -85,30 +111,6 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
                 MIN_DATE
             }
             else -> newDate
-        }
-    }
-
-    fun updateSelectedStats(rawStat: RawStat) {
-        val stat = rawStat.stat
-        if (rawStat.itemSelected) {
-            selectedStats.add(stat ?: return)
-        } else {
-            selectedStats.remove(stat)
-        }
-    }
-
-    fun updateCurrentDate(stringDate: String) {
-        maxDateReached = false
-        minDateReached = false
-        currentDate = try {
-            val dateTokens = stringDate.split("/")
-            val year = dateTokens[2].toInt()
-            val month = dateTokens[1].toInt() - 1
-            val day = dateTokens[0].toInt()
-            GregorianCalendar(year, month, day).time
-        } catch (e: Exception) {
-            maxDateReached = true
-            Date()
         }
     }
 

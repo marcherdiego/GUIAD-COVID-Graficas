@@ -13,3 +13,5 @@ Librerías utilizadas
 2. [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) Para las gráficas
 3. [Retrofit](http://square.github.io/retrofit/) Para la comunicación con el servidor
 4. [FlowLayout](https://github.com/nex3z/FlowLayout) Para mostrar las leyendas de los gráficos de manera más legible
+
+[![Disponible en Google Play](https://play.google.com/intl/en_us/badges/static/images/badges/es-419_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.nerdscorner.covid.stats)

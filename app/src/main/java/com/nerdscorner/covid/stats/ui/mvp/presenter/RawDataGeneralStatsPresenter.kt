@@ -80,9 +80,14 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
     fun onChartValueSelected(event: RawDataGeneralStatsView.ChartValueSelectedEvent) {
         val selectedDate = (event.entry?.data as? String)?.split(" - ")?.get(0) ?: return
         model.updateCurrentDate(selectedDate)
-        view.manualHighlightUpdate = true
-        refreshDateStats()
-        view.manualHighlightUpdate = false
+        refreshDateStats(manualRefresh = true)
+        refreshDateSeekButtons()
+    }
+    
+    @Subscribe
+    fun onTodayButtonClicked(event: RawDataGeneralStatsView.TodayButtonClickedEvent) {
+        model.updateCurrentDate(Date())
+        refreshDateStats(manualRefresh = true)
         refreshDateSeekButtons()
     }
 
@@ -99,14 +104,15 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
         }
     }
 
-    private fun refreshDateStats() {
+    private fun refreshDateStats(manualRefresh: Boolean = false) {
+        view.manualHighlightUpdate = manualRefresh
         val statsForDate = model.getStatsForDate()
         view.setDate(model.currentDate)
         view.getStatsValues(
-            newCases = statsForDate.newRecovered.formatNumberString(),
+            newCases = statsForDate.newCasesAdjusted.formatNumberString(),
             totalCases = statsForDate.totalCases.formatNumberString(),
             ctiCases = statsForDate.totalCti.formatNumberString(),
-            activeCases = statsForDate.totalCases.formatNumberString(),
+            activeCases = statsForDate.inCourse.formatNumberString(),
             recoveredCases = statsForDate.newRecovered.formatNumberString(),
             totalRecovered = statsForDate.totalRecovered.formatNumberString(),
             deceases = statsForDate.newDeceases.formatNumberString(),
@@ -117,6 +123,7 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
             indexVariation = statsForDate.indexVariation.formatNumberString()
         )
         view.setChartSelectedItem(model.getXValueForDate())
+        view.manualHighlightUpdate = false
     }
 
     override fun onResume() {

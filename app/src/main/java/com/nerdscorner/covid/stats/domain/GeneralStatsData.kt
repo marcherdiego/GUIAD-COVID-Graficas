@@ -88,10 +88,18 @@ class GeneralStatsData private constructor() : DataObject() {
         val totalTests: String = "N/A",
         val medicalDischarges: String = "N/A",
         val reportedOutOfDate: String = "N/A",
-        val positivity: String = "N/A",
+        var positivity: String = "N/A",
         val harvardIndex: String = "N/A",
         val indexVariation: String = "N/A"
-    )
+    ) {
+        init {
+            positivity = try {
+                (positivity.toFloat() * positivityStat.factor).format(2)
+            } catch (e: Exception) {
+                positivity
+            }
+        }
+    }
 
     companion object {
         private val instance = GeneralStatsData()

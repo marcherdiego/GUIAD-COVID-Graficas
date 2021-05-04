@@ -96,6 +96,20 @@
         app:layout_constraintStart_toEndOf="@+id/forward_day_button"
         app:layout_constraintTop_toTopOf="@+id/date_picker_container" />
 
+    <TextView
+        android:id="@+id/today_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        android:text="@string/today"
+        app:layout_constraintBottom_toBottomOf="@+id/forward_month_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/forward_month_button"
+        app:layout_constraintTop_toTopOf="@+id/forward_month_button" />
+
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"

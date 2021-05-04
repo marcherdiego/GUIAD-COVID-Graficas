@@ -94,6 +94,7 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
         onClick(backMonthButton, BackMonthButtonClickedEvent())
         onClick(forwardDayButton, ForwardDayButtonClickedEvent())
         onClick(forwardMonthButton, ForwardMonthButtonClickedEvent())
+        onClick(R.id.today_button, TodayButtonClickedEvent())
 
         rawStatsList.forEach { rawStat ->
             rawStat.setOnClickListener {
@@ -248,4 +249,5 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
     class BackMonthButtonClickedEvent
     class ForwardDayButtonClickedEvent
     class ForwardMonthButtonClickedEvent
+    class TodayButtonClickedEvent
 }
