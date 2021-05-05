@@ -7,6 +7,7 @@
     android:padding="16dp">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:overScrollMode="never"
@@ -304,10 +305,9 @@
         android:id="@+id/rotate_device_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="32dp"
         android:rotation="45"
         android:src="@drawable/rotate_device"
-        app:layout_constraintBottom_toTopOf="@+id/credits_button"
+        app:layout_constraintBottom_toBottomOf="@+id/credits_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:tint="@color/raw_stat_buttons_selected_color" />

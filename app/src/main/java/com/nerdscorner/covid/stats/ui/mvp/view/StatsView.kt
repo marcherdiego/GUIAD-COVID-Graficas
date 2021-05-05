@@ -58,10 +58,10 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
 
     fun setChartsData(dataSets: List<ILineDataSet>) {
         chart.clear()
+        legendsContainer.removeAllViews()
         styleAxis(dataSets.firstOrNull() ?: return)
         chart.data = LineData(dataSets)
         chart.invalidate()
-        legendsContainer.removeAllViews()
         chart.legend.entries.forEach { legend ->
             val legendView = LayoutInflater.from(activity).inflate(R.layout.chart_legend_item, null).apply {
                 findViewById<View>(R.id.indicator).setBackgroundColor(legend.formColor)
