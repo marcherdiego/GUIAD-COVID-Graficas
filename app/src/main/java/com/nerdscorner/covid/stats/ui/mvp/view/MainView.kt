@@ -1,31 +1,70 @@
 package com.nerdscorner.covid.stats.ui.mvp.view
 
-import android.widget.ImageView
 import android.widget.TextView
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.covid.stats.R
-import com.nerdscorner.covid.stats.extensions.rotateCounterClockwise
 import com.nerdscorner.mvplib.events.view.BaseActivityView
 import com.nerdscorner.covid.stats.ui.activities.MainActivity
+import com.nerdscorner.covid.stats.ui.custom.StatCard
 
 class MainView(activity: MainActivity) : BaseActivityView(activity) {
-    private val rotateDeviceIcon: ImageView? = activity.findViewById(R.id.rotate_device_icon)
+    private val ctiCard: StatCard = activity.findViewById(R.id.cti_card)
+    private val citiesCard: StatCard = activity.findViewById(R.id.cities_card)
+    private val generalsCard: StatCard = activity.findViewById(R.id.general_stats_card)
+    private val deceasesCard: StatCard = activity.findViewById(R.id.deceases_stats_card)
+    private val p7Card: StatCard = activity.findViewById(R.id.p7_stats_card)
+    private val mobilityCard: StatCard = activity.findViewById(R.id.mobility_stats_card)
+    private val rawDataCard: StatCard = activity.findViewById(R.id.raw_data_general_stats_card)
+
     private val lastUpdated: TextView = activity.findViewById(R.id.last_updated)
 
-    init {
-        // Charts
-        onClick(R.id.cti_button, CtiButtonClickedEvent())
-        onClick(R.id.cities_button, CitiesButtonClickedEvent())
-        onClick(R.id.general_stats_button, GeneralStatsButtonClickedEvent())
-        onClick(R.id.deceases_stats_button, DeceasesStatsButtonClickedEvent())
-        onClick(R.id.p7_stats_button, P7StatsButtonClickedEvent())
-        onClick(R.id.mobility_stats_button, MobilityStatsButtonClickedEvent())
+    fun setupCtiCard(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+        ctiCard.setup(chartData, statLabel, latestValue, isTrendingUp)
+        ctiCard.setOnClickListener {
+            bus.post(CtiButtonClickedEvent())
+        }
+    }
 
-        // Raw data
-        onClick(R.id.raw_data_general_stats_button, RawDataGeneralStatsButtonClickedEvent())
+    fun setupCitiesCard(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+        citiesCard.setup(chartData, statLabel, latestValue, isTrendingUp)
+        citiesCard.setOnClickListener {
+            bus.post(CitiesButtonClickedEvent())
+        }
+    }
 
-        onClick(R.id.credits_button, CreditsButtonClickedEvent())
+    fun setupGeneralsCard(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+        generalsCard.setup(chartData, statLabel, latestValue, isTrendingUp)
+        generalsCard.setOnClickListener {
+            bus.post(GeneralStatsButtonClickedEvent())
+        }
+    }
 
-        rotateDeviceIcon?.rotateCounterClockwise()
+    fun setupDeceasesCard(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+        deceasesCard.setup(chartData, statLabel, latestValue, isTrendingUp)
+        deceasesCard.setOnClickListener {
+            bus.post(DeceasesStatsButtonClickedEvent())
+        }
+    }
+
+    fun setupP7Card(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+        p7Card.setup(chartData, statLabel, latestValue, isTrendingUp)
+        p7Card.setOnClickListener {
+            bus.post(P7StatsButtonClickedEvent())
+        }
+    }
+
+    fun setupMobilityCard(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+        mobilityCard.setup(chartData, statLabel, latestValue, isTrendingUp)
+        mobilityCard.setOnClickListener {
+            bus.post(MobilityStatsButtonClickedEvent())
+        }
+    }
+
+    fun setupRawDataCard(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+        rawDataCard.setup(chartData, statLabel, latestValue, isTrendingUp)
+        rawDataCard.setOnClickListener {
+            bus.post(RawDataGeneralStatsButtonClickedEvent())
+        }
     }
 
     fun setLastUpdateDate(lastUpdateText: String) {
@@ -42,6 +81,4 @@ class MainView(activity: MainActivity) : BaseActivityView(activity) {
 
     // Raw data
     class RawDataGeneralStatsButtonClickedEvent
-
-    class CreditsButtonClickedEvent
 }

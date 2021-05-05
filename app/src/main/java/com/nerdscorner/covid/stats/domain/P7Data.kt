@@ -8,10 +8,10 @@ import java.util.*
 
 class P7Data private constructor() : DataObject() {
 
-    val cachedDatesIndexes = mutableListOf<String>()
+    private val cachedDatesIndexes = mutableListOf<String>()
 
-    fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
-        return getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor)
+    fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int = dataLines.size): ILineDataSet {
+        return getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
     }
 
     override fun setData(data: String?) {

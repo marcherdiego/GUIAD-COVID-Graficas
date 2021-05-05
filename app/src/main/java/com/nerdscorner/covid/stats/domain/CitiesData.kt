@@ -6,7 +6,13 @@ import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 
 class CitiesData private constructor() : DataObject() {
 
-    fun getDataSet(stat: Stat, selectedCities: List<String>, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
+    fun getDataSet(
+        stat: Stat,
+        selectedCities: List<String>,
+        @ColorInt color: Int,
+        @ColorInt valueTextColor: Int,
+        limit: Int = dataLines.size
+    ): ILineDataSet {
         val dataLines = dataLines
             .groupBy {
                 it.split(COMMA)[INDEX_DATE]
@@ -27,7 +33,7 @@ class CitiesData private constructor() : DataObject() {
                     .reduce { acc, s -> acc + s }
                 return@map "$date,$valuesSum"
             }
-        return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor)
+        return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
     }
 
     override fun getStats() = listOf(

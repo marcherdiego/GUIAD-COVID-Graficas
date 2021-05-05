@@ -4,6 +4,7 @@ import androidx.annotation.ColorInt
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import kotlin.math.min
 
 abstract class DataObject {
     protected lateinit var dataLines: MutableList<String>
@@ -15,7 +16,25 @@ abstract class DataObject {
 
     abstract fun getStats(): List<Stat>
 
+    open fun getLatestValue(stat: Stat): String {
+        return getValueAt(dataLines.size - 1, stat)?.toFloatOrNull()?.times(stat.factor)?.toString() ?: N_A
+    }
+
+    open fun isTrendingUp(stat: Stat): Boolean {
+        val dataSize = dataLines.size
+        if (dataSize < 2) {
+            return false
+        }
+        val latestValue = getValueAt(dataLines.size - 1, stat)?.toFloatOrNull()?.times(stat.factor) ?: 0f
+        val preLatestValue = getValueAt(dataLines.size - 2, stat)?.toFloatOrNull()?.times(stat.factor) ?: 0f
+        return (latestValue - preLatestValue) > 0
+    }
+
     protected abstract fun persist(data: String?)
+
+    protected fun getLineTokensAt(row: Int) = dataLines.getOrNull(row)?.split(COMMA)
+
+    protected fun getValueAt(row: Int, stat: Stat) = getLineTokensAt(row)?.get(stat.index)
 
     protected fun getDataSet(
         dataLines: List<String>,
@@ -24,9 +43,11 @@ abstract class DataObject {
         statFactorMultiplier: Float,
         label: String,
         @ColorInt color: Int,
-        @ColorInt valueTextColor: Int
+        @ColorInt valueTextColor: Int,
+        limit: Int
     ): ILineDataSet {
         val entries = dataLines
+            .takeLast(min(dataLines.size , limit))
             .filterNot {
                 it.trim() == EMPTY_STRING
             }
@@ -48,5 +69,6 @@ abstract class DataObject {
         const val EMPTY_STRING = ""
         const val LINE_FEED = "\n"
         const val COMMA = ","
+        const val N_A = "N/A"
     }
 }

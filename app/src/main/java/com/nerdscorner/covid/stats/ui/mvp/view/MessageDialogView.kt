@@ -1,7 +1,6 @@
 package com.nerdscorner.covid.stats.ui.mvp.view
 
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
@@ -11,8 +10,8 @@ import com.nerdscorner.mvplib.events.view.BaseFragmentView
 class MessageDialogView(dialog: DialogFragment) : BaseFragmentView(dialog) {
     private val tickImageView: ImageView
     private val dialogText: TextView
-    private val primaryActionButton: Button
-    private val secondaryActionButton: Button
+    private val primaryActionButton: View
+    private val secondaryActionButton: View
 
     init {
         with (dialog.requireView()) {
@@ -27,10 +26,6 @@ class MessageDialogView(dialog: DialogFragment) : BaseFragmentView(dialog) {
 
     fun setMessage(message: String?) {
         dialogText.text = message
-    }
-
-    fun showProgressBar() {
-        tickImageView.visibility = View.GONE
     }
 
     fun showTickImage() {

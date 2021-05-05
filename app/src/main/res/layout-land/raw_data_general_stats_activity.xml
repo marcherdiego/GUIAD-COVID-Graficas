@@ -147,7 +147,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 rawStat:stat_Title="Casos nuevos"
-                rawStat:stat_Value="4.938" />
+                tools:stat_Value="4.938" />
 
             <com.nerdscorner.covid.stats.ui.custom.RawStat
                 android:id="@+id/total_cases"
@@ -158,19 +158,19 @@
                 app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
                 app:layout_constraintTop_toTopOf="@+id/new_cases"
                 rawStat:stat_Title="Casos totales"
-                rawStat:stat_Value="4.938" />
+                tools:stat_Value="4.938" />
 
             <com.nerdscorner.covid.stats.ui.custom.RawStat
                 android:id="@+id/cti_cases"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/new_cases"
                 rawStat:stat_Title="Casos en CTI"
-                rawStat:stat_Value="4.938" />
+                tools:stat_Value="4.938" />
 
             <com.nerdscorner.covid.stats.ui.custom.RawStat
                 android:id="@+id/active_cases"
@@ -181,19 +181,19 @@
                 app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
                 app:layout_constraintTop_toTopOf="@+id/cti_cases"
                 rawStat:stat_Title="Casos activos"
-                rawStat:stat_Value="4.938" />
+                tools:stat_Value="4.938" />
 
             <com.nerdscorner.covid.stats.ui.custom.RawStat
                 android:id="@+id/recovered_cases"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cti_cases"
                 rawStat:stat_Title="Recuperados"
-                rawStat:stat_Value="4.938" />
+                tools:stat_Value="4.938" />
 
             <com.nerdscorner.covid.stats.ui.custom.RawStat
                 android:id="@+id/total_Recovered"
@@ -204,19 +204,19 @@
                 app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
                 app:layout_constraintTop_toTopOf="@+id/recovered_cases"
                 rawStat:stat_Title="Recuperados totales"
-                rawStat:stat_Value="4.938" />
+                tools:stat_Value="4.938" />
 
             <com.nerdscorner.covid.stats.ui.custom.RawStat
                 android:id="@+id/deceases"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recovered_cases"
                 rawStat:stat_Title="Fallecidos"
-                rawStat:stat_Value="4.938" />
+                tools:stat_Value="4.938" />
 
             <com.nerdscorner.covid.stats.ui.custom.RawStat
                 android:id="@+id/total_deceases"
@@ -227,19 +227,19 @@
                 app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
                 app:layout_constraintTop_toTopOf="@+id/deceases"
                 rawStat:stat_Title="Fallecidos totales"
-                rawStat:stat_Value="4.938" />
+                tools:stat_Value="4.938" />
 
             <com.nerdscorner.covid.stats.ui.custom.RawStat
                 android:id="@+id/new_tests"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/deceases"
                 rawStat:stat_Title="Tests realizados"
-                rawStat:stat_Value="4.938" />
+                tools:stat_Value="4.938" />
 
             <com.nerdscorner.covid.stats.ui.custom.RawStat
                 android:id="@+id/positivity"
@@ -250,19 +250,19 @@
                 app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
                 app:layout_constraintTop_toTopOf="@+id/new_tests"
                 rawStat:stat_Title="% de tests positivos"
-                rawStat:stat_Value="4.938" />
+                tools:stat_Value="4.938" />
 
             <com.nerdscorner.covid.stats.ui.custom.RawStat
                 android:id="@+id/harvard_index"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/new_tests"
                 rawStat:stat_Title="Índice de Harvard"
-                rawStat:stat_Value="4.938" />
+                tools:stat_Value="4.938" />
 
             <com.nerdscorner.covid.stats.ui.custom.RawStat
                 android:id="@+id/index_variation"
@@ -273,7 +273,7 @@
                 app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
                 app:layout_constraintTop_toTopOf="@+id/harvard_index"
                 rawStat:stat_Title="Variación de índice"
-                rawStat:stat_Value="4.938" />
+                tools:stat_Value="4.938" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/vertical_guideline"

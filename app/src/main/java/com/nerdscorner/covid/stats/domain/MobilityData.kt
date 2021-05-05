@@ -7,17 +7,7 @@ import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 
 class MobilityData private constructor() : DataObject() {
 
-    override fun setData(data: String?) {
-        super.setData(data)
-        dataLines = dataLines.map { line ->
-            val dataTokens = line.split(COMMA).toMutableList()
-            val date = dataTokens[INDEX_DATE]
-            dataTokens[INDEX_DATE] = DateUtils.convertUsDateToUyDate(date)
-            dataTokens.joinToString()
-        }.toMutableList()
-    }
-
-    fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
+    fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int = dataLines.size): ILineDataSet {
         return if (stat == mobilityIndexStat) {
             val dataLines = dataLines.map { line ->
                 val dataTokens = line.split(COMMA)
@@ -28,10 +18,51 @@ class MobilityData private constructor() : DataObject() {
                 val mobilityIndex = 0.5f * (transit + retailAndRecreation - residential)
                 "$date,$mobilityIndex"
             }
-            getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor)
+            getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
         } else {
-            getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor)
+            getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
         }
+    }
+
+    override fun setData(data: String?) {
+        super.setData(data)
+        dataLines = dataLines.map { line ->
+            val dataTokens = line.split(COMMA).toMutableList()
+            val date = dataTokens[INDEX_DATE]
+            dataTokens[INDEX_DATE] = DateUtils.convertUsDateToUyDate(date)
+            dataTokens.joinToString()
+        }.toMutableList()
+    }
+
+    override fun getLatestValue(stat: Stat): String {
+        return if (stat.index == INDEX_MOBILITY) {
+            getMobilityIndexAt(dataLines.size - 1)
+        } else {
+            super.getLatestValue(stat)
+        }
+    }
+
+    override fun isTrendingUp(stat: Stat): Boolean {
+        val dataSize = dataLines.size
+        if (dataSize < 2) {
+            return false
+        }
+        return if (stat.index == INDEX_MOBILITY) {
+            val latestValue = getMobilityIndexAt(dataLines.size - 1).toFloatOrNull() ?: 0f
+            val preLatestValue = getMobilityIndexAt(dataLines.size - 2).toFloatOrNull() ?: 0f
+            return (latestValue - preLatestValue) > 0
+        } else {
+            super.isTrendingUp(stat)
+        }
+    }
+
+    private fun getMobilityIndexAt(index: Int): String {
+        val dataTokens = getLineTokensAt(index) ?: return N_A
+        val transit = dataTokens[INDEX_TRANSIT_STATIONS].toFloatOrNull() ?: 0f
+        val retailAndRecreation = dataTokens[INDEX_RETAIL_AND_RECREATION].toFloatOrNull() ?: 0f
+        val residential = dataTokens[INDEX_RESIDENTIAL].toFloatOrNull() ?: 0f
+        val mobilityIndex = 0.5f * (transit + retailAndRecreation - residential)
+        return "$mobilityIndex"
     }
 
     override fun getStats() = listOf(

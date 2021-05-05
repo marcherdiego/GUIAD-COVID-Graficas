@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#FF6200EE</color>
+    <color name="colorPrimaryDark">#2E2E2E</color>
+    <color name="colorPrimaryVariant">#FF3700B3</color>
+    <color name="colorSecondary">#FF03DAC5</color>
+    <color name="colorSecondaryVariant">#FF018786</color>
+
+    <color name="background_color">#000000</color>
+    <color name="background_color_33">#20000000</color>
+    <color name="card_background_color">#151515</color>
+    <color name="button_text_color">#ECECEC</color>
+    
     <color name="raw_stat_background">#2E2E2E</color>
     <color name="raw_stat_buttons_selected_color">#DDDDDD</color>
     <color name="raw_stat_buttons_unselected_color">#404040</color>

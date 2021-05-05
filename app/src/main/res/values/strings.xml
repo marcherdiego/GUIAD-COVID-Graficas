@@ -31,6 +31,10 @@
     <string name="cti_stats_title">Datos CTI</string>
     <string name="data_by_city_stats_title">Datos por departamento</string>
     <string name="today">Hoy</string>
+    <string name="view_more">Ver más</string>
+    <string name="ok">Entendido</string>
+    <string name="rotate_device_disclaimer">Gira tu dispositivo para visualizar mejor las gráficas</string>
+    <string name="not_available">N/A</string>
 
     <!-- Plurals -->
     <plurals name="selected_stats">

@@ -70,10 +70,6 @@ class MessageDialogFragment : DialogFragment() {
         } while (parentView != null)
     }
 
-    fun show(fm: FragmentManager) {
-        show(fm, TAG)
-    }
-
     fun onPrimaryActionButtonClicked() {
         dismiss()
         primaryActionCallback?.invoke()

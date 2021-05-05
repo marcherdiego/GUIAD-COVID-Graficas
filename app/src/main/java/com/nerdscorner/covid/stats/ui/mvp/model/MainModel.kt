@@ -58,6 +58,16 @@ class MainModel : BaseEventsModel() {
         SharedPreferencesUtils.saveLastUpdateDateTime(dateTime)
     }
 
+    fun setRotateDeviceDialogShown() {
+        SharedPreferencesUtils.setRotateDeviceDialogShown(true)
+    }
+
+    fun shouldShowRotateDeviceDialog() = SharedPreferencesUtils.getRotateDeviceDialogShown().not()
+    
+    fun getAllCities() = CitiesData.getAllCities()
+    
+    fun getAllCitiesNames() =  CitiesData.getAllCitiesNamesIncludingAll()
+
     class StatsFetchedSuccessfullyEvent
     class StatsFetchedFailedEvent
     

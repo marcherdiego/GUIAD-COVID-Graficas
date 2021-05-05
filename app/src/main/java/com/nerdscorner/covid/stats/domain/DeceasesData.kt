@@ -6,7 +6,13 @@ import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 
 class DeceasesData private constructor() : DataObject() {
 
-    fun getDataSet(stat: Stat, selectedCities: List<String>, @ColorInt color: Int, @ColorInt valueTextColor: Int): ILineDataSet {
+    fun getDataSet(
+        stat: Stat,
+        selectedCities: List<String>,
+        @ColorInt color: Int,
+        @ColorInt valueTextColor: Int,
+        limit: Int = dataLines.size
+    ): ILineDataSet {
         var dataMap = dataLines.groupBy {
             it.split(COMMA)[stat.index]
         }
@@ -29,7 +35,7 @@ class DeceasesData private constructor() : DataObject() {
                 .reduce { acc, s -> acc + s }
             return@map "$date,$valuesSum"
         }
-        return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor)
+        return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
     }
 
     override fun getStats() = listOf(dateStat, ageStat)
@@ -47,7 +53,7 @@ class DeceasesData private constructor() : DataObject() {
         private const val INDEX_CITY = 1
         private const val INDEX_AGE = 2
 
-        private val dateStat = Stat("Por fecha", INDEX_DATE)
-        private val ageStat = Stat("Por edades", INDEX_AGE, isSorted = true)
+        val dateStat = Stat("Por fecha", INDEX_DATE)
+        val ageStat = Stat("Por edades", INDEX_AGE, isSorted = true)
     }
 }

@@ -3,11 +3,14 @@ package com.nerdscorner.covid.stats.ui.mvp.presenter
 import android.view.Menu
 import android.view.MenuItem
 import com.nerdscorner.covid.stats.R
+import com.nerdscorner.covid.stats.domain.*
 import com.nerdscorner.covid.stats.ui.activities.*
 import com.nerdscorner.covid.stats.ui.fragment.MessageDialogFragment
 import com.nerdscorner.covid.stats.ui.fragment.ProgressDialogFragment
+import com.nerdscorner.covid.stats.ui.fragment.RotateDeviceDialogFragment
 import com.nerdscorner.covid.stats.ui.mvp.model.MainModel
 import com.nerdscorner.covid.stats.ui.mvp.view.MainView
+import com.nerdscorner.covid.stats.utils.ColorUtils
 import com.nerdscorner.mvplib.events.presenter.BaseActivityPresenter
 import org.greenrobot.eventbus.Subscribe
 
@@ -17,7 +20,7 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     private var errorDialog: MessageDialogFragment? = null
 
     init {
-        refreshLastUpdateTime()
+        refreshWidgetsState()
     }
 
     @Subscribe
@@ -59,7 +62,7 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     fun onStatsFetchedSuccessfully(event: MainModel.StatsFetchedSuccessfullyEvent) {
         MainModel.hasData = true
         model.setLastUpdateDateTime()
-        refreshLastUpdateTime()
+        refreshWidgetsState()
         hideLoadingState()
     }
 
@@ -69,14 +72,128 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
         showErrorState()
     }
 
-    @Subscribe
-    fun onCreditsButtonClicked(event: MainView.CreditsButtonClickedEvent) {
-        startActivity(CreditsActivity::class.java)
-    }
-
-    private fun refreshLastUpdateTime() {
+    private fun refreshWidgetsState() {
         val lastUpdate = model.getLastUpdateDateTime() ?: "Nunca"
         view.setLastUpdateDate("Última actualización: $lastUpdate")
+        if (MainModel.hasData.not()) {
+            return
+        }
+        
+        val graphColor = ColorUtils.getColor(5)
+
+        // CTI data 
+        val ctiData = CtiData.getInstance()
+        val ctiStat = CtiData.patientsQuantityStat
+        val ctiDataSet = ctiData.getDataSet(
+            ctiStat,
+            graphColor,
+            graphColor,
+            HOME_CHARTS_DATA_LIMIT
+        )
+        view.setupCtiCard(
+            ctiDataSet,
+            ctiStat.name,
+            ctiData.getLatestValue(ctiStat),
+            ctiData.isTrendingUp(ctiStat)
+        )
+
+        // Cities data 
+        val citiesData = CitiesData.getInstance()
+        val citiesStat = CitiesData.inCourseStat
+        val citiesDataSet = citiesData.getDataSet(
+            citiesStat,
+            model.getAllCities(),
+            graphColor,
+            graphColor,
+            HOME_CHARTS_DATA_LIMIT
+        )
+        view.setupCitiesCard(
+            citiesDataSet,
+            citiesStat.name,
+            citiesData.getLatestValue(citiesStat),
+            citiesData.isTrendingUp(citiesStat)
+        )
+
+        // Generals data 
+        val generalsData = GeneralStatsData.getInstance()
+        val generalsStat = GeneralStatsData.inCourseStat
+        val generalsDataSet = generalsData.getDataSet(
+            generalsStat,
+            graphColor,
+            graphColor,
+            HOME_CHARTS_DATA_LIMIT
+        )
+        view.setupGeneralsCard(
+            generalsDataSet,
+            generalsStat.name,
+            generalsData.getLatestValue(generalsStat),
+            generalsData.isTrendingUp(generalsStat)
+        )
+
+        // Deceases data 
+        val deceasesData = DeceasesData.getInstance()
+        val deceasesStat = DeceasesData.ageStat
+        val deceasesDataSet = deceasesData.getDataSet(
+            deceasesStat,
+            model.getAllCitiesNames(),
+            graphColor,
+            graphColor,
+            HOME_CHARTS_DATA_LIMIT
+        )
+        view.setupDeceasesCard(
+            deceasesDataSet,
+            deceasesStat.name,
+            deceasesData.getLatestValue(deceasesStat),
+            deceasesData.isTrendingUp(deceasesStat)
+        )
+
+        // P7 data 
+        val p7Data = P7Data.getInstance()
+        val p7Stat = P7Data.p7Stat
+        val p7DataSet = p7Data.getDataSet(
+            p7Stat,
+            graphColor,
+            graphColor,
+            HOME_CHARTS_DATA_LIMIT
+        )
+        view.setupP7Card(
+            p7DataSet,
+            p7Stat.name,
+            p7Data.getLatestValue(p7Stat),
+            p7Data.isTrendingUp(p7Stat)
+        )
+
+        // Mobility data 
+        val mobilityData = MobilityData.getInstance()
+        val mobilityStat = MobilityData.mobilityIndexStat
+        val mobilityDataSet = mobilityData.getDataSet(
+            mobilityStat,
+            graphColor,
+            graphColor,
+            HOME_CHARTS_DATA_LIMIT
+        )
+        view.setupMobilityCard(
+            mobilityDataSet,
+            mobilityStat.name,
+            mobilityData.getLatestValue(mobilityStat),
+            mobilityData.isTrendingUp(mobilityStat)
+        )
+
+        // Raw data 
+        val rawData = GeneralStatsData.getInstance()
+        val rawStat = GeneralStatsData.positivityStat
+        val rawDataSet = rawData.getDataSet(
+            rawStat,
+            graphColor,
+            graphColor,
+            HOME_CHARTS_DATA_LIMIT
+        )
+        view.setupRawDataCard(
+            rawDataSet,
+            rawStat.name,
+            rawData.getLatestValue(rawStat),
+            rawData.isTrendingUp(rawStat)
+        )
     }
 
     private fun showLoadingState() {
@@ -129,6 +246,12 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     override fun onResume() {
         super.onResume()
         triggerRefreshData(MainModel.hasData.not())
+        if (model.shouldShowRotateDeviceDialog()) {
+            view.withFragmentManager {
+                RotateDeviceDialogFragment.show(this)
+            }
+            model.setRotateDeviceDialogShown()
+        }
     }
 
     override fun onPause() {
@@ -145,7 +268,12 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_refresh -> triggerRefreshData(true)
+            R.id.action_credits -> startActivity(CreditsActivity::class.java)
         }
         return true
+    }
+
+    companion object {
+        private const val HOME_CHARTS_DATA_LIMIT = 30
     }
 }

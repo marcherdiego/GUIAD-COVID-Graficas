@@ -2,6 +2,10 @@
 <resources>
     <declare-styleable name="RawStat">
         <attr name="stat_Title" format="string" />
-        <attr name="stat_Value" format="string" />
+    </declare-styleable>
+    
+    <declare-styleable name="StatCard">
+        <attr name="stat_Name" format="string" />
+        <attr name="stat_Icon" format="reference" />
     </declare-styleable>
 </resources>
