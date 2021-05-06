@@ -11,7 +11,7 @@ class DeceasesData private constructor() : DataObject() {
         selectedCities: List<String>,
         @ColorInt color: Int,
         @ColorInt valueTextColor: Int,
-        limit: Int = dataLines.size
+        limit: Int? = null
     ): ILineDataSet {
         var dataMap = dataLines.groupBy { it.split(COMMA)[stat.index] }
         if (stat.isSorted) {

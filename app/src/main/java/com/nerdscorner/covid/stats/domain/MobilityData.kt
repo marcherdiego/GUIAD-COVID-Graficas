@@ -7,7 +7,7 @@ import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 
 class MobilityData private constructor() : DataObject() {
 
-    fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int = dataLines.size): ILineDataSet {
+    fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
         return if (stat == mobilityIndexStat) {
             val dataLines = dataLines.map { line ->
                 val dataTokens = line.split(COMMA)

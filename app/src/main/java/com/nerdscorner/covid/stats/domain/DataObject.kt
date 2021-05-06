@@ -46,7 +46,7 @@ abstract class DataObject {
         label: String,
         @ColorInt color: Int,
         @ColorInt valueTextColor: Int,
-        limit: Int
+        limit: Int?
     ): ILineDataSet {
         val entries = dataLines
             .filterNot { it.trim() == EMPTY_STRING }
@@ -65,13 +65,13 @@ abstract class DataObject {
         }
     }
 
-    private fun getDataLimit(dataLines: List<String>, limit: Int): Int {
-        return if (limit != dataLines.size) {
+    private fun getDataLimit(dataLines: List<String>, limit: Int?): Int {
+        return if (limit != null) {
             limit
         } else {
             val selectedRangeIndex = SharedPreferencesUtils.getSelectedDataRangeIndex()
             val selectedDataRange = RangeUtils.getDaysCountForRangeIndex(selectedRangeIndex, dataLines.size)
-            min(min(dataLines.size, limit), selectedDataRange)
+            min(dataLines.size, selectedDataRange)
         }
     }
 

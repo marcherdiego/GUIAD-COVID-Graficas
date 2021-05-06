@@ -11,7 +11,7 @@ class P7Data private constructor() : DataObject() {
 
     private val cachedDatesIndexes = mutableListOf<String>()
 
-    fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int = dataLines.size): ILineDataSet {
+    fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
         return getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
     }
 

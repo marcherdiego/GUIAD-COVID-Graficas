@@ -38,10 +38,6 @@ class DatePicker @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
     }
 
-    fun setEditable(editable: Boolean) {
-        this.editable = editable
-    }
-
     fun setDate(date: Date, manualUpdate: Boolean = false) {
         this.date = date
         text = DateUtils.formatDate(date)

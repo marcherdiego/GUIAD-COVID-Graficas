@@ -11,7 +11,7 @@ class P7ByCityData private constructor() : DataObject() {
         selectedCities: List<String>,
         @ColorInt color: Int,
         @ColorInt valueTextColor: Int,
-        limit: Int = dataLines.size
+        limit: Int? = null
     ): ILineDataSet {
         val dataLines = dataLines
             .groupBy { it.split(COMMA)[INDEX_DATE] }

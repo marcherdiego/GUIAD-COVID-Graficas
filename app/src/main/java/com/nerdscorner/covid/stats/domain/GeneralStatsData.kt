@@ -6,7 +6,7 @@ import com.nerdscorner.covid.stats.extensions.format
 import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 
 class GeneralStatsData private constructor() : DataObject() {
-    fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int = dataLines.size): ILineDataSet {
+    fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
         return getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
     }
 
