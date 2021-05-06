@@ -2,6 +2,7 @@ package com.nerdscorner.covid.stats.ui.mvp.presenter
 
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.ColorInt
 import com.nerdscorner.covid.stats.R
 import com.nerdscorner.covid.stats.domain.*
 import com.nerdscorner.covid.stats.ui.activities.*
@@ -12,6 +13,7 @@ import com.nerdscorner.covid.stats.ui.mvp.model.MainModel
 import com.nerdscorner.covid.stats.ui.mvp.view.MainView
 import com.nerdscorner.covid.stats.utils.ColorUtils
 import com.nerdscorner.mvplib.events.presenter.BaseActivityPresenter
+import kotlinx.coroutines.*
 import org.greenrobot.eventbus.Subscribe
 
 class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<MainView, MainModel>(view, model) {
@@ -78,121 +80,172 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
         if (MainModel.hasData.not()) {
             return
         }
-        
-        val graphColor = ColorUtils.getColor(5)
 
-        // CTI data 
-        val ctiData = CtiData.getInstance()
-        val ctiStat = CtiData.patientsQuantityStat
-        val ctiDataSet = ctiData.getDataSet(
-            ctiStat,
-            graphColor,
-            graphColor,
-            HOME_CHARTS_DATA_LIMIT
-        )
-        view.setupCtiCard(
-            ctiDataSet,
-            ctiStat.name,
-            ctiData.getLatestValue(ctiStat),
-            ctiData.isTrendingUp(ctiStat)
-        )
+        val baseColorIndex = 5
+        val graphColor = ColorUtils.getColor(baseColorIndex)
+        buildCtiStatChart(graphColor)
+        buildCitiesDataChart(baseColorIndex)
+        buildGeneralsDaraChart(graphColor)
+        buildDeceasesDataChart(graphColor)
+        buildP7DataChart(graphColor)
+        buildMobilityDataChart(graphColor)
+        buildRawDataChart(graphColor)
+    }
 
-        // Cities data 
-        val citiesData = CitiesData.getInstance()
-        val citiesStat = CitiesData.inCourseStat
-        val citiesDataSet = citiesData.getDataSet(
-            citiesStat,
-            model.getAllCities(),
-            graphColor,
-            graphColor,
-            HOME_CHARTS_DATA_LIMIT
-        )
-        view.setupCitiesCard(
-            citiesDataSet,
-            citiesStat.name,
-            citiesData.getLatestValue(citiesStat),
-            citiesData.isTrendingUp(citiesStat)
-        )
+    private fun buildGeneralsDaraChart(@ColorInt graphColor: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val generalsData = GeneralStatsData.getInstance()
+            val generalsStat = GeneralStatsData.inCourseStat
+            val generalsDataSet = withContext(Dispatchers.Default) {
+                generalsData.getDataSet(
+                    generalsStat,
+                    graphColor,
+                    graphColor,
+                    HOME_CHARTS_DATA_LIMIT
+                )
+            }
+            view.setupGeneralsCard(
+                generalsDataSet,
+                generalsStat.name,
+                generalsData.getLatestValue(generalsStat),
+                generalsData.isTrendingUp(generalsStat)
+            )
+        }
+    }
 
-        // Generals data 
-        val generalsData = GeneralStatsData.getInstance()
-        val generalsStat = GeneralStatsData.inCourseStat
-        val generalsDataSet = generalsData.getDataSet(
-            generalsStat,
-            graphColor,
-            graphColor,
-            HOME_CHARTS_DATA_LIMIT
-        )
-        view.setupGeneralsCard(
-            generalsDataSet,
-            generalsStat.name,
-            generalsData.getLatestValue(generalsStat),
-            generalsData.isTrendingUp(generalsStat)
-        )
+    private fun buildDeceasesDataChart(@ColorInt graphColor: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val deceasesData = GeneralStatsData.getInstance()
+            val deceasesStat = GeneralStatsData.newDeceasesStat
+            val deceasesDataSet = withContext(Dispatchers.Default) {
+                deceasesData.getDataSet(
+                    deceasesStat,
+                    graphColor,
+                    graphColor,
+                    HOME_CHARTS_DATA_LIMIT
+                )
+            }
+            view.setupDeceasesCard(
+                deceasesDataSet,
+                deceasesStat.name,
+                deceasesData.getLatestValue(deceasesStat),
+                deceasesData.isTrendingUp(deceasesStat)
+            )
+        }
+    }
 
-        // Deceases data 
-        val deceasesData = GeneralStatsData.getInstance()
-        val deceasesStat = GeneralStatsData.newDeceasesStat
-        val deceasesDataSet = deceasesData.getDataSet(
-            deceasesStat,
-            graphColor,
-            graphColor,
-            HOME_CHARTS_DATA_LIMIT
-        )
-        view.setupDeceasesCard(
-            deceasesDataSet,
-            deceasesStat.name,
-            deceasesData.getLatestValue(deceasesStat),
-            deceasesData.isTrendingUp(deceasesStat)
-        )
+    private fun buildP7DataChart(@ColorInt graphColor: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val p7Data = P7Data.getInstance()
+            val p7Stat = P7Data.p7Stat
+            val p7DataSet = withContext(Dispatchers.Default) {
+                p7Data.getDataSet(
+                    p7Stat,
+                    graphColor,
+                    graphColor,
+                    HOME_CHARTS_DATA_LIMIT
+                )
+            }
+            view.setupP7Card(
+                p7DataSet,
+                p7Stat.name,
+                p7Data.getLatestValue(p7Stat),
+                p7Data.isTrendingUp(p7Stat)
+            )
+        }
+    }
 
-        // P7 data 
-        val p7Data = P7Data.getInstance()
-        val p7Stat = P7Data.p7Stat
-        val p7DataSet = p7Data.getDataSet(
-            p7Stat,
-            graphColor,
-            graphColor,
-            HOME_CHARTS_DATA_LIMIT
-        )
-        view.setupP7Card(
-            p7DataSet,
-            p7Stat.name,
-            p7Data.getLatestValue(p7Stat),
-            p7Data.isTrendingUp(p7Stat)
-        )
+    private fun buildMobilityDataChart(@ColorInt graphColor: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val mobilityData = MobilityData.getInstance()
+            val mobilityStat = MobilityData.mobilityIndexStat
+            val mobilityDataSet = withContext(Dispatchers.Default) {
+                mobilityData.getDataSet(
+                    mobilityStat,
+                    graphColor,
+                    graphColor,
+                    HOME_CHARTS_DATA_LIMIT
+                )
+            }
+            view.setupMobilityCard(
+                mobilityDataSet,
+                mobilityStat.name,
+                mobilityData.getLatestValue(mobilityStat),
+                mobilityData.isTrendingUp(mobilityStat)
+            )
+        }
+    }
 
-        // Mobility data 
-        val mobilityData = MobilityData.getInstance()
-        val mobilityStat = MobilityData.mobilityIndexStat
-        val mobilityDataSet = mobilityData.getDataSet(
-            mobilityStat,
-            graphColor,
-            graphColor,
-            HOME_CHARTS_DATA_LIMIT
-        )
-        view.setupMobilityCard(
-            mobilityDataSet,
-            mobilityStat.name,
-            mobilityData.getLatestValue(mobilityStat),
-            mobilityData.isTrendingUp(mobilityStat)
-        )
+    private fun buildRawDataChart(@ColorInt graphColor: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val rawData = GeneralStatsData.getInstance()
+            val rawStat = GeneralStatsData.positivityStat
+            val rawDataSet = withContext(Dispatchers.Default) {
+                rawData.getDataSet(
+                    rawStat,
+                    graphColor,
+                    graphColor,
+                    HOME_CHARTS_DATA_LIMIT
+                )
+            }
+            view.setupRawDataCard(
+                rawDataSet,
+                rawStat.name,
+                rawData.getLatestValue(rawStat),
+                rawData.isTrendingUp(rawStat)
+            )
+        }
+    }
 
-        // Raw data 
-        val rawData = GeneralStatsData.getInstance()
-        val rawStat = GeneralStatsData.positivityStat
-        val rawDataSet = rawData.getDataSet(
-            rawStat,
-            graphColor,
-            graphColor,
-            HOME_CHARTS_DATA_LIMIT
-        )
-        view.setupRawDataCard(
-            rawDataSet,
-            rawStat.name,
-            rawData.getLatestValue(rawStat),
-            rawData.isTrendingUp(rawStat)
-        )
+    private fun buildCitiesDataChart(baseColorIndex: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val citiesData = CitiesData.getInstance()
+            val citiesStat = CitiesData.inCourseStat
+            val citiesDataSets = withContext(Dispatchers.Default) {
+                model
+                    .getAllCities()
+                    .drop(1)
+                    .mapIndexed { index, city ->
+                        val chartColor = ColorUtils.getColor(baseColorIndex + index)
+                        citiesData.getDataSet(
+                            citiesStat,
+                            listOf(city),
+                            chartColor,
+                            chartColor,
+                            HOME_CHARTS_DATA_LIMIT
+                        )
+                    }
+            }
+            // Cities data
+            view.setupCitiesCard(
+                citiesDataSets,
+                citiesStat.name,
+                citiesData.getLatestValue(citiesStat),
+                citiesData.isTrendingUp(citiesStat)
+            )
+        }
+    }
+
+    private fun buildCtiStatChart(@ColorInt graphColor: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val ctiData = CtiData.getInstance()
+            val ctiStat = CtiData.patientsQuantityStat
+            val ctiDataSet = withContext(Dispatchers.Default) {
+                ctiData.getDataSet(
+                    ctiStat,
+                    graphColor,
+                    graphColor,
+                    HOME_CHARTS_DATA_LIMIT
+                )
+            }
+            // CTI data
+            view.setupCtiCard(
+                ctiDataSet,
+                ctiStat.name,
+                ctiData.getLatestValue(ctiStat),
+                ctiData.isTrendingUp(ctiStat)
+            )
+        }
     }
 
     private fun showLoadingState() {

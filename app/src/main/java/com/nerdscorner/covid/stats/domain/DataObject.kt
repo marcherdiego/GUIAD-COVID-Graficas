@@ -23,8 +23,7 @@ abstract class DataObject {
     }
 
     open fun isTrendingUp(stat: Stat): Boolean {
-        val dataSize = dataLines.size
-        if (dataSize < 2) {
+        if (dataLines.size < 2) {
             return false
         }
         val latestValue = getValueAt(dataLines.size - 1, stat)?.toFloatOrNull()?.times(stat.factor) ?: 0f

@@ -13,7 +13,12 @@ class CitiesData private constructor() : DataObject() {
         @ColorInt valueTextColor: Int,
         limit: Int? = null
     ): ILineDataSet {
-        val dataLines = dataLines
+        val dataLines = getDataLinesForCities(stat, selectedCities)
+        return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
+    }
+    
+    private fun getDataLinesForCities(stat: Stat, selectedCities: List<String>): List<String> {
+        return dataLines
             .groupBy { it.split(COMMA)[INDEX_DATE] }
             .map { dateEntries ->
                 val date = dateEntries.key
@@ -31,7 +36,21 @@ class CitiesData private constructor() : DataObject() {
                     .reduce { acc, s -> acc + s }
                 return@map "$date,$valuesSum"
             }
-        return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
+    }
+
+    override fun getLatestValue(stat: Stat): String {
+        val dataLines = getDataLinesForCities(stat, getAllCities().drop(1))
+        return dataLines.getOrNull(dataLines.size - 1)?.split(COMMA)?.get(1)?.toFloatOrNull()?.times(stat.factor)?.toString() ?: N_A
+    }
+
+    override fun isTrendingUp(stat: Stat): Boolean {
+        val dataLines = getDataLinesForCities(stat, getAllCities().drop(1))
+        if (dataLines.size < 2) {
+            return false
+        }
+        val latestValue = dataLines.getOrNull(dataLines.size - 1)?.split(COMMA)?.get(1)?.toFloatOrNull()?.times(stat.factor) ?: 0f
+        val preLatestValue = dataLines.getOrNull(dataLines.size - 2)?.split(COMMA)?.get(1)?.toFloatOrNull()?.times(stat.factor) ?: 0f
+        return (latestValue - preLatestValue) > 0
     }
 
     override fun getStats() = listOf(

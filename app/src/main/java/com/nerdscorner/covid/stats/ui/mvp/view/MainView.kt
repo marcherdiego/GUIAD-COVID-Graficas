@@ -25,7 +25,7 @@ class MainView(activity: MainActivity) : BaseActivityView(activity) {
         }
     }
 
-    fun setupCitiesCard(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+    fun setupCitiesCard(chartData: List<ILineDataSet>, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
         citiesCard.setup(chartData, statLabel, latestValue, isTrendingUp)
         citiesCard.setOnClickListener {
             bus.post(CitiesButtonClickedEvent())

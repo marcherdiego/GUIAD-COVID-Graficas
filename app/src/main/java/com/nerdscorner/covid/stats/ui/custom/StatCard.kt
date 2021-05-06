@@ -43,7 +43,7 @@ class StatCard @JvmOverloads constructor(
     }
 
     private fun setupChartWidget() {
-        chart.setNoDataText(context.getString(R.string.no_data_selected))
+        chart.setNoDataText(context.getString(R.string.building_chart))
         chart.setNoDataTextColor(ContextCompat.getColor(context, R.color.graph_text_color))
         chart.xAxis.isEnabled = false
         chart.getAxis(YAxis.AxisDependency.LEFT).isEnabled = false
@@ -54,7 +54,13 @@ class StatCard @JvmOverloads constructor(
     }
 
     fun setup(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
-        chartData.setDrawValues(false)
+        setup(listOf(chartData), statLabel, latestValue, isTrendingUp)
+    }
+
+    fun setup(chartData: List<ILineDataSet>, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+        chartData.forEach {
+            it.setDrawValues(false)
+        }
         chart.data = LineData(chartData)
         chart.invalidate()
         this.statLabel.text = statLabel
