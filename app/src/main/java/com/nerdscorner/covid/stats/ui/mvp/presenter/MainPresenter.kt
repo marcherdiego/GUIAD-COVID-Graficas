@@ -131,11 +131,10 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
         )
 
         // Deceases data 
-        val deceasesData = DeceasesData.getInstance()
-        val deceasesStat = DeceasesData.ageStat
+        val deceasesData = GeneralStatsData.getInstance()
+        val deceasesStat = GeneralStatsData.newDeceasesStat
         val deceasesDataSet = deceasesData.getDataSet(
             deceasesStat,
-            model.getAllCitiesNames(),
             graphColor,
             graphColor,
             HOME_CHARTS_DATA_LIMIT

@@ -66,8 +66,6 @@ class MainModel : BaseEventsModel() {
     
     fun getAllCities() = CitiesData.getAllCities()
     
-    fun getAllCitiesNames() =  CitiesData.getAllCitiesNamesIncludingAll()
-
     class StatsFetchedSuccessfullyEvent
     class StatsFetchedFailedEvent
     

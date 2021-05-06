@@ -36,8 +36,11 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
         citiesSelector?.setItemSelectedListener {
             bus.post(CitySelectedEvent(it))
         }
+        
+        val chartPadding = activity.resources.getDimensionPixelSize(R.dimen.chart_padding).toFloat()
         chart.setNoDataText(activity.getString(R.string.no_data_selected))
         chart.setNoDataTextColor(ContextCompat.getColor(activity, R.color.graph_text_color))
+        chart.setExtraOffsets(chartPadding, chartPadding, chartPadding, chartPadding)
         chart.isHighlightPerDragEnabled = true
         chart.isHighlightPerTapEnabled = true
         chart.marker = ChartMarker(activity, R.layout.custom_chart_marker)

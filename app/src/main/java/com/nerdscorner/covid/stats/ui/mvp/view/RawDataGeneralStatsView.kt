@@ -69,18 +69,19 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
         activity.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
         }
-        chart.setNoDataText(activity.getString(R.string.no_data_selected))
+        val chartPadding = activity.resources.getDimensionPixelSize(R.dimen.chart_padding).toFloat()
+        chart.setNoDataText(activity.getString(R.string.select_a_stat))
         chart.setNoDataTextColor(ContextCompat.getColor(activity, R.color.graph_text_color))
+        chart.setExtraOffsets(chartPadding, chartPadding, chartPadding, chartPadding)
         chart.isHighlightPerDragEnabled = true
         chart.isHighlightPerTapEnabled = true
         chart.marker = ChartMarker(activity, R.layout.custom_chart_marker)
         chart.legend.isEnabled = false
         chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onValueSelected(entry: Entry?, h: Highlight?) {
-                if (manualHighlightUpdate) {
-                    return
+                if (manualHighlightUpdate.not()) {
+                    bus.post(ChartValueSelectedEvent(entry))
                 }
-                bus.post(ChartValueSelectedEvent(entry))
             }
 
             override fun onNothingSelected() {
