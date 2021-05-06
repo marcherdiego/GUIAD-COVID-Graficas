@@ -9,6 +9,8 @@ import com.nerdscorner.covid.stats.utils.ColorUtils
 import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 import com.nerdscorner.covid.stats.utils.isSameDayOrAfter
 import com.nerdscorner.covid.stats.utils.isSameDayOrBefore
+import com.nerdscorner.events.coroutines.extensions.runAsync
+import com.nerdscorner.events.coroutines.extensions.withResult
 import com.nerdscorner.mvplib.events.model.BaseEventsModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -44,23 +46,34 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
         setDateFieldOffset(Calendar.MONTH, offset)
     }
 
-    fun getDataSet(): List<ILineDataSet> {
-        val generalStatsDataSet = selectedStats
-            .filter {
-                it != P7Data.p7Stat
+    fun buildDataSets() {
+        withResult(
+            resultFunc = ::createDataSets,
+            success = {
+                bus.post(DataSetsBuiltEvent(this!!))
             }
-            .map { stat ->
-                val chartColor = ColorUtils.getColor(stat.index)
-                generalStatsData.getDataSet(stat, chartColor, chartColor)
-            }
-        val p7DataSet = selectedStats
-            .filter {
-                it == P7Data.p7Stat
-            }.map { stat ->
-                val chartColor = ColorUtils.getColor(generalStatsData.getStats().size + stat.index)
-                p7Data.getDataSet(stat, chartColor, chartColor)
-            }
-        return generalStatsDataSet.union(p7DataSet).toList()
+        )
+    }
+
+    private suspend fun createDataSets(): List<ILineDataSet> {
+        return runAsync {
+            val generalStatsDataSet = selectedStats
+                .filter {
+                    it != P7Data.p7Stat
+                }
+                .map { stat ->
+                    val chartColor = ColorUtils.getColor(stat.index)
+                    generalStatsData.getDataSet(stat, chartColor, chartColor)
+                }
+            val p7DataSet = selectedStats
+                .filter {
+                    it == P7Data.p7Stat
+                }.map { stat ->
+                    val chartColor = ColorUtils.getColor(generalStatsData.getStats().size + stat.index)
+                    p7Data.getDataSet(stat, chartColor, chartColor)
+                }
+            generalStatsDataSet.union(p7DataSet).toList()
+        }.await()
     }
 
     fun getXValueForDate(): Float {
@@ -132,6 +145,8 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
                 }
         }
     }
+
+    class DataSetsBuiltEvent(val dataSets: List<ILineDataSet>)
 
     companion object {
         val MIN_DATE: Date = GregorianCalendar(2020, 2, 13).time //March = 2

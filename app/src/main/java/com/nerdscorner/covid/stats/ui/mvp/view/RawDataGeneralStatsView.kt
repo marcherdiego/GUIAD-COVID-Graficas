@@ -67,7 +67,7 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
     private val chart: LineChart = activity.findViewById(R.id.chart)
     private val legendsContainer: FlowLayout = activity.findViewById(R.id.legends_container)
 
-    var manualHighlightUpdate = false
+    private var manualHighlightUpdate = false
 
     init {
         activity.supportActionBar?.apply {
@@ -197,6 +197,7 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
     }
 
     fun setChartSelectedItem(x: Float) {
+        manualHighlightUpdate = true
         if (x == -1f) {
             chart.highlightValue(null)
         } else {
@@ -204,6 +205,7 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
                 chart.highlightValue(x, 0)
             }
         }
+        manualHighlightUpdate = false
     }
 
     private fun styleAxis(dataSet: ILineDataSet) {

@@ -1,52 +1,48 @@
 package com.nerdscorner.covid.stats.ui.mvp.model
 
 import com.nerdscorner.covid.stats.domain.*
-import com.nerdscorner.covid.stats.exceptions.NetworkException
 import com.nerdscorner.covid.stats.networking.ServiceGenerator
 import com.nerdscorner.covid.stats.networking.StatsService
-import com.nerdscorner.covid.stats.networking.enqueueResponseNotNull
 import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
+import com.nerdscorner.events.coroutines.extensions.withResult
 import com.nerdscorner.mvplib.events.model.BaseEventsModel
-import retrofit2.Call
+import kotlinx.coroutines.Job
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.reflect.KSuspendFunction0
 
 class MainModel : BaseEventsModel() {
     private val statsService = ServiceGenerator.createService(StatsService::class.java)
-    private val enqueuedCalls = mutableListOf<Call<*>>()
-    private val failedRequestCallback: (NetworkException) -> Unit = {
-        it.throwable?.printStackTrace()
-        bus.post(StatsFetchedFailedEvent())
-    }
+    private val jobs = mutableMapOf<Int, Job>()
 
     fun fetchStats() {
-        enqueuedCalls.forEach {
-            it.cancel()
-        }
-        enqueuedCalls.clear()
-        fetchStat(statsService.getStatsByCity(), CitiesData.getInstance())
-        fetchStat(statsService.getCtiStats(), CtiData.getInstance())
-        fetchStat(statsService.getDeceases(), DeceasesData.getInstance())
-        fetchStat(statsService.getGeneralStats(), GeneralStatsData.getInstance())
-        fetchStat(statsService.getP7StatisticsByCity(), P7ByCityData.getInstance())
-        fetchStat(statsService.getP7Statistics(), P7Data.getInstance())
-        fetchStat(statsService.getMobilityStats(), MobilityData.getInstance())
+        cancelPendingJobs()
+        fetchStat(0, statsService::getStatsByCity, CitiesData.getInstance())
+        fetchStat(1, statsService::getCtiStats, CtiData.getInstance())
+        fetchStat(2, statsService::getDeceases, DeceasesData.getInstance())
+        fetchStat(3, statsService::getGeneralStats, GeneralStatsData.getInstance())
+        fetchStat(4, statsService::getP7StatisticsByCity, P7ByCityData.getInstance())
+        fetchStat(5, statsService::getP7Statistics, P7Data.getInstance())
+        fetchStat(6, statsService::getMobilityStats, MobilityData.getInstance())
     }
 
-    private fun fetchStat(call: Call<String>, dataObject: DataObject) {
-        call.enqueueResponseNotNull(
+    private fun fetchStat(key: Int, call: KSuspendFunction0<String>, dataObject: DataObject) {
+        jobs[key] = withResult(
+            resultFunc = call,
             success = {
-                dataObject.setData(it.trim())
-                removePendingCall(call)
+                dataObject.setData(this!!.trim())
+                removePendingJob(key)
             },
-            fail = failedRequestCallback
+            fail = {
+                printStackTrace()
+                bus.post(StatsFetchedFailedEvent())
+            }
         )
-        enqueuedCalls.add(call)
     }
 
-    private fun removePendingCall(call: Call<*>) {
-        enqueuedCalls.remove(call)
-        if (enqueuedCalls.isEmpty()) {
+    private fun removePendingJob(key: Int) {
+        jobs.remove(key)
+        if (jobs.isEmpty()) {
             bus.post(StatsFetchedSuccessfullyEvent())
         }
     }
@@ -63,12 +59,21 @@ class MainModel : BaseEventsModel() {
     }
 
     fun shouldShowRotateDeviceDialog() = SharedPreferencesUtils.getRotateDeviceDialogShown().not()
-    
+
     fun getAllCities() = CitiesData.getAllCities()
-    
+
+    fun cancelPendingJobs() {
+        synchronized(jobs) {
+            jobs.values.forEach {
+                it.cancel()
+            }
+            jobs.clear()
+        }
+    }
+
     class StatsFetchedSuccessfullyEvent
     class StatsFetchedFailedEvent
-    
+
     companion object {
         var hasData = false
     }

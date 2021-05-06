@@ -5,6 +5,8 @@ import com.nerdscorner.covid.stats.domain.CitiesData
 import com.nerdscorner.covid.stats.domain.P7ByCityData
 import com.nerdscorner.covid.stats.domain.P7Data
 import com.nerdscorner.covid.stats.utils.ColorUtils
+import com.nerdscorner.events.coroutines.extensions.runAsync
+import com.nerdscorner.events.coroutines.extensions.withResult
 
 class P7StatsModel : StatsModel() {
     private var p7Data = P7Data.getInstance()
@@ -21,15 +23,30 @@ class P7StatsModel : StatsModel() {
             .toList()
     }
 
-    override fun getDataSet(): List<ILineDataSet> {
-        val selectedCities = listOf(allCities[selectedCity])
-        return selectedStats.map { stat ->
-            val chartColor = ColorUtils.getColor(stat.index)
-            if (stat in p7Data.getStats()) {
-                p7Data.getDataSet(stat, chartColor, chartColor)
-            } else {
-                p7ByCityData.getDataSet(stat, selectedCities, chartColor, chartColor)
+    override fun buildDataSets() {
+        withResult(
+            resultFunc = ::createDataSets,
+            success = {
+                bus.post(DataSetsBuiltEvent(this!!))
             }
-        }
+        )
+    }
+
+    override suspend fun createDataSets(): List<ILineDataSet> {
+        return runAsync {
+            val selectedCities = if (selectedCity == 0) {
+                allCities
+            } else {
+                listOf(allCities[selectedCity])
+            }
+            selectedStats.map { stat ->
+                val chartColor = ColorUtils.getColor(stat.index)
+                if (stat in p7Data.getStats()) {
+                    p7Data.getDataSet(stat, chartColor, chartColor)
+                } else {
+                    p7ByCityData.getDataSet(stat, selectedCities, chartColor, chartColor)
+                }
+            }
+        }.await()
     }
 }

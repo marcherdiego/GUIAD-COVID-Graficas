@@ -11,22 +11,22 @@ class StatsByCityPresenter(view: StatsByCityView, model: StatsByCityModel) :
     @Subscribe
     fun onCitySelected(event: StatsView.CitySelectedEvent) {
         model.selectedCity = event.position
-        view.setChartsData(model.getDataSet())
+        model.buildDataSets()
     }
 
     @Subscribe
     fun onStatSelected(event: StatsView.StatsSelectedEvent) {
         model.selectedStats = event.selectedStats
-        view.setChartsData(model.getDataSet())
+        model.buildDataSets()
     }
 
     override fun onRangeSelected(event: StatsView.RangeSelectedEvent) {
         super.onRangeSelected(event)
-        view.setChartsData(model.getDataSet())
+        model.buildDataSets()
     }
 
     override fun onResume() {
         super.onResume()
-        view.setChartsData(model.getDataSet())
+        model.buildDataSets()
     }
 }

@@ -1,27 +1,26 @@
 package com.nerdscorner.covid.stats.networking
 
-import retrofit2.Call
 import retrofit2.http.GET
 
 interface StatsService {
     @GET("estadisticasUY.csv")
-    fun getGeneralStats(): Call<String>
+    suspend fun getGeneralStats(): String
 
     @GET("estadisticasUY_cti.csv")
-    fun getCtiStats(): Call<String>
+    suspend fun getCtiStats(): String
 
     @GET("estadisticasUY_porDepto_detalle.csv")
-    fun getStatsByCity(): Call<String>
+    suspend fun getStatsByCity(): String
 
     @GET("estadisticasUY_fallecimientos.csv")
-    fun getDeceases(): Call<String>
+    suspend fun getDeceases(): String
 
     @GET("estadisticasUY_p7.csv")
-    fun getP7StatisticsByCity(): Call<String>
+    suspend fun getP7StatisticsByCity(): String
 
     @GET("estadisticasUY_p7nacional.csv")
-    fun getP7Statistics(): Call<String>
+    suspend fun getP7Statistics(): String
 
     @GET("movilidad_uy.csv")
-    fun getMobilityStats(): Call<String>
+    suspend fun getMobilityStats(): String
 }

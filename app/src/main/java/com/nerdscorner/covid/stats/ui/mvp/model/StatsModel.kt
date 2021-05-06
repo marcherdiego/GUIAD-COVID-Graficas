@@ -20,7 +20,9 @@ abstract class StatsModel : BaseEventsModel() {
         }
     var selectedStats = arrayListOf<Stat>()
 
-    abstract fun getDataSet(): List<ILineDataSet>
+    abstract fun buildDataSets()
+    
+    protected abstract suspend fun createDataSets(): List<ILineDataSet>
 
     fun getStatsStateList(): List<Stat> {
         return availableStats
@@ -29,4 +31,6 @@ abstract class StatsModel : BaseEventsModel() {
                 add(0, Stat())
             }
     }
+    
+    class DataSetsBuiltEvent(val dataSets: List<ILineDataSet>)
 }

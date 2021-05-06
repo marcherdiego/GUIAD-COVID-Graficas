@@ -75,7 +75,7 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
     @Subscribe
     fun onStatClicked(event: RawDataGeneralStatsView.StatClickedEvent) {
         model.updateSelectedStats(event.rawStat)
-        view.setChartsData(model.getDataSet())
+        model.buildDataSets()
         view.setChartSelectedItem(model.getXValueForDate())
     }
 
@@ -83,21 +83,26 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
     fun onChartValueSelected(event: RawDataGeneralStatsView.ChartValueSelectedEvent) {
         val selectedDate = (event.entry?.data as? String)?.split(" - ")?.get(0) ?: return
         model.updateCurrentDate(selectedDate)
-        refreshDateStats(manualRefresh = true)
+        refreshDateStats()
         refreshDateSeekButtons()
     }
     
     @Subscribe
     fun onTodayButtonClicked(event: RawDataGeneralStatsView.TodayButtonClickedEvent) {
         model.updateCurrentDate(Date())
-        refreshDateStats(manualRefresh = true)
+        refreshDateStats()
         refreshDateSeekButtons()
     }
     
     @Subscribe
     fun onRangeSelected(event: RawDataGeneralStatsView.RangeSelectedEvent) {
         model.selectedRange = event.position
-        view.setChartsData(model.getDataSet())
+        model.buildDataSets()
+    }
+    
+    @Subscribe
+    fun onDataSetsBuilt(event: RawDataGeneralStatsModel.DataSetsBuiltEvent) {
+        view.setChartsData(event.dataSets)
     }
 
     private fun refreshDateSeekButtons() {
@@ -113,8 +118,7 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
         }
     }
 
-    private fun refreshDateStats(manualRefresh: Boolean = false) {
-        view.manualHighlightUpdate = manualRefresh
+    private fun refreshDateStats() {
         val statsForDate = model.getStatsForDate()
         view.setDate(model.currentDate)
         view.getStatsValues(
@@ -132,14 +136,13 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
             indexVariation = statsForDate.indexVariation.formatNumberString()
         )
         view.setChartSelectedItem(model.getXValueForDate())
-        view.manualHighlightUpdate = false
     }
 
     override fun onResume() {
         super.onResume()
         refreshDateSeekButtons()
         view.refreshSelectedRawStats(model.selectedStats)
-        view.setChartsData(model.getDataSet())
+        model.buildDataSets()
         view.withActivity {
             view.setRangesAdapter(ArrayAdapter(this, R.layout.simple_spinner_layout, RangeUtils.dateRanges))
             view.setSelectedRange(model.selectedRange)

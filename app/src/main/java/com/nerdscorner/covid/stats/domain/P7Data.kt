@@ -2,6 +2,7 @@ package com.nerdscorner.covid.stats.domain
 
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.covid.stats.utils.RangeUtils
 import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,7 +40,11 @@ class P7Data private constructor() : DataObject() {
         }
     }
 
-    fun indexOfDate(filterDate: String) = cachedDatesIndexes.indexOf(filterDate).toFloat()
+    fun indexOfDate(filterDate: String): Float {
+        val selectedRangeIndex = SharedPreferencesUtils.getSelectedDataRangeIndex()
+        val selectedDataRange = RangeUtils.getDaysCountForRangeIndex(selectedRangeIndex, dataLines.size)
+        return cachedDatesIndexes.takeLast(selectedDataRange).indexOf(filterDate).toFloat()
+    }
 
     private fun getMissingDummyData(): List<String> {
         val startDate = GregorianCalendar(2020, 2, 25)

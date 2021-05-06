@@ -11,16 +11,16 @@ class GeneralStatsPresenter(view: GeneralStatsView, model: GeneralStatsModel) :
     @Subscribe
     fun onStatSelected(event: StatsView.StatsSelectedEvent) {
         model.selectedStats = event.selectedStats
-        view.setChartsData(model.getDataSet())
+        model.buildDataSets()
     }
 
     override fun onRangeSelected(event: StatsView.RangeSelectedEvent) {
         super.onRangeSelected(event)
-        view.setChartsData(model.getDataSet())
+        model.buildDataSets()
     }
 
     override fun onResume() {
         super.onResume()
-        view.setChartsData(model.getDataSet())
+        model.buildDataSets()
     }
 }

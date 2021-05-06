@@ -20,6 +20,11 @@ abstract class StatsPresenter<V : StatsView, M : StatsModel>(view: V, model: M) 
     open fun onRangeSelected(event: StatsView.RangeSelectedEvent) {
         model.selectedRange = event.position
     }
+    
+    @Subscribe
+    fun onDataSetsBuilt(event: StatsModel.DataSetsBuiltEvent) {
+        view.setChartsData(event.dataSets)
+    }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
