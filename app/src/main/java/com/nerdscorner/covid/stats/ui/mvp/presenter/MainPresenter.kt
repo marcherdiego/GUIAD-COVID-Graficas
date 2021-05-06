@@ -92,140 +92,115 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
         buildRawDataChart(graphColor)
     }
 
-    private fun <T> buildStatChart(
-        dataSetFunc: () -> Triple<T, String, Boolean>,
-        resultFunc: (dataSet: T, lastValue: String, isTrendingUp: Boolean) -> Unit) {
-        CoroutineScope(Dispatchers.Main).launch {
-            val result = withContext(Dispatchers.Default) {
-                dataSetFunc()
-            }
-            resultFunc(result.first, result.second, result.third)
-        }
-    }
-
     private fun buildCtiStatChart(@ColorInt graphColor: Int) {
-        val ctiData = CtiData.getInstance()
-        val ctiStat = CtiData.patientsQuantityStat
         buildStatChart(
-            dataSetFunc = {
-                Triple(
-                    ctiData.getDataSet(ctiStat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT),
-                    ctiData.getLatestValue(ctiStat),
-                    ctiData.isTrendingUp(ctiStat)
-                )
+            CtiData.getInstance(),
+            CtiData.patientsQuantityStat,
+            dataSetFunc = { dataObject, stat ->
+                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
-            resultFunc = { dataSet, lastValue, isTrendingUp ->
-                view.setupCtiCard(dataSet, ctiStat.name, lastValue, isTrendingUp)
+            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
+                view.setupCtiCard(dataSet, statName, lastValue, isTrendingUp)
             }
         )
     }
 
     private fun buildCitiesDataChart(baseColorIndex: Int) {
-        val citiesData = CitiesData.getInstance()
-        val citiesStat = CitiesData.inCourseStat
         buildStatChart(
-            dataSetFunc = {
-                Triple(
-                    model
-                        .getAllCities()
-                        .drop(1)
-                        .mapIndexed { index, city ->
-                            val chartColor = ColorUtils.getColor(baseColorIndex + index)
-                            citiesData.getDataSet(citiesStat, listOf(city), chartColor, chartColor, HOME_CHARTS_DATA_LIMIT)
-                        },
-                    citiesData.getLatestValue(citiesStat),
-                    citiesData.isTrendingUp(citiesStat)
-                )
+            CitiesData.getInstance(),
+            CitiesData.inCourseStat,
+            dataSetFunc = { dataObject, stat ->
+                model
+                    .getAllCities()
+                    .drop(1)
+                    .mapIndexed { index, city ->
+                        val chartColor = ColorUtils.getColor(baseColorIndex + index)
+                        dataObject.getDataSet(stat, listOf(city), chartColor, chartColor, HOME_CHARTS_DATA_LIMIT)
+                    }
             },
-            resultFunc = { dataSet, lastValue, isTrendingUp ->
-                view.setupCitiesCard(dataSet, citiesStat.name, lastValue, isTrendingUp)
+            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
+                view.setupCitiesCard(dataSet, statName, lastValue, isTrendingUp)
             }
         )
     }
 
     private fun buildGeneralsDaraChart(@ColorInt graphColor: Int) {
-        val generalsData = GeneralStatsData.getInstance()
-        val generalsStat = GeneralStatsData.inCourseStat
         buildStatChart(
-            dataSetFunc = {
-                Triple(
-                    generalsData.getDataSet(generalsStat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT),
-                    generalsData.getLatestValue(generalsStat),
-                    generalsData.isTrendingUp(generalsStat)
-                )
+            GeneralStatsData.getInstance(),
+            GeneralStatsData.inCourseStat,
+            dataSetFunc = { dataObject, stat ->
+                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
-            resultFunc = { dataSet, lastValue, isTrendingUp ->
-                view.setupGeneralsCard(dataSet, generalsStat.name, lastValue, isTrendingUp)
+            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
+                view.setupGeneralsCard(dataSet, statName, lastValue, isTrendingUp)
             }
         )
     }
 
     private fun buildDeceasesDataChart(@ColorInt graphColor: Int) {
-        val deceasesData = GeneralStatsData.getInstance()
-        val deceasesStat = GeneralStatsData.newDeceasesStat
         buildStatChart(
-            dataSetFunc = {
-                Triple(
-                    deceasesData.getDataSet(deceasesStat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT),
-                    deceasesData.getLatestValue(deceasesStat),
-                    deceasesData.isTrendingUp(deceasesStat)
-                )
+            GeneralStatsData.getInstance(),
+            GeneralStatsData.newDeceasesStat,
+            dataSetFunc = { dataObject, stat ->
+                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
-            resultFunc = { dataSet, lastValue, isTrendingUp ->
-                view.setupDeceasesCard(dataSet, deceasesStat.name, lastValue, isTrendingUp)
+            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
+                view.setupDeceasesCard(dataSet, statName, lastValue, isTrendingUp)
             }
         )
     }
 
     private fun buildP7DataChart(@ColorInt graphColor: Int) {
-        val p7Data = P7Data.getInstance()
-        val p7Stat = P7Data.p7Stat
         buildStatChart(
-            dataSetFunc = {
-                Triple(
-                    p7Data.getDataSet(p7Stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT),
-                    p7Data.getLatestValue(p7Stat),
-                    p7Data.isTrendingUp(p7Stat)
-                )
+            P7Data.getInstance(),
+            P7Data.p7Stat,
+            dataSetFunc = { dataObject, stat ->
+                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
-            resultFunc = { dataSet, lastValue, isTrendingUp ->
-                view.setupP7Card(dataSet, p7Stat.name, lastValue, isTrendingUp)
+            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
+                view.setupP7Card(dataSet, statName, lastValue, isTrendingUp)
             }
         )
     }
 
     private fun buildMobilityDataChart(@ColorInt graphColor: Int) {
-        val mobilityData = MobilityData.getInstance()
-        val mobilityStat = MobilityData.mobilityIndexStat
         buildStatChart(
-            dataSetFunc = {
-                Triple(
-                    mobilityData.getDataSet(mobilityStat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT),
-                    mobilityData.getLatestValue(mobilityStat),
-                    mobilityData.isTrendingUp(mobilityStat)
-                )
+            MobilityData.getInstance(),
+            MobilityData.mobilityIndexStat,
+            dataSetFunc = { dataObject, stat ->
+                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
-            resultFunc = { dataSet, lastValue, isTrendingUp ->
-                view.setupMobilityCard(dataSet, mobilityStat.name, lastValue, isTrendingUp)
+            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
+                view.setupMobilityCard(dataSet, statName, lastValue, isTrendingUp)
             }
         )
     }
 
     private fun buildRawDataChart(@ColorInt graphColor: Int) {
-        val rawData = GeneralStatsData.getInstance()
-        val rawStat = GeneralStatsData.positivityStat
         buildStatChart(
-            dataSetFunc = {
-                Triple(
-                    rawData.getDataSet(rawStat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT),
-                    rawData.getLatestValue(rawStat),
-                    rawData.isTrendingUp(rawStat)
-                )
+            GeneralStatsData.getInstance(),
+            GeneralStatsData.positivityStat,
+            dataSetFunc = { dataObject, stat ->
+                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
-            resultFunc = { dataSet, lastValue, isTrendingUp ->
-                view.setupRawDataCard(dataSet, rawStat.name, lastValue, isTrendingUp)
+            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
+                view.setupRawDataCard(dataSet, statName, lastValue, isTrendingUp)
             }
         )
+    }
+
+    private fun <T, D : DataObject> buildStatChart(
+        dataObject: D,
+        stat: Stat,
+        dataSetFunc: (D, Stat) -> T,
+        resultFunc: (dataSet: T, statName: String, lastValue: String, isTrendingUp: Boolean) -> Unit
+    ) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val result = withContext(Dispatchers.Default) {
+                dataSetFunc(dataObject, stat)
+            }
+            resultFunc(result, stat.name, dataObject.getLatestValue(stat), dataObject.isTrendingUp(stat))
+        }
     }
 
     private fun showLoadingState() {
