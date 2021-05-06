@@ -2,6 +2,8 @@ package com.nerdscorner.covid.stats.ui.mvp.presenter
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ArrayAdapter
+import com.nerdscorner.covid.stats.R
 import com.nerdscorner.covid.stats.domain.GeneralStatsData
 import com.nerdscorner.covid.stats.domain.P7Data
 import com.nerdscorner.covid.stats.domain.Stat
@@ -10,6 +12,7 @@ import com.nerdscorner.mvplib.events.presenter.BaseActivityPresenter
 
 import com.nerdscorner.covid.stats.ui.mvp.model.RawDataGeneralStatsModel
 import com.nerdscorner.covid.stats.ui.mvp.view.RawDataGeneralStatsView
+import com.nerdscorner.covid.stats.utils.RangeUtils
 import org.greenrobot.eventbus.Subscribe
 import java.util.*
 import kotlin.collections.ArrayList
@@ -90,6 +93,12 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
         refreshDateStats(manualRefresh = true)
         refreshDateSeekButtons()
     }
+    
+    @Subscribe
+    fun onRangeSelected(event: RawDataGeneralStatsView.RangeSelectedEvent) {
+        model.selectedRange = event.position
+        view.setChartsData(model.getDataSet())
+    }
 
     private fun refreshDateSeekButtons() {
         if (model.maxDateReached) {
@@ -131,6 +140,10 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
         refreshDateSeekButtons()
         view.refreshSelectedRawStats(model.selectedStats)
         view.setChartsData(model.getDataSet())
+        view.withActivity {
+            view.setRangesAdapter(ArrayAdapter(this, R.layout.simple_spinner_layout, RangeUtils.dateRanges))
+            view.setSelectedRange(model.selectedRange)
+        }
         refreshDateStats()
     }
 

@@ -13,6 +13,11 @@ class MobilityPresenter(view: MobilityView, model: MobilityModel) : StatsPresent
         view.setChartsData(model.getDataSet())
     }
 
+    override fun onRangeSelected(event: StatsView.RangeSelectedEvent) {
+        super.onRangeSelected(event)
+        view.setChartsData(model.getDataSet())
+    }
+
     override fun onResume() {
         super.onResume()
         view.setChartsData(model.getDataSet())

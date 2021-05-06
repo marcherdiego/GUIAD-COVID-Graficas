@@ -14,6 +14,11 @@ class GeneralStatsPresenter(view: GeneralStatsView, model: GeneralStatsModel) :
         view.setChartsData(model.getDataSet())
     }
 
+    override fun onRangeSelected(event: StatsView.RangeSelectedEvent) {
+        super.onRangeSelected(event)
+        view.setChartsData(model.getDataSet())
+    }
+
     override fun onResume() {
         super.onResume()
         view.setChartsData(model.getDataSet())

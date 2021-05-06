@@ -13,17 +13,36 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/stat_selector"
         app:layout_constraintEnd_toStartOf="@+id/stat_selector"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/stat_selector" />
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/stat_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="@+id/data_limit_selector"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/data_limit_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/data_limit"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/data_limit_selector"
+        app:layout_constraintEnd_toEndOf="@+id/stat_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/data_limit_selector" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/data_limit_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:padding="8dp"
-        app:layout_constraintStart_toEndOf="@+id/stat_label"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/data_limit_label"
+        app:layout_constraintTop_toBottomOf="@+id/stat_selector" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
@@ -34,7 +53,7 @@
         app:layout_constraintBottom_toTopOf="@+id/legends_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stat_selector" />
+        app:layout_constraintTop_toBottomOf="@+id/data_limit_selector" />
 
     <com.nex3z.flowlayout.FlowLayout
         android:id="@+id/legends_container"

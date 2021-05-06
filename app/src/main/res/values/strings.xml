@@ -36,6 +36,7 @@
     <string name="ok">Entendido</string>
     <string name="rotate_device_disclaimer">Gira tu dispositivo para visualizar mejor las gráficas</string>
     <string name="not_available">N/A</string>
+    <string name="data_limit">Rango</string>
 
     <!-- Plurals -->
     <plurals name="selected_stats">

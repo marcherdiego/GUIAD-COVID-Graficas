@@ -3,6 +3,7 @@ package com.nerdscorner.covid.stats.ui.mvp.model
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.covid.stats.domain.CitiesData
 import com.nerdscorner.covid.stats.domain.Stat
+import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 import com.nerdscorner.mvplib.events.model.BaseEventsModel
 
 abstract class StatsModel : BaseEventsModel() {
@@ -12,6 +13,11 @@ abstract class StatsModel : BaseEventsModel() {
 
     // State vars
     var selectedCity = 0
+    var selectedRange = SharedPreferencesUtils.getSelectedDataRangeIndex()
+        set(value) {
+            field = value
+            SharedPreferencesUtils.saveSelectedDataRangeIndex(value)
+        }
     var selectedStats = arrayListOf<Stat>()
 
     abstract fun getDataSet(): List<ILineDataSet>
@@ -22,9 +28,5 @@ abstract class StatsModel : BaseEventsModel() {
             .apply {
                 add(0, Stat())
             }
-    }
-
-    fun setSelectedStatIndex(index: Int) {
-        selectedStats = arrayListOf(availableStats[index])
     }
 }

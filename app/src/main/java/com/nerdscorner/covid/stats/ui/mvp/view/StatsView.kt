@@ -28,6 +28,7 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
     private val legendsContainer: FlowLayout = activity.findViewById(R.id.legends_container)
     private val citiesSelector: AppCompatSpinner? = activity.findViewById(R.id.cities_selector)
     protected val statSelector: AppCompatSpinner = activity.findViewById(R.id.stat_selector)
+    private val rangeSelector: AppCompatSpinner = activity.findViewById(R.id.data_limit_selector)
 
     init {
         activity.supportActionBar?.apply {
@@ -36,7 +37,10 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
         citiesSelector?.setItemSelectedListener {
             bus.post(CitySelectedEvent(it))
         }
-        
+        rangeSelector.setItemSelectedListener {
+            bus.post(RangeSelectedEvent(it))
+        }
+
         val chartPadding = activity.resources.getDimensionPixelSize(R.dimen.chart_padding).toFloat()
         chart.setNoDataText(activity.getString(R.string.no_data_selected))
         chart.setNoDataTextColor(ContextCompat.getColor(activity, R.color.graph_text_color))
@@ -59,18 +63,32 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
         }
     }
 
+    fun setRangesAdapter(adapter: SpinnerAdapter) {
+        rangeSelector.adapter = adapter
+    }
+
+    fun setSelectedCity(index: Int) {
+        citiesSelector?.setSelection(index)
+    }
+
+    fun setSelectedRange(index: Int) {
+        rangeSelector.setSelection(index)
+    }
+
     fun setChartsData(dataSets: List<ILineDataSet>) {
         chart.clear()
         legendsContainer.removeAllViews()
-        styleAxis(dataSets.firstOrNull() ?: return)
-        chart.data = LineData(dataSets)
-        chart.invalidate()
-        chart.legend.entries.forEach { legend ->
-            val legendView = LayoutInflater.from(activity).inflate(R.layout.chart_legend_item, null).apply {
-                findViewById<View>(R.id.indicator).setBackgroundColor(legend.formColor)
-                findViewById<TextView>(R.id.legend).text = legend.label
+        if (dataSets.isNotEmpty()) {
+            styleAxis(dataSets.first())
+            chart.data = LineData(dataSets)
+            chart.legend.entries.forEach { legend ->
+                val legendView = LayoutInflater.from(activity).inflate(R.layout.chart_legend_item, null).apply {
+                    findViewById<View>(R.id.indicator).setBackgroundColor(legend.formColor)
+                    findViewById<TextView>(R.id.legend).text = legend.label
+                }
+                legendsContainer.addView(legendView)
             }
-            legendsContainer.addView(legendView)
+            chart.invalidate()
         }
     }
 
@@ -84,8 +102,12 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
             granularity = 1f
             valueFormatter = object : ValueFormatter() {
                 override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-                    val entry = dataSet.getEntryForIndex(value.toInt())
-                    return entry.data.toString()
+                    return try {
+                        val entry = dataSet.getEntryForIndex(value.toInt())
+                        entry.data.toString()
+                    } catch (_: Exception) {
+                        ""
+                    }
                 }
             }
         }
@@ -93,4 +115,5 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
 
     class CitySelectedEvent(val position: Int)
     class StatsSelectedEvent(val selectedStats: ArrayList<Stat>)
+    class RangeSelectedEvent(val position: Int)
 }

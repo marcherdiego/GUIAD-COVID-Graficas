@@ -15,6 +15,7 @@ object SharedPreferencesUtils {
     private const val P7_DATA = "p7_data"
 
     private const val ROTATE_DEVICE_SHOWN = "rotate_device_shown"
+    private const val SELECTED_DATA_RANGE_INDEX = "data_range_index"
 
     fun init(context: Context) {
         sharedPreferences = context.getSharedPreferences("preferences", Context.MODE_PRIVATE)
@@ -68,6 +69,12 @@ object SharedPreferencesUtils {
 
     fun getRotateDeviceDialogShown() = sharedPreferences.getBoolean(ROTATE_DEVICE_SHOWN, false)
 
+    fun getSelectedDataRangeIndex() = sharedPreferences.getInt(SELECTED_DATA_RANGE_INDEX, 0)
+
+    fun saveSelectedDataRangeIndex(rangeIndex: Int) {
+        saveInt(SELECTED_DATA_RANGE_INDEX, rangeIndex)
+    }
+
     private fun saveString(key: String, value: String?) {
         sharedPreferences
             .edit()
@@ -79,6 +86,13 @@ object SharedPreferencesUtils {
         sharedPreferences
             .edit()
             .putBoolean(key, value)
+            .apply()
+    }
+
+    private fun saveInt(key: String, value: Int) {
+        sharedPreferences
+            .edit()
+            .putInt(key, value)
             .apply()
     }
 }

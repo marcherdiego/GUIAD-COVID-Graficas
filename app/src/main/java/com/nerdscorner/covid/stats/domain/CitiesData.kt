@@ -14,9 +14,7 @@ class CitiesData private constructor() : DataObject() {
         limit: Int = dataLines.size
     ): ILineDataSet {
         val dataLines = dataLines
-            .groupBy {
-                it.split(COMMA)[INDEX_DATE]
-            }
+            .groupBy { it.split(COMMA)[INDEX_DATE] }
             .map { dateEntries ->
                 val date = dateEntries.key
                 val valuesSum = dateEntries

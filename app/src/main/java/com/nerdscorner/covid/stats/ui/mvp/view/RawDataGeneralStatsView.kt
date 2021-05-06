@@ -4,7 +4,9 @@ import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.SpinnerAdapter
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
@@ -18,6 +20,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.nerdscorner.covid.stats.R
 import com.nerdscorner.covid.stats.domain.Stat
+import com.nerdscorner.covid.stats.extensions.setItemSelectedListener
 import com.nerdscorner.mvplib.events.view.BaseActivityView
 import com.nerdscorner.covid.stats.ui.activities.RawDataGeneralStatsActivity
 import com.nerdscorner.covid.stats.ui.custom.ChartMarker
@@ -28,6 +31,7 @@ import java.util.*
 
 class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActivityView(activity) {
     private val datePicker: DatePicker = activity.findViewById(R.id.date_picker)
+    private val rangeSelector: AppCompatSpinner = activity.findViewById(R.id.data_limit_selector)
 
     private val backDayButton: ImageView = activity.findViewById(R.id.back_day_button)
     private val backMonthButton: ImageView = activity.findViewById(R.id.back_month_button)
@@ -69,6 +73,9 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
         activity.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
         }
+        rangeSelector.setItemSelectedListener {
+            bus.post(RangeSelectedEvent(it))
+        }
         val chartPadding = activity.resources.getDimensionPixelSize(R.dimen.chart_padding).toFloat()
         chart.setNoDataText(activity.getString(R.string.select_a_stat))
         chart.setNoDataTextColor(ContextCompat.getColor(activity, R.color.graph_text_color))
@@ -102,6 +109,14 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
                 bus.post(StatClickedEvent(rawStat))
             }
         }
+    }
+
+    fun setRangesAdapter(adapter: SpinnerAdapter) {
+        rangeSelector.adapter = adapter
+    }
+
+    fun setSelectedRange(index: Int) {
+        rangeSelector.setSelection(index)
     }
 
     fun setMinDate(date: Date?) {
@@ -245,6 +260,7 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
     class DatePickedEvent(val date: Date)
     class ChartValueSelectedEvent(val entry: Entry?)
     class StatClickedEvent(val rawStat: RawStat)
+    class RangeSelectedEvent(val position: Int)
 
     class BackDayButtonClickedEvent
     class BackMonthButtonClickedEvent

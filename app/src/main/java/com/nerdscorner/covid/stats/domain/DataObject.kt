@@ -4,6 +4,8 @@ import androidx.annotation.ColorInt
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.covid.stats.utils.RangeUtils
+import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 import kotlin.math.min
 
 abstract class DataObject {
@@ -47,10 +49,8 @@ abstract class DataObject {
         limit: Int
     ): ILineDataSet {
         val entries = dataLines
-            .takeLast(min(dataLines.size , limit))
-            .filterNot {
-                it.trim() == EMPTY_STRING
-            }
+            .filterNot { it.trim() == EMPTY_STRING }
+            .takeLast(getDataLimit(dataLines, limit))
             .mapIndexed { index, line ->
                 val dataTokens = line.split(COMMA)
                 Entry(index.toFloat(), (dataTokens[valueIndex].toFloatOrNull() ?: 0f) * statFactorMultiplier, dataTokens[dateIndex])
@@ -62,6 +62,16 @@ abstract class DataObject {
             this.highLightColor = color
             this.isHighlightEnabled = true
             this.setDrawHighlightIndicators(true)
+        }
+    }
+
+    private fun getDataLimit(dataLines: List<String>, limit: Int): Int {
+        return if (limit != dataLines.size) {
+            limit
+        } else {
+            val selectedRangeIndex = SharedPreferencesUtils.getSelectedDataRangeIndex()
+            val selectedDataRange = RangeUtils.getDaysCountForRangeIndex(selectedRangeIndex, dataLines.size)
+            min(min(dataLines.size, limit), selectedDataRange)
         }
     }
 

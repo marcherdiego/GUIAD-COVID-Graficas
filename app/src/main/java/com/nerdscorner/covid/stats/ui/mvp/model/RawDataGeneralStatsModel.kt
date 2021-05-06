@@ -6,6 +6,7 @@ import com.nerdscorner.covid.stats.domain.P7Data
 import com.nerdscorner.covid.stats.domain.Stat
 import com.nerdscorner.covid.stats.ui.custom.RawStat
 import com.nerdscorner.covid.stats.utils.ColorUtils
+import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 import com.nerdscorner.covid.stats.utils.isSameDayOrAfter
 import com.nerdscorner.covid.stats.utils.isSameDayOrBefore
 import com.nerdscorner.mvplib.events.model.BaseEventsModel
@@ -21,6 +22,11 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
     var currentDate = Date()
     var maxDateReached = true
     var minDateReached = false
+    var selectedRange = SharedPreferencesUtils.getSelectedDataRangeIndex()
+        set(value) {
+            field = value
+            SharedPreferencesUtils.saveSelectedDataRangeIndex(value)
+        }
 
     fun getStatsForDate(): GeneralStatsData.StatsForDate {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
