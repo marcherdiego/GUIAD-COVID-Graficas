@@ -4,6 +4,7 @@ import androidx.annotation.ColorInt
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.covid.stats.extensions.roundToString
 import com.nerdscorner.covid.stats.utils.RangeUtils
 import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 import kotlin.math.min
@@ -12,22 +13,36 @@ abstract class DataObject {
     protected lateinit var dataLines: MutableList<String>
 
     open fun setData(data: String?) {
-        dataLines = data?.split(LINE_FEED)?.drop(1)?.toMutableList() ?: mutableListOf() //Drop header
+        dataLines = data
+            ?.split(LINE_FEED)
+            ?.drop(1)
+            ?.toMutableList() 
+            ?: mutableListOf() //Drop header
         persist(data)
     }
 
     abstract fun getStats(): List<Stat>
 
     open fun getLatestValue(stat: Stat): String {
-        return getValueAt(dataLines.size - 1, stat)?.toFloatOrNull()?.times(stat.factor)?.toString() ?: N_A
+        val latestValue = getValueAt(dataLines.size - 1, stat)
+            ?.toFloatOrNull()
+            ?.times(stat.factor) 
+            ?: return N_A
+        return latestValue.roundToString()
     }
 
     open fun isTrendingUp(stat: Stat): Boolean {
         if (dataLines.size < 2) {
             return false
         }
-        val latestValue = getValueAt(dataLines.size - 1, stat)?.toFloatOrNull()?.times(stat.factor) ?: 0f
-        val preLatestValue = getValueAt(dataLines.size - 2, stat)?.toFloatOrNull()?.times(stat.factor) ?: 0f
+        val latestValue = getValueAt(dataLines.size - 1, stat)
+            ?.toFloatOrNull()
+            ?.times(stat.factor)
+            ?: 0f
+        val preLatestValue = getValueAt(dataLines.size - 2, stat)
+            ?.toFloatOrNull()
+            ?.times(stat.factor) 
+            ?: 0f
         return (latestValue - preLatestValue) > 0
     }
 

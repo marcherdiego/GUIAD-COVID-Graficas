@@ -18,49 +18,49 @@ class MainView(activity: MainActivity) : BaseActivityView(activity) {
 
     private val lastUpdated: TextView = activity.findViewById(R.id.last_updated)
 
-    fun setupCtiCard(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+    fun setupCtiCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
         ctiCard.setup(chartData, statLabel, latestValue, isTrendingUp)
         ctiCard.setOnClickListener {
             bus.post(CtiButtonClickedEvent())
         }
     }
 
-    fun setupCitiesCard(chartData: List<ILineDataSet>, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+    fun setupCitiesCard(chartData: List<ILineDataSet>?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
         citiesCard.setup(chartData, statLabel, latestValue, isTrendingUp)
         citiesCard.setOnClickListener {
             bus.post(CitiesButtonClickedEvent())
         }
     }
 
-    fun setupGeneralsCard(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+    fun setupGeneralsCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
         generalsCard.setup(chartData, statLabel, latestValue, isTrendingUp)
         generalsCard.setOnClickListener {
             bus.post(GeneralStatsButtonClickedEvent())
         }
     }
 
-    fun setupDeceasesCard(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+    fun setupDeceasesCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
         deceasesCard.setup(chartData, statLabel, latestValue, isTrendingUp)
         deceasesCard.setOnClickListener {
             bus.post(DeceasesStatsButtonClickedEvent())
         }
     }
 
-    fun setupP7Card(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+    fun setupP7Card(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
         p7Card.setup(chartData, statLabel, latestValue, isTrendingUp)
         p7Card.setOnClickListener {
             bus.post(P7StatsButtonClickedEvent())
         }
     }
 
-    fun setupMobilityCard(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+    fun setupMobilityCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
         mobilityCard.setup(chartData, statLabel, latestValue, isTrendingUp)
         mobilityCard.setOnClickListener {
             bus.post(MobilityStatsButtonClickedEvent())
         }
     }
 
-    fun setupRawDataCard(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
+    fun setupRawDataCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
         rawDataCard.setup(chartData, statLabel, latestValue, isTrendingUp)
         rawDataCard.setOnClickListener {
             bus.post(RawDataGeneralStatsButtonClickedEvent())

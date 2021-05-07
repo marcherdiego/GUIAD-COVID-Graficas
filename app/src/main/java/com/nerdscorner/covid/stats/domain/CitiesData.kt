@@ -2,6 +2,7 @@ package com.nerdscorner.covid.stats.domain
 
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.covid.stats.extensions.roundToString
 import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 
 class CitiesData private constructor() : DataObject() {
@@ -16,7 +17,7 @@ class CitiesData private constructor() : DataObject() {
         val dataLines = getDataLinesForCities(stat, selectedCities)
         return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
     }
-    
+
     private fun getDataLinesForCities(stat: Stat, selectedCities: List<String>): List<String> {
         return dataLines
             .groupBy { it.split(COMMA)[INDEX_DATE] }
@@ -40,7 +41,14 @@ class CitiesData private constructor() : DataObject() {
 
     override fun getLatestValue(stat: Stat): String {
         val dataLines = getDataLinesForCities(stat, getAllCities().drop(1))
-        return dataLines.getOrNull(dataLines.size - 1)?.split(COMMA)?.get(1)?.toFloatOrNull()?.times(stat.factor)?.toString() ?: N_A
+        val latestValue = dataLines
+            .getOrNull(dataLines.size - 1)
+            ?.split(COMMA)
+            ?.get(1)
+            ?.toFloatOrNull()
+            ?.times(stat.factor)
+            ?: return N_A
+        return latestValue.roundToString()
     }
 
     override fun isTrendingUp(stat: Stat): Boolean {

@@ -2,6 +2,7 @@ package com.nerdscorner.covid.stats.domain
 
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.covid.stats.extensions.roundToString
 import com.nerdscorner.covid.stats.utils.DateUtils
 import com.nerdscorner.covid.stats.utils.SharedPreferencesUtils
 
@@ -62,7 +63,7 @@ class MobilityData private constructor() : DataObject() {
         val retailAndRecreation = dataTokens[INDEX_RETAIL_AND_RECREATION].toFloatOrNull() ?: 0f
         val residential = dataTokens[INDEX_RESIDENTIAL].toFloatOrNull() ?: 0f
         val mobilityIndex = 0.5f * (transit + retailAndRecreation - residential)
-        return "$mobilityIndex"
+        return mobilityIndex.roundToString()
     }
 
     override fun getStats() = listOf(

@@ -53,26 +53,35 @@ class StatCard @JvmOverloads constructor(
         chart.description = null
     }
 
-    fun setup(chartData: ILineDataSet, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
-        setup(listOf(chartData), statLabel, latestValue, isTrendingUp)
+    fun setup(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
+        val dataSets = if (chartData == null) {
+            null
+        } else {
+            listOf(chartData)
+        }
+        setup(dataSets, statLabel, latestValue, isTrendingUp)
     }
 
-    fun setup(chartData: List<ILineDataSet>, statLabel: String, latestValue: String, isTrendingUp: Boolean) {
-        chartData.forEach {
-            it.setDrawValues(false)
+    fun setup(chartData: List<ILineDataSet>?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
+        if (chartData != null) {
+            chartData.forEach {
+                it.setDrawValues(false)
+            }
+            chart.data = LineData(chartData)
+            chart.invalidate()
         }
-        chart.data = LineData(chartData)
-        chart.invalidate()
         this.statLabel.text = statLabel
         statLatestValue.text = latestValue
         trendIcon.setImageResource(
-            if (isTrendingUp) {
-                R.drawable.ic_trend_up
-            } else {
-                trendIcon.scaleY = -1f
-                R.drawable.ic_trend_down
+            when {
+                isTrendingUp == null -> R.drawable.ic_clock
+                isTrendingUp -> R.drawable.ic_trend_up
+                else -> R.drawable.ic_trend_down
             }
         )
+        if (isTrendingUp == false) {
+            trendIcon.scaleY = -1f
+        }
     }
 
     override fun setOnClickListener(listener: OnClickListener?) {

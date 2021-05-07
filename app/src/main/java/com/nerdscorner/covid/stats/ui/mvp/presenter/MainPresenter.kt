@@ -193,8 +193,9 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
         dataObject: D,
         stat: Stat,
         dataSetFunc: (D, Stat) -> T,
-        resultFunc: (dataSet: T, statName: String, lastValue: String, isTrendingUp: Boolean) -> Unit
+        resultFunc: (dataSet: T?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit
     ) {
+        resultFunc(null, stat.name, DataObject.N_A, null)
         CoroutineScope(Dispatchers.Main).launch {
             val result = withContext(Dispatchers.Default) {
                 dataSetFunc(dataObject, stat)
