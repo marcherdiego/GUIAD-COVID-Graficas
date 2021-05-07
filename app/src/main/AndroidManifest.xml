@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nerdscorner.covid.stats">
+    package="com.nerdscorner.guiad.stats">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".Application"
+        android:name="com.nerdscorner.guiad.stats.Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,12 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CovidStats">
         <activity
-            android:name="com.nerdscorner.covid.stats.ui.activities.MobilityActivity"
+            android:name="com.nerdscorner.guiad.stats.ui.activities.MobilityActivity"
             android:label="@string/mobility_data_title" />
         <activity
-            android:name="com.nerdscorner.covid.stats.ui.activities.RawDataGeneralStatsActivity"
+            android:name="com.nerdscorner.guiad.stats.ui.activities.RawDataGeneralStatsActivity"
             android:label="Datos por fecha" />
-        <activity android:name="com.nerdscorner.covid.stats.ui.activities.MainActivity">
+        <activity android:name="com.nerdscorner.guiad.stats.ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,22 +26,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.nerdscorner.covid.stats.ui.activities.CreditsActivity"
+            android:name="com.nerdscorner.guiad.stats.ui.activities.CreditsActivity"
             android:label="@string/credits_title" />
         <activity
-            android:name="com.nerdscorner.covid.stats.ui.activities.P7StatsActivity"
+            android:name="com.nerdscorner.guiad.stats.ui.activities.P7StatsActivity"
             android:label="@string/pt_stats_title" />
         <activity
-            android:name="com.nerdscorner.covid.stats.ui.activities.DeceasesStatsActivity"
+            android:name="com.nerdscorner.guiad.stats.ui.activities.DeceasesStatsActivity"
             android:label="@string/deceases_stats_title" />
         <activity
-            android:name="com.nerdscorner.covid.stats.ui.activities.GeneralStatsActivity"
+            android:name="com.nerdscorner.guiad.stats.ui.activities.GeneralStatsActivity"
             android:label="@string/general_stats_title" />
         <activity
-            android:name="com.nerdscorner.covid.stats.ui.activities.StatsCtiActivity"
+            android:name="com.nerdscorner.guiad.stats.ui.activities.StatsCtiActivity"
             android:label="@string/cti_stats_title" />
         <activity
-            android:name="com.nerdscorner.covid.stats.ui.activities.StatsByCityActivity"
+            android:name="com.nerdscorner.guiad.stats.ui.activities.StatsByCityActivity"
             android:label="@string/data_by_city_stats_title" />
     </application>
 

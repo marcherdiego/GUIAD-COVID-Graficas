@@ -33,7 +33,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.nerdscorner.covid.stats.ui.custom.StatCard
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
                 android:id="@+id/cti_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 app:stat_Icon="@drawable/ic_cti"
                 app:stat_Name="@string/cti_data" />
 
-            <com.nerdscorner.covid.stats.ui.custom.StatCard
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
                 android:id="@+id/cities_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                 app:stat_Icon="@drawable/ic_uruguay"
                 app:stat_Name="@string/data_by_city" />
 
-            <com.nerdscorner.covid.stats.ui.custom.StatCard
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
                 android:id="@+id/general_stats_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                 app:stat_Icon="@drawable/ic_chart"
                 app:stat_Name="@string/general_stats" />
 
-            <com.nerdscorner.covid.stats.ui.custom.StatCard
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
                 android:id="@+id/deceases_stats_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                 app:stat_Icon="@drawable/ic_cross"
                 app:stat_Name="@string/deceases_stats" />
 
-            <com.nerdscorner.covid.stats.ui.custom.StatCard
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
                 android:id="@+id/p7_stats_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
                 app:stat_Icon="@drawable/ic_coronavirus"
                 app:stat_Name="@string/p7_stats" />
 
-            <com.nerdscorner.covid.stats.ui.custom.StatCard
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
                 android:id="@+id/mobility_stats_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/p7_stats_card" />
 
-            <com.nerdscorner.covid.stats.ui.custom.StatCard
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
                 android:id="@+id/raw_data_general_stats_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

@@ -55,7 +55,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.nerdscorner.covid.stats.ui.custom.DatePicker
+        <com.nerdscorner.guiad.stats.ui.custom.DatePicker
             android:id="@+id/date_picker"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
@@ -124,7 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.nerdscorner.covid.stats.ui.custom.RawStat
+            <com.nerdscorner.guiad.stats.ui.custom.RawStat
                 android:id="@+id/new_cases"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
                 rawStat:stat_Title="Casos nuevos"
                 tools:stat_Value="4.938" />
 
-            <com.nerdscorner.covid.stats.ui.custom.RawStat
+            <com.nerdscorner.guiad.stats.ui.custom.RawStat
                 android:id="@+id/total_cases"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                 rawStat:stat_Title="Casos totales"
                 tools:stat_Value="4.938" />
 
-            <com.nerdscorner.covid.stats.ui.custom.RawStat
+            <com.nerdscorner.guiad.stats.ui.custom.RawStat
                 android:id="@+id/cti_cases"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
                 rawStat:stat_Title="Casos en CTI"
                 tools:stat_Value="4.938" />
 
-            <com.nerdscorner.covid.stats.ui.custom.RawStat
+            <com.nerdscorner.guiad.stats.ui.custom.RawStat
                 android:id="@+id/active_cases"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
                 rawStat:stat_Title="Casos activos"
                 tools:stat_Value="4.938" />
 
-            <com.nerdscorner.covid.stats.ui.custom.RawStat
+            <com.nerdscorner.guiad.stats.ui.custom.RawStat
                 android:id="@+id/recovered_cases"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
                 rawStat:stat_Title="Recuperados"
                 tools:stat_Value="4.938" />
 
-            <com.nerdscorner.covid.stats.ui.custom.RawStat
+            <com.nerdscorner.guiad.stats.ui.custom.RawStat
                 android:id="@+id/total_Recovered"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -195,7 +195,7 @@
                 rawStat:stat_Title="Recuperados totales"
                 tools:stat_Value="4.938" />
 
-            <com.nerdscorner.covid.stats.ui.custom.RawStat
+            <com.nerdscorner.guiad.stats.ui.custom.RawStat
                 android:id="@+id/deceases"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -207,7 +207,7 @@
                 rawStat:stat_Title="Fallecidos"
                 tools:stat_Value="4.938" />
 
-            <com.nerdscorner.covid.stats.ui.custom.RawStat
+            <com.nerdscorner.guiad.stats.ui.custom.RawStat
                 android:id="@+id/total_deceases"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -218,7 +218,7 @@
                 rawStat:stat_Title="Fallecidos totales"
                 tools:stat_Value="4.938" />
 
-            <com.nerdscorner.covid.stats.ui.custom.RawStat
+            <com.nerdscorner.guiad.stats.ui.custom.RawStat
                 android:id="@+id/new_tests"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -230,7 +230,7 @@
                 rawStat:stat_Title="Tests realizados"
                 tools:stat_Value="4.938" />
 
-            <com.nerdscorner.covid.stats.ui.custom.RawStat
+            <com.nerdscorner.guiad.stats.ui.custom.RawStat
                 android:id="@+id/positivity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -241,7 +241,7 @@
                 rawStat:stat_Title="% de tests positivos"
                 tools:stat_Value="4.938" />
 
-            <com.nerdscorner.covid.stats.ui.custom.RawStat
+            <com.nerdscorner.guiad.stats.ui.custom.RawStat
                 android:id="@+id/harvard_index"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -253,7 +253,7 @@
                 rawStat:stat_Title="Índice de Harvard"
                 tools:stat_Value="4.938" />
 
-            <com.nerdscorner.covid.stats.ui.custom.RawStat
+            <com.nerdscorner.guiad.stats.ui.custom.RawStat
                 android:id="@+id/index_variation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
