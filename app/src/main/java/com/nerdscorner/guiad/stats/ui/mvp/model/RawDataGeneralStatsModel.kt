@@ -5,12 +5,9 @@ import com.nerdscorner.guiad.stats.domain.GeneralStatsData
 import com.nerdscorner.guiad.stats.domain.P7Data
 import com.nerdscorner.guiad.stats.domain.Stat
 import com.nerdscorner.guiad.stats.ui.custom.RawStat
-import com.nerdscorner.guiad.stats.utils.ColorUtils
-import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
-import com.nerdscorner.guiad.stats.utils.isSameDayOrAfter
-import com.nerdscorner.guiad.stats.utils.isSameDayOrBefore
 import com.nerdscorner.events.coroutines.extensions.runAsync
 import com.nerdscorner.events.coroutines.extensions.withResult
+import com.nerdscorner.guiad.stats.utils.*
 import com.nerdscorner.mvplib.events.model.BaseEventsModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,7 +28,7 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
         }
 
     fun getStatsForDate(): GeneralStatsData.StatsForDate {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat(DateUtils.DATE_FORMAT, Locale.getDefault())
         val filterDate = dateFormat.format(currentDate)
         val previousDayDate = getDateWithOffset(Calendar.DATE, -1)
         val filterPreviousDayDate = dateFormat.format(previousDayDate)
@@ -77,7 +74,7 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
     }
 
     fun getXValueForDate(): Float {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat(DateUtils.DATE_FORMAT, Locale.getDefault())
         val filterDate = dateFormat.format(currentDate)
         return p7Data.indexOfDate(filterDate)
     }

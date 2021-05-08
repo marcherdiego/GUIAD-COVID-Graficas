@@ -5,6 +5,7 @@ import com.nerdscorner.guiad.stats.networking.ServiceGenerator
 import com.nerdscorner.guiad.stats.networking.StatsService
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 import com.nerdscorner.events.coroutines.extensions.withResult
+import com.nerdscorner.guiad.stats.utils.DateUtils
 import com.nerdscorner.mvplib.events.model.BaseEventsModel
 import kotlinx.coroutines.Job
 import java.text.SimpleDateFormat
@@ -17,16 +18,17 @@ class MainModel : BaseEventsModel() {
 
     fun fetchStats() {
         cancelPendingJobs()
-        fetchStat(0, statsService::getStatsByCity, CitiesData.getInstance())
-        fetchStat(1, statsService::getCtiStats, CtiData.getInstance())
-        fetchStat(2, statsService::getDeceases, DeceasesData.getInstance())
-        fetchStat(3, statsService::getGeneralStats, GeneralStatsData.getInstance())
-        fetchStat(4, statsService::getP7StatisticsByCity, P7ByCityData.getInstance())
-        fetchStat(5, statsService::getP7Statistics, P7Data.getInstance())
-        fetchStat(6, statsService::getMobilityStats, MobilityData.getInstance())
+        fetchStat(statsService::getStatsByCity, CitiesData.getInstance())
+        fetchStat(statsService::getCtiStats, CtiData.getInstance())
+        fetchStat(statsService::getDeceases, DeceasesData.getInstance())
+        fetchStat(statsService::getGeneralStats, GeneralStatsData.getInstance())
+        fetchStat(statsService::getP7StatisticsByCity, P7ByCityData.getInstance())
+        fetchStat(statsService::getP7Statistics, P7Data.getInstance())
+        fetchStat(statsService::getMobilityStats, MobilityData.getInstance())
     }
 
-    private fun fetchStat(key: Int, call: KSuspendFunction0<String>, dataObject: DataObject) {
+    private fun fetchStat(call: KSuspendFunction0<String>, dataObject: DataObject) {
+        val key = dataObject.hashCode()
         jobs[key] = withResult(
             resultFunc = call,
             success = {
@@ -48,9 +50,11 @@ class MainModel : BaseEventsModel() {
     }
 
     fun getLastUpdateDateTime() = SharedPreferencesUtils.getLastUpdateDateTime()
+    
+    fun hasNoDataYet() = getLastUpdateDateTime() == null
 
     fun setLastUpdateDateTime() {
-        val dateTime = SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.getDefault()).format(Date())
+        val dateTime = SimpleDateFormat(DateUtils.DATE_TIME_FORMAT, Locale.getDefault()).format(Date())
         SharedPreferencesUtils.saveLastUpdateDateTime(dateTime)
     }
 
@@ -73,8 +77,4 @@ class MainModel : BaseEventsModel() {
 
     class StatsFetchedSuccessfullyEvent
     class StatsFetchedFailedEvent
-
-    companion object {
-        var hasData = false
-    }
 }

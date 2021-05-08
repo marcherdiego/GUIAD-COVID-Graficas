@@ -17,7 +17,7 @@
             android:label="@string/mobility_data_title" />
         <activity
             android:name="com.nerdscorner.guiad.stats.ui.activities.RawDataGeneralStatsActivity"
-            android:label="Datos por fecha" />
+            android:label="@string/data_by_date" />
         <activity android:name="com.nerdscorner.guiad.stats.ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

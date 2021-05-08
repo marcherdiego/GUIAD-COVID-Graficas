@@ -17,7 +17,7 @@ class MobilityData private constructor() : DataObject() {
                 val retailAndRecreation = dataTokens[INDEX_RETAIL_AND_RECREATION].toFloatOrNull() ?: 0f
                 val residential = dataTokens[INDEX_RESIDENTIAL].toFloatOrNull() ?: 0f
                 val mobilityIndex = 0.5f * (transit + retailAndRecreation - residential)
-                "$date,$mobilityIndex"
+                listOf(date, mobilityIndex).joinToString()
             }
             getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
         } else {
@@ -77,7 +77,7 @@ class MobilityData private constructor() : DataObject() {
     )
 
     override fun persist(data: String?) {
-        SharedPreferencesUtils.saveCtiData(data)
+        SharedPreferencesUtils.saveMobilityData(data)
     }
 
     companion object {

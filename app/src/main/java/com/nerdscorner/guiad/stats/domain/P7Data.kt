@@ -2,6 +2,7 @@ package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.guiad.stats.utils.DateUtils
 import com.nerdscorner.guiad.stats.utils.RangeUtils
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 import java.text.SimpleDateFormat
@@ -47,13 +48,13 @@ class P7Data private constructor() : DataObject() {
     }
 
     private fun getMissingDummyData(): List<String> {
+        val dateFormat = SimpleDateFormat(DateUtils.DATE_FORMAT, Locale.getDefault())
         val startDate = GregorianCalendar(2020, 2, 25)
         val endDate = GregorianCalendar(2020, 4, 6)
         val result = mutableListOf<String>()
         do {
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val filterDate = dateFormat.format(startDate.time)
-            result.add("$filterDate,0")
+            result.add(listOf(filterDate, 0).joinToString())
             startDate.add(Calendar.DATE, 1)
         } while (startDate.before(endDate))
         return result

@@ -13,12 +13,12 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Stat"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Stat" />
 
     <TextView
         android:id="@+id/stat_value"
@@ -28,17 +28,18 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        tools:text="##.###"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/chart_icon"
         app:layout_constraintStart_toEndOf="@+id/chart_icon_fake"
-        app:layout_constraintTop_toBottomOf="@+id/stat_title" />
+        app:layout_constraintTop_toBottomOf="@+id/stat_title"
+        tools:text="##.###" />
 
     <ImageView
         android:id="@+id/chart_icon"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginEnd="6dp"
+        android:contentDescription="@string/chart"
         android:src="@drawable/ic_chart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

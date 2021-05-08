@@ -62,7 +62,6 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
 
     @Subscribe
     fun onStatsFetchedSuccessfully(event: MainModel.StatsFetchedSuccessfullyEvent) {
-        MainModel.hasData = true
         model.setLastUpdateDateTime()
         refreshWidgetsState()
         hideLoadingState()
@@ -77,7 +76,7 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     private fun refreshWidgetsState() {
         val lastUpdate = model.getLastUpdateDateTime() ?: "Nunca"
         view.setLastUpdateDate("Última actualización: $lastUpdate")
-        if (MainModel.hasData.not()) {
+        if (model.hasNoDataYet()) {
             return
         }
 
@@ -208,7 +207,6 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
         view.withFragmentManager {
             progressDialog = ProgressDialogFragment.showProgressDialog(
                 fragmentManager = this,
-                showProgress = true,
                 text = "Actualizando datos...",
                 cancelable = false
             )
@@ -253,7 +251,7 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
 
     override fun onResume() {
         super.onResume()
-        triggerRefreshData(MainModel.hasData.not())
+        triggerRefreshData(model.hasNoDataYet())
         if (model.shouldShowRotateDeviceDialog()) {
             view.withFragmentManager {
                 RotateDeviceDialogFragment.show(this)
@@ -264,6 +262,7 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
 
     override fun onPause() {
         super.onPause()
+        model.cancelPendingJobs()
         progressDialog?.dismiss()
         errorDialog?.dismiss()
     }

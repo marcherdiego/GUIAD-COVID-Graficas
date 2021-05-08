@@ -7,12 +7,7 @@ import com.nerdscorner.mvplib.events.presenter.BaseFragmentPresenter
 class ProgressDialogPresenter(view: ProgressDialogView, model: ProgressDialogModel) :
     BaseFragmentPresenter<ProgressDialogView, ProgressDialogModel>(view, model) {
 
-    fun setConfiguration(progressbarIsVisible: Boolean, message: String?) {
-        if (progressbarIsVisible) {
-            view.showProgressBar()
-        } else {
-            view.showTickImage()
-        }
+    fun setConfiguration(message: String?) {
         if (message == null) {
             view.hideMessage()
         } else {

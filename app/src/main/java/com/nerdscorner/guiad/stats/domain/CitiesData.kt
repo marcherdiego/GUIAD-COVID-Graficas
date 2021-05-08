@@ -35,7 +35,7 @@ class CitiesData private constructor() : DataObject() {
                         }
                     }
                     .reduce { acc, s -> acc + s }
-                return@map "$date,$valuesSum"
+                return@map listOf(date, valuesSum).joinToString()
             }
     }
 
@@ -101,7 +101,7 @@ class CitiesData private constructor() : DataObject() {
         val totalRecoveredStat = Stat("Total de recuperados", INDEX_TOTAL_RECOVERED)
         val totalCasesStat = Stat("Total de casos", INDEX_TOTAL_CASES)
 
-        const val TODOS = "Todo el país"
+        private const val TODOS = "Todo el país"
         private const val ARTIGAS = "Artigas(UY-AR)"
         private const val CANELONES = "Canelones(UY-CA)"
         private const val CERRO_LARGO = "Cerro Largo(UY-CL)"

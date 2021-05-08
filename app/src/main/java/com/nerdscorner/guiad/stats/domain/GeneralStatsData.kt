@@ -107,7 +107,6 @@ class GeneralStatsData private constructor() : DataObject() {
         fun getInstance() = instance
 
         private const val INDEX_DATE = 0
-        private const val INDEX_DAY = 1
         private const val INDEX_IN_COURSE = 2
         private const val INDEX_NEW_CASES_ADJUSTED = 3
         private const val INDEX_NEW_CASES_ORIGINAL = 4
@@ -115,12 +114,10 @@ class GeneralStatsData private constructor() : DataObject() {
         private const val INDEX_NEW_DECEASES = 6
         private const val INDEX_TOTAL_DECEASES = 7
         private const val INDEX_TOTAL_CTI = 8
-        private const val INDEX_TOTAL_CI = 9
         private const val INDEX_NEW_RECOVERED = 10
         private const val INDEX_TOTAL_RECOVERED = 11
         private const val INDEX_NEW_TESTS = 12
         private const val INDEX_TOTAL_TESTS = 13
-        private const val INDEX_DAY_WEEK = 14
         private const val INDEX_MEDICAL_DISCHARGES = 15
         private const val INDEX_REPORTED_OUT_OF_DATE = 16
         private const val INDEX_POSITIVITY = 17

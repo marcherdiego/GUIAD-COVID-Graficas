@@ -4,8 +4,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtils {
+    const val DATE_FORMAT = "dd/MM/yyyy"
+    const val DATE_TIME_FORMAT = "dd/MM/yyyy - HH:mm:ss"
+    
     private val US_DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-    private val UY_DATE_FORMAT = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+    private val UY_DATE_FORMAT = SimpleDateFormat(DATE_FORMAT, Locale.US)
 
     fun formatDate(date: Date?): String {
         return if (date == null) {

@@ -31,7 +31,7 @@ class DeceasesData private constructor() : DataObject() {
                     }
                 }
                 .reduce { acc, s -> acc + s }
-            return@map "$date,$valuesSum"
+            return@map listOf(date, valuesSum).joinToString()
         }
         return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
     }

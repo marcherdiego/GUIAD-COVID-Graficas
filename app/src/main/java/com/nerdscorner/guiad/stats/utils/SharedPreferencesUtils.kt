@@ -13,6 +13,7 @@ object SharedPreferencesUtils {
     private const val GENERAL_DATA = "general_data"
     private const val P7_BY_CITY_DATA = "p7_by_city_data"
     private const val P7_DATA = "p7_data"
+    private const val MOBILITY_DATA = "mobility_data"
 
     private const val ROTATE_DEVICE_SHOWN = "rotate_device_shown"
     private const val SELECTED_DATA_RANGE_INDEX = "data_range_index"
@@ -62,6 +63,12 @@ object SharedPreferencesUtils {
     }
 
     fun getP7Data() = sharedPreferences.getString(P7_DATA, null)
+
+    fun saveMobilityData(data: String?) {
+        saveString(MOBILITY_DATA, data)
+    }
+
+    fun getMobilityData() = sharedPreferences.getString(MOBILITY_DATA, null)
 
     fun setRotateDeviceDialogShown(shown: Boolean) {
         saveBoolean(ROTATE_DEVICE_SHOWN, shown)

@@ -31,6 +31,7 @@
     <string name="general_stats_title">Estadísticas generales</string>
     <string name="cti_stats_title">Datos CTI</string>
     <string name="data_by_city_stats_title">Datos por departamento</string>
+    
     <string name="today">Hoy</string>
     <string name="view_more">Ver más</string>
     <string name="ok">Entendido</string>
@@ -38,6 +39,18 @@
     <string name="not_available">N/A</string>
     <string name="data_limit">Rango</string>
     <string name="building_chart">Esperando datos…</string>
+
+    <!-- Accessibility messages -->
+    <string name="error_icon">Ícono de error</string>
+    <string name="data_fetch_success">Carga de datos exitosa</string>
+    <string name="back_1_day">Retroceder 1 día</string>
+    <string name="back_1_month">Retroceder 1 mes</string>
+    <string name="forward_1_day">Avanzar 1 día</string>
+    <string name="forward_1_month">Avanzar 1 mes</string>
+    <string name="chart">Gráfico</string>
+    <string name="rotate_device_icon">Ícono girar dispositivo</string>
+    <string name="stat_icon">Ícono de dato en cuestión</string>
+    <string name="trend_icon">Ícono indicador a la suba o a la baja</string>
 
     <!-- Plurals -->
     <plurals name="selected_stats">

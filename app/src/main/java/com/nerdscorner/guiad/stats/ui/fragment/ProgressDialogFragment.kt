@@ -38,10 +38,7 @@ class ProgressDialogFragment : DialogFragment() {
         )
 
         arguments?.apply {
-            presenter.setConfiguration(
-                progressbarIsVisible = getBoolean(LOADING, true),
-                message = getString(MESSAGE)
-            )
+            presenter.setConfiguration(message = getString(MESSAGE))
         }
     }
 
@@ -60,20 +57,17 @@ class ProgressDialogFragment : DialogFragment() {
     companion object {
         private const val TAG = "ProgressDialogFragment"
         private const val MESSAGE = "dialog_message"
-        private const val LOADING = "loading"
         private const val CUSTOM_VIEW = "custom_view"
         private const val CANCELABLE = "cancelable"
 
         private fun newInstance(
             text: String? = null,
-            showProgress: Boolean,
             cancelable: Boolean = true,
             @LayoutRes customView: Int = R.layout.progress_dialog
         ): ProgressDialogFragment {
             return ProgressDialogFragment().apply {
                 arguments = Bundle().apply {
                     putString(MESSAGE, text)
-                    putBoolean(LOADING, showProgress)
                     putInt(CUSTOM_VIEW, customView)
                     putBoolean(CANCELABLE, cancelable)
                 }
@@ -85,14 +79,12 @@ class ProgressDialogFragment : DialogFragment() {
         fun showProgressDialog(
             fragmentManager: FragmentManager,
             text: String? = null,
-            showProgress: Boolean,
             cancelable: Boolean = true
         ): ProgressDialogFragment {
             val existingFragment = searchFragment(fragmentManager)
             return if (existingFragment == null) {
                 val result = newInstance(
                     text = text,
-                    showProgress = showProgress,
                     cancelable = cancelable
                 )
                 result.show(fragmentManager)

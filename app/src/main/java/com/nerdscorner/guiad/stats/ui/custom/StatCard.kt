@@ -13,6 +13,7 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.R
+import com.nerdscorner.guiad.stats.extensions.toList
 
 class StatCard @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -54,12 +55,7 @@ class StatCard @JvmOverloads constructor(
     }
 
     fun setup(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
-        val dataSets = if (chartData == null) {
-            null
-        } else {
-            listOf(chartData)
-        }
-        setup(dataSets, statLabel, latestValue, isTrendingUp)
+        setup(chartData.toList(), statLabel, latestValue, isTrendingUp)
     }
 
     fun setup(chartData: List<ILineDataSet>?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {

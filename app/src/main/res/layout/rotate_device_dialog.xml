@@ -19,6 +19,7 @@
             android:id="@+id/rotate_device_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:contentDescription="@string/rotate_device_icon"
             android:rotation="45"
             android:src="@drawable/rotate_device"
             app:layout_constraintEnd_toEndOf="parent"

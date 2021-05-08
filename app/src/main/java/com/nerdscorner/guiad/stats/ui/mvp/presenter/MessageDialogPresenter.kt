@@ -11,7 +11,7 @@ class MessageDialogPresenter(view: MessageDialogView, model: MessageDialogModel,
     BaseFragmentPresenter<MessageDialogView, MessageDialogModel>(view, model, bus) {
 
     fun setConfiguration(message: String?, isPrimaryActionVisible: Boolean, isSecondaryActionVisible: Boolean) {
-        view.showTickImage()
+        view.showResultImage()
         if (message == null) {
             view.hideMessage()
         } else {

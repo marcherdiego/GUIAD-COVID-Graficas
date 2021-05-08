@@ -20,5 +20,6 @@ class Application : Application() {
         GeneralStatsData.getInstance().setData(SharedPreferencesUtils.getGeneralData())
         P7ByCityData.getInstance().setData(SharedPreferencesUtils.getP7ByCityData())
         P7Data.getInstance().setData(SharedPreferencesUtils.getP7Data())
+        MobilityData.getInstance().setData(SharedPreferencesUtils.getMobilityData())
     }
 }

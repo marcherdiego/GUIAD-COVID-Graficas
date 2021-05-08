@@ -29,7 +29,7 @@ class P7ByCityData private constructor() : DataObject() {
                         }
                     }
                     .sum()
-                return@map "$date,$valuesSum"
+                return@map listOf(date, valuesSum).joinToString()
             }
         return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
     }
@@ -47,9 +47,6 @@ class P7ByCityData private constructor() : DataObject() {
 
         private const val INDEX_DATE = 0
         private const val INDEX_CITY = 1
-        private const val INDEX_ISO = 2
-        private const val INDEX_ADMLCD = 3
-        private const val INDEX_POPULATION = 4
         private const val INDEX_P7 = 5
         private const val INDEX_P7_PER_100K = 6
 
