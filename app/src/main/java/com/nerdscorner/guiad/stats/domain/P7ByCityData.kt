@@ -50,7 +50,7 @@ class P7ByCityData private constructor() : DataObject() {
         private const val INDEX_P7 = 5
         private const val INDEX_P7_PER_100K = 6
 
-        val p7Stat = Stat("Índice p7 (por departamento)", INDEX_P7)
+        val p7Stat = Stat("Valor p7 (por departamento)", INDEX_P7)
         val p7Per100KStat = Stat("Índice p7/100.000 habitantes (por departamento)", INDEX_P7_PER_100K)
     }
 }

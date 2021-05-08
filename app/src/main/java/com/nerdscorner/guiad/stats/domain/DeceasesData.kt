@@ -2,7 +2,11 @@ package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.guiad.stats.extensions.getDaysDiff
+import com.nerdscorner.guiad.stats.extensions.sortIf
+import com.nerdscorner.guiad.stats.utils.DateUtils
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
+import java.util.*
 
 class DeceasesData private constructor() : DataObject() {
 
@@ -10,30 +14,37 @@ class DeceasesData private constructor() : DataObject() {
         stat: Stat,
         selectedCities: List<String>,
         @ColorInt color: Int,
-        @ColorInt valueTextColor: Int,
-        limit: Int? = null
+        @ColorInt valueTextColor: Int
     ): ILineDataSet {
-        var dataMap = dataLines.groupBy { it.split(COMMA)[stat.index] }
-        if (stat.isSorted) {
-            dataMap = dataMap.toSortedMap()
-        }
-        val dataLines = dataMap.map { dateEntries ->
-            val date = dateEntries.key
-            val valuesSum = dateEntries
-                .value
-                .map {
-                    val dataTokens = it.split(COMMA)
-                    val city = dataTokens[INDEX_CITY]
-                    if (city in selectedCities) {
-                        1
-                    } else {
-                        0
+        val dataMap = dataLines
+            .groupBy { it.split(COMMA)[stat.index] }
+            .sortIf(stat.isSorted)
+        val selectedDataRange = getSelectedDataRange()
+        val today = Date()
+        val dataLines = dataMap
+            .map { dataEntries ->
+                val dataX = dataEntries.key
+                val valuesSum = dataEntries
+                    .value
+                    .map {
+                        val dataTokens = it.split(COMMA)
+                        val date = DateUtils.parseDate(dataTokens[INDEX_DATE])
+                        val city = dataTokens[INDEX_CITY]
+                        if (today.getDaysDiff(date) <= selectedDataRange && city in selectedCities) {
+                            1
+                        } else {
+                            0
+                        }
                     }
+                    .reduce { acc, s -> acc + s }
+                return@map if (valuesSum == 0) {
+                    null
+                } else {
+                    listOf(dataX, valuesSum).joinToString()
                 }
-                .reduce { acc, s -> acc + s }
-            return@map listOf(date, valuesSum).joinToString()
-        }
-        return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
+            }
+            .filterNotNull()
+        return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, dataLines.size)
     }
 
     override fun getStats() = listOf(dateStat, ageStat)

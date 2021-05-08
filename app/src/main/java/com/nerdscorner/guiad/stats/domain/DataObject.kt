@@ -78,15 +78,14 @@ abstract class DataObject {
             this.setDrawHighlightIndicators(true)
         }
     }
+    
+    protected fun getSelectedDataRange(): Int {
+        val selectedRangeIndex = SharedPreferencesUtils.getSelectedDataRangeIndex()
+        return RangeUtils.getDaysCountForRangeIndex(selectedRangeIndex, dataLines.size)
+    }
 
     private fun getDataLimit(dataLines: List<String>, limit: Int?): Int {
-        return if (limit != null) {
-            limit
-        } else {
-            val selectedRangeIndex = SharedPreferencesUtils.getSelectedDataRangeIndex()
-            val selectedDataRange = RangeUtils.getDaysCountForRangeIndex(selectedRangeIndex, dataLines.size)
-            min(dataLines.size, selectedDataRange)
-        }
+        return limit ?: min(dataLines.size, getSelectedDataRange())
     }
 
     companion object {
