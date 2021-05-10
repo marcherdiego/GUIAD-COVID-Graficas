@@ -2,9 +2,10 @@ package com.nerdscorner.guiad.stats.ui.mvp.model
 
 import com.nerdscorner.guiad.stats.domain.*
 import com.nerdscorner.guiad.stats.networking.ServiceGenerator
-import com.nerdscorner.guiad.stats.networking.StatsService
+import com.nerdscorner.guiad.stats.networking.GuiadStatsService
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 import com.nerdscorner.events.coroutines.extensions.withResult
+import com.nerdscorner.guiad.stats.networking.VaccinesService
 import com.nerdscorner.guiad.stats.utils.DateUtils
 import com.nerdscorner.mvplib.events.model.BaseEventsModel
 import kotlinx.coroutines.Job
@@ -13,18 +14,21 @@ import java.util.*
 import kotlin.reflect.KSuspendFunction0
 
 class MainModel : BaseEventsModel() {
-    private val statsService = ServiceGenerator.createService(StatsService::class.java)
+    private val guiadStatsService = ServiceGenerator.createGuiadService(GuiadStatsService::class.java)
+    private val vaccinesService = ServiceGenerator.createVaccinesService(VaccinesService::class.java)
     private val jobs = mutableMapOf<Int, Job>()
 
     fun fetchStats() {
         cancelPendingJobs()
-        fetchStat(statsService::getStatsByCity, CitiesData.getInstance())
-        fetchStat(statsService::getCtiStats, CtiData.getInstance())
-        fetchStat(statsService::getDeceases, DeceasesData.getInstance())
-        fetchStat(statsService::getGeneralStats, GeneralStatsData.getInstance())
-        fetchStat(statsService::getP7StatisticsByCity, P7ByCityData.getInstance())
-        fetchStat(statsService::getP7Statistics, P7Data.getInstance())
-        fetchStat(statsService::getMobilityStats, MobilityData.getInstance())
+        fetchStat(guiadStatsService::getStatsByCity, CitiesData.getInstance())
+        fetchStat(guiadStatsService::getCtiStats, CtiData.getInstance())
+        fetchStat(guiadStatsService::getDeceases, DeceasesData.getInstance())
+        fetchStat(guiadStatsService::getGeneralStats, GeneralStatsData.getInstance())
+        fetchStat(guiadStatsService::getP7StatisticsByCity, P7ByCityData.getInstance())
+        fetchStat(guiadStatsService::getP7Statistics, P7Data.getInstance())
+        fetchStat(guiadStatsService::getMobilityStats, MobilityData.getInstance())
+
+        fetchStat(vaccinesService::getDataBySegment, VaccinesBySegmentData.getInstance())
     }
 
     private fun fetchStat(call: KSuspendFunction0<String>, dataObject: DataObject) {
@@ -32,12 +36,16 @@ class MainModel : BaseEventsModel() {
         jobs[key] = withResult(
             resultFunc = call,
             success = {
-                dataObject.setData(this!!.trim())
-                removePendingJob(key)
+                this?.trim()?.let {
+                    dataObject.setData(it)
+                    removePendingJob(key)
+                } ?: run {
+                    bus.post(StatsFetchFailedEvent())
+                }
             },
             fail = {
                 printStackTrace()
-                bus.post(StatsFetchedFailedEvent())
+                bus.post(StatsFetchFailedEvent())
             }
         )
     }
@@ -76,5 +84,5 @@ class MainModel : BaseEventsModel() {
     }
 
     class StatsFetchedSuccessfullyEvent
-    class StatsFetchedFailedEvent
+    class StatsFetchFailedEvent
 }

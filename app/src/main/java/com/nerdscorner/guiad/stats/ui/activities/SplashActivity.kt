@@ -31,6 +31,7 @@ class SplashActivity : AppCompatActivity() {
                 P7ByCityData.getInstance().setData(SharedPreferencesUtils.getP7ByCityData())
                 P7Data.getInstance().setData(SharedPreferencesUtils.getP7Data())
                 MobilityData.getInstance().setData(SharedPreferencesUtils.getMobilityData())
+                VaccinesBySegmentData.getInstance().setData(SharedPreferencesUtils.getVaccinesBySegmentData())
             }
 
             // After finishing initializing, start MainActivity

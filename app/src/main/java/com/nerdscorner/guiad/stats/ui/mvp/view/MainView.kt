@@ -15,6 +15,7 @@ class MainView(activity: MainActivity) : BaseActivityView(activity) {
     private val p7Card: StatCard = activity.findViewById(R.id.p7_stats_card)
     private val mobilityCard: StatCard = activity.findViewById(R.id.mobility_stats_card)
     private val rawDataCard: StatCard = activity.findViewById(R.id.raw_data_general_stats_card)
+    private val vaccinesBySegmentCard: StatCard = activity.findViewById(R.id.vaccines_general_stats_card)
 
     private val lastUpdated: TextView = activity.findViewById(R.id.last_updated)
 
@@ -67,6 +68,13 @@ class MainView(activity: MainActivity) : BaseActivityView(activity) {
         }
     }
 
+    fun setupVaccinesBySegmentCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
+        vaccinesBySegmentCard.setup(chartData, statLabel, latestValue, isTrendingUp)
+        vaccinesBySegmentCard.setOnClickListener {
+            bus.post(VaccinesBySegmentStatsButtonClickedEvent())
+        }
+    }
+
     fun setLastUpdateDate(lastUpdateText: String) {
         lastUpdated.text = lastUpdateText
     }
@@ -78,6 +86,7 @@ class MainView(activity: MainActivity) : BaseActivityView(activity) {
     class DeceasesStatsButtonClickedEvent
     class P7StatsButtonClickedEvent
     class MobilityStatsButtonClickedEvent
+    class VaccinesBySegmentStatsButtonClickedEvent
 
     // Raw data
     class RawDataGeneralStatsButtonClickedEvent

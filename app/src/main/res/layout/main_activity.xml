@@ -114,6 +114,27 @@
                 app:stat_Icon="@drawable/ic_calendar"
                 app:stat_Name="@string/stats_and_charts" />
 
+            <TextView
+                android:id="@+id/vaccines_data_label"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Vacunas"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/raw_data_general_stats_card" />
+
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                android:id="@+id/vaccines_general_stats_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/vaccines_data_label"
+                app:stat_Icon="@drawable/ic_syringe"
+                app:stat_Name="Vacunas por segmento" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -61,6 +61,11 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     }
 
     @Subscribe
+    fun onVaccinesBySegmentStatsButtonClicked(event: MainView.VaccinesBySegmentStatsButtonClickedEvent) {
+        startActivity(StatsVaccineBySegmentActivity::class.java)
+    }
+
+    @Subscribe
     fun onStatsFetchedSuccessfully(event: MainModel.StatsFetchedSuccessfullyEvent) {
         model.setLastUpdateDateTime()
         refreshWidgetsState()
@@ -68,7 +73,7 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     }
 
     @Subscribe
-    fun onStatsStatsFetchedFailed(event: MainModel.StatsFetchedFailedEvent) {
+    fun onStatsFetchFailed(event: MainModel.StatsFetchFailedEvent) {
         hideLoadingState()
         showErrorState()
     }
@@ -89,6 +94,8 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
         buildP7DataChart(graphColor)
         buildMobilityDataChart(graphColor)
         buildRawDataChart(graphColor)
+
+        buildVaccinesBySegmentStatChart(graphColor)
     }
 
     private fun buildCtiStatChart(@ColorInt graphColor: Int) {
@@ -184,6 +191,19 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
             },
             resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
                 view.setupRawDataCard(dataSet, statName, lastValue, isTrendingUp)
+            }
+        )
+    }
+
+    private fun buildVaccinesBySegmentStatChart(@ColorInt graphColor: Int) {
+        buildStatChart(
+            VaccinesBySegmentData.getInstance(),
+            VaccinesBySegmentData.totalNoRiskStat,
+            dataSetFunc = { dataObject, stat ->
+                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
+            },
+            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
+                view.setupVaccinesBySegmentCard(dataSet, statName, lastValue, isTrendingUp)
             }
         )
     }

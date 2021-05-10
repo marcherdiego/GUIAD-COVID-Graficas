@@ -2,7 +2,7 @@ package com.nerdscorner.guiad.stats.networking
 
 import retrofit2.http.GET
 
-interface StatsService {
+interface GuiadStatsService {
     @GET("estadisticasUY.csv")
     suspend fun getGeneralStats(): String
 

@@ -51,6 +51,7 @@
     <string name="rotate_device_icon">Ícono girar dispositivo</string>
     <string name="stat_icon">Ícono de dato en cuestión</string>
     <string name="trend_icon">Ícono indicador a la suba o a la baja</string>
+    <string name="data_vaccine_by_segment_title">Vacunas por segmento</string>
 
     <!-- Plurals -->
     <plurals name="selected_stats">
