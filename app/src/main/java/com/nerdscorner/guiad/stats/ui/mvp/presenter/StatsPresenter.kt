@@ -15,10 +15,10 @@ import org.greenrobot.eventbus.Subscribe
 
 abstract class StatsPresenter<V : StatsView, M : StatsModel>(view: V, model: M) : BaseActivityPresenter<V, M>(view, model) {
 
-    @CallSuper
     @Subscribe
-    open fun onRangeSelected(event: StatsView.RangeSelectedEvent) {
+    fun onRangeSelected(event: StatsView.RangeSelectedEvent) {
         model.selectedRange = event.position
+        model.buildDataSets()
     }
     
     @Subscribe
@@ -70,5 +70,6 @@ abstract class StatsPresenter<V : StatsView, M : StatsModel>(view: V, model: M) 
             view.setSelectedCity(model.selectedCity)
             view.setSelectedRange(model.selectedRange)
         }
+        model.buildDataSets()
     }
 }

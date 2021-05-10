@@ -13,14 +13,4 @@ class GeneralStatsPresenter(view: GeneralStatsView, model: GeneralStatsModel) :
         model.selectedStats = event.selectedStats
         model.buildDataSets()
     }
-
-    override fun onRangeSelected(event: StatsView.RangeSelectedEvent) {
-        super.onRangeSelected(event)
-        model.buildDataSets()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        model.buildDataSets()
-    }
 }

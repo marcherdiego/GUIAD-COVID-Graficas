@@ -48,6 +48,9 @@
         <activity
             android:name=".ui.activities.StatsVaccineBySegmentActivity"
             android:label="@string/data_vaccine_by_segment_title" />
+        <activity
+            android:name=".ui.activities.StatsVaccineByAgeActivity"
+            android:label="@string/data_vaccine_by_age_title" />
     </application>
 
 </manifest>

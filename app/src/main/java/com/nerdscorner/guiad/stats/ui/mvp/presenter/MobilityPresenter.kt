@@ -12,14 +12,4 @@ class MobilityPresenter(view: MobilityView, model: MobilityModel) : StatsPresent
         model.selectedStats = event.selectedStats
         model.buildDataSets()
     }
-
-    override fun onRangeSelected(event: StatsView.RangeSelectedEvent) {
-        super.onRangeSelected(event)
-        model.buildDataSets()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        model.buildDataSets()
-    }
 }

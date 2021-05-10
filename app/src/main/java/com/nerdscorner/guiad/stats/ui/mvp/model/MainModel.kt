@@ -29,6 +29,7 @@ class MainModel : BaseEventsModel() {
         fetchStat(guiadStatsService::getMobilityStats, MobilityData.getInstance())
 
         fetchStat(vaccinesService::getDataBySegment, VaccinesBySegmentData.getInstance(), mandatoryLoad = false)
+        fetchStat(vaccinesService::getDataByAge, VaccinesByAgeData.getInstance(), mandatoryLoad = false)
     }
 
     private fun fetchStat(call: KSuspendFunction0<String>, dataObject: DataObject, mandatoryLoad: Boolean = true) {

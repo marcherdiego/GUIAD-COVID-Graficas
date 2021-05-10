@@ -120,20 +120,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Vacunas"
+                android:text="@string/vaccines"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/raw_data_general_stats_card" />
 
             <com.nerdscorner.guiad.stats.ui.custom.StatCard
-                android:id="@+id/vaccines_general_stats_card"
+                android:id="@+id/vaccines_by_segment_stats_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:padding="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/vaccines_data_label"
-                app:stat_Icon="@drawable/ic_syringe"
-                app:stat_Name="Vacunas por segmento" />
+                app:stat_Icon="@drawable/ic_segment"
+                app:stat_Name="@string/vaccines_by_segment" />
+
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                android:id="@+id/vaccines_by_age_stats_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/vaccines_by_segment_stats_card"
+                app:stat_Icon="@drawable/ic_age"
+                app:stat_Name="@string/vaccines_by_age" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -52,6 +52,10 @@
     <string name="stat_icon">Ícono de dato en cuestión</string>
     <string name="trend_icon">Ícono indicador a la suba o a la baja</string>
     <string name="data_vaccine_by_segment_title">Vacunas por segmento</string>
+    <string name="vaccines">Vacunas</string>
+    <string name="vaccines_by_segment">Vacunas por segmento</string>
+    <string name="vaccines_by_age">Vacunas por edad</string>
+    <string name="data_vaccine_by_age_title">Vacunación por edad</string>
 
     <!-- Plurals -->
     <plurals name="selected_stats">
