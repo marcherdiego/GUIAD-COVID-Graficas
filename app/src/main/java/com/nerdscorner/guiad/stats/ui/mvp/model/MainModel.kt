@@ -28,10 +28,10 @@ class MainModel : BaseEventsModel() {
         fetchStat(guiadStatsService::getP7Statistics, P7Data.getInstance())
         fetchStat(guiadStatsService::getMobilityStats, MobilityData.getInstance())
 
-        fetchStat(vaccinesService::getDataBySegment, VaccinesBySegmentData.getInstance())
+        fetchStat(vaccinesService::getDataBySegment, VaccinesBySegmentData.getInstance(), mandatoryLoad = false)
     }
 
-    private fun fetchStat(call: KSuspendFunction0<String>, dataObject: DataObject) {
+    private fun fetchStat(call: KSuspendFunction0<String>, dataObject: DataObject, mandatoryLoad: Boolean = true) {
         val key = dataObject.hashCode()
         jobs[key] = withResult(
             resultFunc = call,
@@ -40,12 +40,20 @@ class MainModel : BaseEventsModel() {
                     dataObject.setData(it)
                     removePendingJob(key)
                 } ?: run {
-                    bus.post(StatsFetchFailedEvent())
+                    if (mandatoryLoad) {
+                        bus.post(StatsFetchFailedEvent())
+                    } else {
+                        removePendingJob(key)
+                    }
                 }
             },
             fail = {
                 printStackTrace()
-                bus.post(StatsFetchFailedEvent())
+                if (mandatoryLoad) {
+                    bus.post(StatsFetchFailedEvent())
+                } else {
+                    removePendingJob(key)
+                }
             }
         )
     }
@@ -58,7 +66,7 @@ class MainModel : BaseEventsModel() {
     }
 
     fun getLastUpdateDateTime() = SharedPreferencesUtils.getLastUpdateDateTime()
-    
+
     fun hasNoDataYet() = getLastUpdateDateTime() == null
 
     fun setLastUpdateDateTime() {

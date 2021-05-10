@@ -198,7 +198,7 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     private fun buildVaccinesBySegmentStatChart(@ColorInt graphColor: Int) {
         buildStatChart(
             VaccinesBySegmentData.getInstance(),
-            VaccinesBySegmentData.totalNoRiskStat,
+            VaccinesBySegmentData.dailyNoRiskStat,
             dataSetFunc = { dataObject, stat ->
                 dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },

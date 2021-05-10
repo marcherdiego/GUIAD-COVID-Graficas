@@ -2,6 +2,7 @@ package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.guiad.stats.extensions.formatNumberString
 import com.nerdscorner.guiad.stats.extensions.roundToString
 import com.nerdscorner.guiad.stats.utils.DateUtils
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
@@ -39,7 +40,7 @@ class MobilityData private constructor() : DataObject() {
 
     override fun getLatestValue(stat: Stat): String {
         return if (stat.index == INDEX_MOBILITY) {
-            getMobilityIndexAt(dataLines.size - 1)
+            getMobilityIndexAt(dataLines.size - 1).formatNumberString()
         } else {
             super.getLatestValue(stat)
         }

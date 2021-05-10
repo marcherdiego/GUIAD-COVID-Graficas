@@ -2,9 +2,24 @@ package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.guiad.stats.utils.DateUtils
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 
 class VaccinesBySegmentData private constructor() : DataObject() {
+
+    override fun setData(data: String?) {
+        super.setData(data)
+
+        dataLines = dataLines.map { line ->
+            line
+                .split(COMMA)
+                .toMutableList()
+                .apply {
+                    this[INDEX_DATE] = DateUtils.convertUsDateToUyDate(this[INDEX_DATE])
+                }
+                .joinToString()
+        }.toMutableList()
+    }
 
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
         return getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)

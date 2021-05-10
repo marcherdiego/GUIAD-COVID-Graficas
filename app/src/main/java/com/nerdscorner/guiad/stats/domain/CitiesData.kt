@@ -2,6 +2,7 @@ package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.guiad.stats.extensions.formatNumberString
 import com.nerdscorner.guiad.stats.extensions.roundToString
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 
@@ -58,7 +59,7 @@ class CitiesData private constructor() : DataObject() {
     override fun getLatestValue(stat: Stat): String {
         val dataLines = getDataLinesForCities(stat, getAllCities().drop(1))
         val latestValue = getValueAt(dataLines, dataLines.size - 1)?.times(stat.factor) ?: return N_A
-        return latestValue.roundToString()
+        return latestValue.roundToString().formatNumberString()
     }
 
     override fun isTrendingUp(stat: Stat): Boolean {

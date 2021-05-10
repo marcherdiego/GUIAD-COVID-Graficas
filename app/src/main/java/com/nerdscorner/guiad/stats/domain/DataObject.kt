@@ -6,6 +6,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.nerdscorner.guiad.stats.extensions.formatNumberString
 import com.nerdscorner.guiad.stats.extensions.roundToString
 import com.nerdscorner.guiad.stats.utils.RangeUtils
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
@@ -35,7 +36,7 @@ abstract class DataObject {
             ?.toFloatOrNull()
             ?.times(stat.factor)
             ?: return N_A
-        return latestValue.roundToString()
+        return latestValue.roundToString().formatNumberString()
     }
 
     open fun isTrendingUp(stat: Stat): Boolean {
