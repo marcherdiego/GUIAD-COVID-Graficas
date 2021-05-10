@@ -1,13 +1,26 @@
 package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
+import androidx.annotation.WorkerThread
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.extensions.format
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 
 class GeneralStatsData private constructor() : DataObject() {
+    private lateinit var dataByDate: Map<String, List<String>>
+
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
         return getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
+    }
+
+    @WorkerThread
+    override fun setData(data: String?) {
+        super.setData(data)
+
+        dataByDate = dataLines.associate {
+            val tokens = it.split(COMMA)
+            Pair(tokens[INDEX_DATE], it.split(COMMA))
+        }
     }
 
     override fun getStats() = listOf(
@@ -32,28 +45,27 @@ class GeneralStatsData private constructor() : DataObject() {
     }
 
     fun getStatsForDate(filterDate: String, filterPreviousDayDate: String): StatsForDate {
-        val dataLine = dataLines.firstOrNull { it.split(COMMA)[INDEX_DATE] == filterDate }
+        val dataLine = dataByDate[filterDate]
         return if (dataLine == null) {
             StatsForDate()
         } else {
             val dateP7Stats = P7Data.getInstance().getStatsForDate(filterDate)
             val previousDayP7Stats = P7Data.getInstance().getStatsForDate(filterPreviousDayDate)
-            val dataTokens = dataLine.split(COMMA)
             StatsForDate(
-                inCourse = dataTokens[INDEX_IN_COURSE],
-                newCasesAdjusted = dataTokens[INDEX_NEW_CASES_ADJUSTED],
-                newCasesOriginal = dataTokens[INDEX_NEW_CASES_ORIGINAL],
-                totalCases = dataTokens[INDEX_TOTAL_CASES],
-                newDeceases = dataTokens[INDEX_NEW_DECEASES],
-                totalDeceases = dataTokens[INDEX_TOTAL_DECEASES],
-                totalCti = dataTokens[INDEX_TOTAL_CTI],
-                newRecovered = dataTokens[INDEX_NEW_RECOVERED],
-                totalRecovered = dataTokens[INDEX_TOTAL_RECOVERED],
-                newTests = dataTokens[INDEX_NEW_TESTS],
-                totalTests = dataTokens[INDEX_TOTAL_TESTS],
-                medicalDischarges = dataTokens[INDEX_MEDICAL_DISCHARGES],
-                reportedOutOfDate = dataTokens[INDEX_REPORTED_OUT_OF_DATE],
-                positivity = dataTokens[INDEX_POSITIVITY],
+                inCourse = dataLine[INDEX_IN_COURSE],
+                newCasesAdjusted = dataLine[INDEX_NEW_CASES_ADJUSTED],
+                newCasesOriginal = dataLine[INDEX_NEW_CASES_ORIGINAL],
+                totalCases = dataLine[INDEX_TOTAL_CASES],
+                newDeceases = dataLine[INDEX_NEW_DECEASES],
+                totalDeceases = dataLine[INDEX_TOTAL_DECEASES],
+                totalCti = dataLine[INDEX_TOTAL_CTI],
+                newRecovered = dataLine[INDEX_NEW_RECOVERED],
+                totalRecovered = dataLine[INDEX_TOTAL_RECOVERED],
+                newTests = dataLine[INDEX_NEW_TESTS],
+                totalTests = dataLine[INDEX_TOTAL_TESTS],
+                medicalDischarges = dataLine[INDEX_MEDICAL_DISCHARGES],
+                reportedOutOfDate = dataLine[INDEX_REPORTED_OUT_OF_DATE],
+                positivity = dataLine[INDEX_POSITIVITY],
                 harvardIndex = dateP7Stats.p7,
                 indexVariation = getStatDelta(dateP7Stats.p7, previousDayP7Stats.p7)
             )
@@ -94,7 +106,7 @@ class GeneralStatsData private constructor() : DataObject() {
     ) {
         init {
             positivity = try {
-                (positivity.toFloat() * positivityStat.factor).format(2)
+                (positivity.toFloat() * positivityStat.factor).format()
             } catch (e: Exception) {
                 positivity
             }

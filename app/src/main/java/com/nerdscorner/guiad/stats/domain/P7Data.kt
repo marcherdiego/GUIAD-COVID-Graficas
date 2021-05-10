@@ -9,7 +9,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class P7Data private constructor() : DataObject() {
-
+    private lateinit var dataByDate: Map<String, List<String>>
+    
     private val cachedDatesIndexes = mutableListOf<String>()
 
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
@@ -23,6 +24,10 @@ class P7Data private constructor() : DataObject() {
         dataLines.forEach {
             cachedDatesIndexes.add(it.split(COMMA)[INDEX_DATE])
         }
+        dataByDate = dataLines.associate {
+            val tokens = it.split(COMMA)
+            Pair(tokens[INDEX_DATE], it.split(COMMA))
+        }
     }
 
     override fun getStats() = listOf(p7Stat)
@@ -32,12 +37,11 @@ class P7Data private constructor() : DataObject() {
     }
 
     fun getStatsForDate(filterDate: String): StatsForDate {
-        val dataLine = dataLines.firstOrNull { it.split(COMMA)[INDEX_DATE] == filterDate }
+        val dataLine = dataByDate[filterDate]
         return if (dataLine == null) {
             StatsForDate()
         } else {
-            val dataTokens = dataLine.split(COMMA)
-            StatsForDate(p7 = dataTokens[INDEX_P7])
+            StatsForDate(p7 = dataLine[INDEX_P7])
         }
     }
 

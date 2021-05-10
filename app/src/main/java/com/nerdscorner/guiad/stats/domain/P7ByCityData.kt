@@ -5,6 +5,19 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 
 class P7ByCityData private constructor() : DataObject() {
+    private lateinit var dataByCity: Map<String, Map<String, List<List<String>>>>
+
+    override fun setData(data: String?) {
+        super.setData(data)
+        dataByCity = dataLines
+            .groupBy { it.split(COMMA)[INDEX_CITY] }
+            .mapValues {
+                it
+                    .value
+                    .map { it.split(COMMA) }
+                    .groupBy { it[INDEX_DATE] }
+            }
+    }
 
     fun getDataSet(
         stat: Stat,
@@ -13,23 +26,26 @@ class P7ByCityData private constructor() : DataObject() {
         @ColorInt valueTextColor: Int,
         limit: Int? = null
     ): ILineDataSet {
-        val dataLines = dataLines
-            .groupBy { it.split(COMMA)[INDEX_DATE] }
-            .map { dateEntries ->
-                val date = dateEntries.key
-                val valuesSum = dateEntries
-                    .value
-                    .map {
-                        val dataTokens = it.split(COMMA)
-                        val city = dataTokens[INDEX_CITY]
-                        if (city in selectedCities) {
-                            dataTokens[stat.index].toFloatOrNull() ?: 0f
-                        } else {
-                            0f
-                        }
-                    }
-                    .sum()
-                return@map listOf(date, valuesSum).joinToString()
+        val dataLines = dataByCity
+            .filter { it.key in selectedCities }
+            .flatMap { dataByCity ->
+                dataByCity.value.map { dataByCityAndDate ->
+                    val date = dataByCityAndDate.key
+                    val valuesSum = dataByCityAndDate
+                        .value
+                        .map { it[stat.index].toFloatOrNull() ?: 0f }
+                        .reduce { acc, v -> acc + v }
+                    Pair(date, valuesSum)
+                }
+            }
+            .groupBy { it.first }
+            .map {
+                val date = it.key
+                var valuesSum = 0f
+                it.value.forEach {
+                    valuesSum += it.second
+                }
+                listOf(date, valuesSum).joinToString()
             }
         return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
     }

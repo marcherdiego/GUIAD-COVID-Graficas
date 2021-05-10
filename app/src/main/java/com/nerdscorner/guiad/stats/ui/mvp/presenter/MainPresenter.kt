@@ -244,9 +244,13 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
 
     private fun hideLoadingState() {
         progressDialog?.dismiss()
+        progressDialog = null
     }
 
     private fun triggerRefreshData(shouldShowProgress: Boolean) {
+        if (progressDialog != null) {
+            return
+        }
         if (shouldShowProgress) {
             showLoadingState()
         }

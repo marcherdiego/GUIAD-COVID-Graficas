@@ -7,19 +7,11 @@ import com.nerdscorner.guiad.stats.utils.DateUtils
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 
 class MobilityData private constructor() : DataObject() {
+    private lateinit var mobilityIndexDataLines: List<String>
 
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
         return if (stat == mobilityIndexStat) {
-            val dataLines = dataLines.map { line ->
-                val dataTokens = line.split(COMMA)
-                val date = dataTokens[INDEX_DATE]
-                val transit = dataTokens[INDEX_TRANSIT_STATIONS].toFloatOrNull() ?: 0f
-                val retailAndRecreation = dataTokens[INDEX_RETAIL_AND_RECREATION].toFloatOrNull() ?: 0f
-                val residential = dataTokens[INDEX_RESIDENTIAL].toFloatOrNull() ?: 0f
-                val mobilityIndex = 0.5f * (transit + retailAndRecreation - residential)
-                listOf(date, mobilityIndex).joinToString()
-            }
-            getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
+            getDataSet(mobilityIndexDataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
         } else {
             getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
         }
@@ -33,6 +25,16 @@ class MobilityData private constructor() : DataObject() {
             dataTokens[INDEX_DATE] = DateUtils.convertUsDateToUyDate(date)
             dataTokens.joinToString()
         }.toMutableList()
+        
+        mobilityIndexDataLines = dataLines.map { line ->
+            val dataTokens = line.split(COMMA)
+            val date = dataTokens[INDEX_DATE]
+            val transit = dataTokens[INDEX_TRANSIT_STATIONS].toFloatOrNull() ?: 0f
+            val retailAndRecreation = dataTokens[INDEX_RETAIL_AND_RECREATION].toFloatOrNull() ?: 0f
+            val residential = dataTokens[INDEX_RESIDENTIAL].toFloatOrNull() ?: 0f
+            val mobilityIndex = 0.5f * (transit + retailAndRecreation - residential)
+            listOf(date, mobilityIndex).joinToString()
+        }
     }
 
     override fun getLatestValue(stat: Stat): String {

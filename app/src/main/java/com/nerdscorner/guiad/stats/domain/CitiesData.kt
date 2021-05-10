@@ -6,6 +6,19 @@ import com.nerdscorner.guiad.stats.extensions.roundToString
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 
 class CitiesData private constructor() : DataObject() {
+    private lateinit var dataByCity: Map<String, Map<String, List<List<String>>>>
+
+    override fun setData(data: String?) {
+        super.setData(data)
+        dataByCity = dataLines
+            .groupBy { it.split(COMMA)[INDEX_CITY] }
+            .mapValues {
+                it
+                    .value
+                    .map { it.split(COMMA) }
+                    .groupBy { it[INDEX_DATE] }
+            }
+    }
 
     fun getDataSet(
         stat: Stat,
@@ -19,35 +32,32 @@ class CitiesData private constructor() : DataObject() {
     }
 
     private fun getDataLinesForCities(stat: Stat, selectedCities: List<String>): List<String> {
-        return dataLines
-            .groupBy { it.split(COMMA)[INDEX_DATE] }
-            .map { dateEntries ->
-                val date = dateEntries.key
-                val valuesSum = dateEntries
-                    .value
-                    .map {
-                        val dataTokens = it.split(COMMA)
-                        val city = dataTokens[INDEX_CITY]
-                        if (city in selectedCities) {
-                            dataTokens[stat.index].toFloatOrNull() ?: 0f
-                        } else {
-                            0f
-                        }
-                    }
-                    .reduce { acc, s -> acc + s }
-                return@map listOf(date, valuesSum).joinToString()
+        return dataByCity
+            .filter { it.key in selectedCities }
+            .flatMap { dataByCity ->
+                dataByCity.value.map { dataByCityAndDate ->
+                    val date = dataByCityAndDate.key
+                    val valuesSum = dataByCityAndDate
+                        .value
+                        .map { it[stat.index].toFloatOrNull() ?: 0f }
+                        .reduce { acc, v -> acc + v }
+                    Pair(date, valuesSum)
+                }
+            }
+            .groupBy { it.first }
+            .map {
+                val date = it.key
+                var valuesSum = 0f
+                it.value.forEach {
+                    valuesSum += it.second
+                }
+                listOf(date, valuesSum).joinToString()
             }
     }
 
     override fun getLatestValue(stat: Stat): String {
         val dataLines = getDataLinesForCities(stat, getAllCities().drop(1))
-        val latestValue = dataLines
-            .getOrNull(dataLines.size - 1)
-            ?.split(COMMA)
-            ?.get(1)
-            ?.toFloatOrNull()
-            ?.times(stat.factor)
-            ?: return N_A
+        val latestValue = getValueAt(dataLines, dataLines.size - 1)?.times(stat.factor) ?: return N_A
         return latestValue.roundToString()
     }
 
@@ -56,10 +66,12 @@ class CitiesData private constructor() : DataObject() {
         if (dataLines.size < 2) {
             return false
         }
-        val latestValue = dataLines.getOrNull(dataLines.size - 1)?.split(COMMA)?.get(1)?.toFloatOrNull()?.times(stat.factor) ?: 0f
-        val preLatestValue = dataLines.getOrNull(dataLines.size - 2)?.split(COMMA)?.get(1)?.toFloatOrNull()?.times(stat.factor) ?: 0f
+        val latestValue = getValueAt(dataLines, dataLines.size - 1)?.times(stat.factor) ?: 0f
+        val preLatestValue = getValueAt(dataLines, dataLines.size - 2)?.times(stat.factor) ?: 0f
         return (latestValue - preLatestValue) > 0
     }
+
+    private fun getValueAt(dataLines: List<String>, row: Int) = dataLines.getOrNull(row)?.split(COMMA)?.get(1)?.toFloatOrNull()
 
     override fun getStats() = listOf(
         inCourseStat,

@@ -1,6 +1,7 @@
 package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
+import androidx.annotation.WorkerThread
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
@@ -16,12 +17,13 @@ abstract class DataObject {
     private val standardValueFormatter = object : ValueFormatter() {
         override fun getFormattedValue(value: Float) = value.roundToString()
     }
-
+    
+    @WorkerThread
     open fun setData(data: String?) {
         dataLines = data
             ?.split(LINE_FEED)
             ?.drop(1)
-            ?.toMutableList() 
+            ?.toMutableList()
             ?: mutableListOf() //Drop header
         persist(data)
     }
@@ -31,7 +33,7 @@ abstract class DataObject {
     open fun getLatestValue(stat: Stat): String {
         val latestValue = getValueAt(dataLines.size - 1, stat)
             ?.toFloatOrNull()
-            ?.times(stat.factor) 
+            ?.times(stat.factor)
             ?: return N_A
         return latestValue.roundToString()
     }
@@ -46,7 +48,7 @@ abstract class DataObject {
             ?: 0f
         val preLatestValue = getValueAt(dataLines.size - 2, stat)
             ?.toFloatOrNull()
-            ?.times(stat.factor) 
+            ?.times(stat.factor)
             ?: 0f
         return (latestValue - preLatestValue) > 0
     }
@@ -84,7 +86,7 @@ abstract class DataObject {
             this.valueFormatter = standardValueFormatter
         }
     }
-    
+
     protected fun getSelectedDataRange(): Int {
         val selectedRangeIndex = SharedPreferencesUtils.getSelectedDataRangeIndex()
         return RangeUtils.getDaysCountForRangeIndex(selectedRangeIndex, dataLines.size)
