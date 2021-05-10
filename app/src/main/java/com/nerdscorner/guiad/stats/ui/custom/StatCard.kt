@@ -54,11 +54,11 @@ class StatCard @JvmOverloads constructor(
         chart.description = null
     }
 
-    fun setup(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
-        setup(chartData.toList(), statLabel, latestValue, isTrendingUp)
+    fun setup(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?, upIsBad: Boolean = true) {
+        setup(chartData.toList(), statLabel, latestValue, isTrendingUp, upIsBad)
     }
 
-    fun setup(chartData: List<ILineDataSet>?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
+    fun setup(chartData: List<ILineDataSet>?, statLabel: String, latestValue: String, isTrendingUp: Boolean?, upIsBad: Boolean = true) {
         if (chartData != null) {
             chartData.forEach {
                 it.setDrawValues(false)
@@ -71,8 +71,20 @@ class StatCard @JvmOverloads constructor(
         trendIcon.setImageResource(
             when {
                 isTrendingUp == null -> R.drawable.ic_clock
-                isTrendingUp -> R.drawable.ic_trend_up
-                else -> R.drawable.ic_trend_down
+                isTrendingUp -> {
+                    if (upIsBad) {
+                        R.drawable.ic_trend_up
+                    } else {
+                        R.drawable.ic_trend_down
+                    }
+                }
+                else -> {
+                    if (upIsBad) {
+                        R.drawable.ic_trend_down
+                    } else {
+                        R.drawable.ic_trend_up
+                    }
+                }
             }
         )
         trendIcon.scaleY = if (isTrendingUp == false) {

@@ -34,6 +34,7 @@ class SplashActivity : AppCompatActivity() {
 
                 VaccinesBySegmentData.getInstance().setData(SharedPreferencesUtils.getVaccinesBySegmentData())
                 VaccinesByAgeData.getInstance().setData(SharedPreferencesUtils.getVaccinesByAgeData())
+                VaccinesData.getInstance().setData(SharedPreferencesUtils.getVaccinesGlobalData())
             }
 
             // After finishing initializing, start MainActivity

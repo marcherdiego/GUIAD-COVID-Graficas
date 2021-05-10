@@ -145,6 +145,16 @@
                 app:stat_Icon="@drawable/ic_age"
                 app:stat_Name="@string/vaccines_by_age" />
 
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                android:id="@+id/vaccines_global_stats_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/vaccines_by_age_stats_card"
+                app:stat_Icon="@drawable/ic_syringe"
+                app:stat_Name="Datos generales" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

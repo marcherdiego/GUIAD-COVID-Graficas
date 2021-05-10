@@ -9,9 +9,6 @@ interface VaccinesService {
     @GET("Subnational.csv")
     suspend fun getDataByCity(): String
 
-    @GET("Regions.csv")
-    suspend fun getDataByRegion(): String
-
     @GET("Age.csv")
     suspend fun getDataByAge(): String
 

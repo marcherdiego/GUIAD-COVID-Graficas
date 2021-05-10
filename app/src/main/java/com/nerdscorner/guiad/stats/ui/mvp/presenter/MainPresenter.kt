@@ -71,6 +71,11 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     }
 
     @Subscribe
+    fun onVaccinesGlobalStatsButtonClicked(event: MainView.VaccinesGlobalStatsButtonClickedEvent) {
+        startActivity(StatsVaccineGlobalActivity::class.java)
+    }
+
+    @Subscribe
     fun onStatsFetchedSuccessfully(event: MainModel.StatsFetchedSuccessfullyEvent) {
         model.setLastUpdateDateTime()
         refreshWidgetsState()
@@ -102,6 +107,7 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
 
         buildVaccinesBySegmentStatChart(graphColor)
         buildVaccinesByAgeStatChart(graphColor)
+        buildVaccinesGlobalStatChart(graphColor)
     }
 
     private fun buildCtiStatChart(@ColorInt graphColor: Int) {
@@ -223,6 +229,19 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
             },
             resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
                 view.setupVaccinesByAgeCard(dataSet, statName, lastValue, isTrendingUp)
+            }
+        )
+    }
+
+    private fun buildVaccinesGlobalStatChart(@ColorInt graphColor: Int) {
+        buildStatChart(
+            VaccinesData.getInstance(),
+            VaccinesData.dailyCoronavacStat,
+            dataSetFunc = { dataObject, stat ->
+                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
+            },
+            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
+                view.setupVaccinesGlobalStatsCard(dataSet, statName, lastValue, isTrendingUp)
             }
         )
     }

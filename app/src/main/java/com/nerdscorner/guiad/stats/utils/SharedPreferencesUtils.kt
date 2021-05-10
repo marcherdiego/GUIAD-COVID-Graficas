@@ -17,6 +17,7 @@ object SharedPreferencesUtils {
 
     private const val VACCINES_BY_SEGMENT_DATA = "vaccines_by_segment_data"
     private const val VACCINES_BY_AGE_DATA = "vaccines_by_age_data"
+    private const val VACCINES_GLOBAL_DATA = "vaccines_global_data"
 
     private const val ROTATE_DEVICE_SHOWN = "rotate_device_shown"
     private const val SELECTED_DATA_RANGE_INDEX = "data_range_index"
@@ -84,6 +85,12 @@ object SharedPreferencesUtils {
     }
 
     fun getVaccinesByAgeData() = sharedPreferences.getString(VACCINES_BY_AGE_DATA, null)
+
+    fun saveVaccinesGlobalData(data: String?) {
+        saveString(VACCINES_GLOBAL_DATA, data)
+    }
+
+    fun getVaccinesGlobalData() = sharedPreferences.getString(VACCINES_GLOBAL_DATA, null)
 
     fun setRotateDeviceDialogShown(shown: Boolean) {
         saveBoolean(ROTATE_DEVICE_SHOWN, shown)
