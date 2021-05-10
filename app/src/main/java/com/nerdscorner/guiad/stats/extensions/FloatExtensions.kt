@@ -6,6 +6,6 @@ fun Float.roundToString(): String {
     return if (this - toInt() == 0f) {
         toInt().toString()
     } else {
-        toString()
+        format()
     }
 }

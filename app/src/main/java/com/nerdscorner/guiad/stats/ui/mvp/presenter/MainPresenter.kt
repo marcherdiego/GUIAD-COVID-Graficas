@@ -196,10 +196,14 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     ) {
         resultFunc(null, stat.name, DataObject.N_A, null)
         CoroutineScope(Dispatchers.Main).launch {
-            val result = withContext(Dispatchers.Default) {
-                dataSetFunc(dataObject, stat)
+            val (result, latestValue, isTrendingUp) = withContext(Dispatchers.Default) {
+                Triple(
+                    dataSetFunc(dataObject, stat),
+                    dataObject.getLatestValue(stat),
+                    dataObject.isTrendingUp(stat)
+                )
             }
-            resultFunc(result, stat.name, dataObject.getLatestValue(stat), dataObject.isTrendingUp(stat))
+            resultFunc(result, stat.name, latestValue, isTrendingUp)
         }
     }
 

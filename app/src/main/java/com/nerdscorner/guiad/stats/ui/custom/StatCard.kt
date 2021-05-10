@@ -75,8 +75,10 @@ class StatCard @JvmOverloads constructor(
                 else -> R.drawable.ic_trend_down
             }
         )
-        if (isTrendingUp == false) {
-            trendIcon.scaleY = -1f
+        trendIcon.scaleY = if (isTrendingUp == false) {
+            -1f
+        } else {
+            1f
         }
     }
 

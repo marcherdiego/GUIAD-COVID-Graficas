@@ -1,6 +1,7 @@
 package com.nerdscorner.guiad.stats.ui.custom
 
 import android.content.Context
+import android.view.Gravity
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import com.github.mikephil.charting.components.MarkerView
@@ -13,9 +14,13 @@ import com.nerdscorner.guiad.stats.extensions.roundToString
 class ChartMarker(context: Context, @LayoutRes layoutResource: Int) : MarkerView(context, layoutResource) {
     private val markerTextView: TextView = findViewById(R.id.marker_label)
     private var mOffset: MPPointF? = null
+    
+    init {
+        markerTextView.gravity = Gravity.CENTER
+    }
 
     override fun refreshContent(e: Entry?, highlight: Highlight?) {
-        markerTextView.text = "${e?.data} - ${e?.y?.roundToString()}"
+        markerTextView.text = "${e?.data}\n${e?.y?.roundToString()}"
         super.refreshContent(e, highlight)
     }
 

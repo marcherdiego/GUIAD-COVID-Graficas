@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GUIAD - Covid</string>
+    <string name="app_name">GUIAD - Estadísticas</string>
     <string name="no_data_selected">No hay datos seleccionados…</string>
     <string name="select_a_stat">Haga click en un dato para ver detalles</string>
 

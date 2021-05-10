@@ -3,6 +3,7 @@ package com.nerdscorner.guiad.stats.domain
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.extensions.roundToString
 import com.nerdscorner.guiad.stats.utils.RangeUtils
@@ -11,6 +12,10 @@ import kotlin.math.min
 
 abstract class DataObject {
     protected lateinit var dataLines: MutableList<String>
+
+    private val standardValueFormatter = object : ValueFormatter() {
+        override fun getFormattedValue(value: Float) = value.roundToString()
+    }
 
     open fun setData(data: String?) {
         dataLines = data
@@ -76,6 +81,7 @@ abstract class DataObject {
             this.highLightColor = color
             this.isHighlightEnabled = true
             this.setDrawHighlightIndicators(true)
+            this.valueFormatter = standardValueFormatter
         }
     }
     

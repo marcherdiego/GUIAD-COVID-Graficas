@@ -16,6 +16,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.R
 import com.nerdscorner.guiad.stats.domain.Stat
+import com.nerdscorner.guiad.stats.extensions.roundToString
 import com.nerdscorner.guiad.stats.extensions.setItemSelectedListener
 import com.nerdscorner.guiad.stats.extensions.setSelectedItemsChangedListener
 import com.nerdscorner.guiad.stats.ui.adapter.StatsAdapter
@@ -27,7 +28,7 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
     private val chart: LineChart = activity.findViewById(R.id.chart)
     private val legendsContainer: FlowLayout = activity.findViewById(R.id.legends_container)
     private val citiesSelector: AppCompatSpinner? = activity.findViewById(R.id.cities_selector)
-    protected val statSelector: AppCompatSpinner = activity.findViewById(R.id.stat_selector)
+    private val statSelector: AppCompatSpinner = activity.findViewById(R.id.stat_selector)
     private val rangeSelector: AppCompatSpinner = activity.findViewById(R.id.data_limit_selector)
 
     init {
