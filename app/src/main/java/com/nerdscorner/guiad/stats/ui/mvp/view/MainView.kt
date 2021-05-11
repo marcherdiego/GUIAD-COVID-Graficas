@@ -1,6 +1,7 @@
 package com.nerdscorner.guiad.stats.ui.mvp.view
 
 import android.widget.TextView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.R
 import com.nerdscorner.mvplib.events.view.BaseActivityView
@@ -22,6 +23,17 @@ class MainView(activity: MainActivity) : BaseActivityView(activity) {
     private val vaccinesByCityStatsCard: StatCard = activity.findViewById(R.id.vaccines_by_city_stats_card)
 
     private val lastUpdated: TextView = activity.findViewById(R.id.last_updated)
+    private val swipeRefreshLayout: SwipeRefreshLayout = activity.findViewById(R.id.swipe_refresh)
+    
+    init {
+        swipeRefreshLayout.setOnRefreshListener {
+            bus.post(OnRefreshTriggeredEvent())
+        }
+    }
+    
+    fun setRefreshing(refreshing: Boolean) {
+        swipeRefreshLayout.isRefreshing = refreshing
+    }
 
     fun setupCtiCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
         ctiCard.setup(chartData, statLabel, latestValue, isTrendingUp)
@@ -111,11 +123,16 @@ class MainView(activity: MainActivity) : BaseActivityView(activity) {
     class DeceasesStatsButtonClickedEvent
     class P7StatsButtonClickedEvent
     class MobilityStatsButtonClickedEvent
+
+    // Raw data
+    class RawDataGeneralStatsButtonClickedEvent
+    
+    // Vaccines
     class VaccinesBySegmentStatsButtonClickedEvent
     class VaccinesByAgeStatsButtonClickedEvent
     class VaccinesGlobalStatsButtonClickedEvent
     class VaccinesByCityStatsButtonClickedEvent
-
-    // Raw data
-    class RawDataGeneralStatsButtonClickedEvent
+    
+    // I/O events
+    class OnRefreshTriggeredEvent
 }

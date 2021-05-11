@@ -1,214 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_color">
+    android:layout_height="match_parent">
 
     <ScrollView
-        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+        android:background="@color/background_color"
         android:clipToPadding="false"
         android:overScrollMode="never"
         android:padding="16dp"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/last_updated"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:scrollbars="none">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/graphs_label"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/general_data"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                    android:id="@+id/cti_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toStartOf="@+id/center_guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/graphs_label"
+                    app:stat_Icon="@drawable/ic_cti"
+                    app:stat_Name="@string/cti_data" />
+
+                <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                    android:id="@+id/cities_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/center_guideline"
+                    app:layout_constraintTop_toTopOf="@+id/cti_card"
+                    app:stat_Icon="@drawable/ic_uruguay"
+                    app:stat_Name="@string/data_by_city" />
+
+                <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                    android:id="@+id/general_stats_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toStartOf="@+id/center_guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cti_card"
+                    app:stat_Icon="@drawable/ic_chart"
+                    app:stat_Name="@string/general_data" />
+
+                <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                    android:id="@+id/deceases_stats_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/center_guideline"
+                    app:layout_constraintTop_toTopOf="@+id/general_stats_card"
+                    app:stat_Icon="@drawable/ic_cross"
+                    app:stat_Name="@string/deceases_stats" />
+
+                <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                    android:id="@+id/p7_stats_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toStartOf="@+id/center_guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/general_stats_card"
+                    app:stat_Icon="@drawable/ic_coronavirus"
+                    app:stat_Name="@string/p7_stats" />
+
+                <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                    android:id="@+id/mobility_stats_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/center_guideline"
+                    app:layout_constraintTop_toTopOf="@+id/p7_stats_card"
+                    app:stat_Icon="@drawable/ic_mobility"
+                    app:stat_Name="@string/mobility_stats" />
+
+                <TextView
+                    android:id="@+id/raw_data_label"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/data_by_date"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/p7_stats_card" />
+
+                <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                    android:id="@+id/raw_data_general_stats_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toStartOf="@+id/center_guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/raw_data_label"
+                    app:stat_Icon="@drawable/ic_calendar"
+                    app:stat_Name="@string/stats_and_charts" />
+
+                <TextView
+                    android:id="@+id/vaccines_data_label"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/vaccines"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/raw_data_general_stats_card" />
+
+                <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                    android:id="@+id/vaccines_by_segment_stats_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toStartOf="@+id/center_guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vaccines_data_label"
+                    app:stat_Icon="@drawable/ic_segment"
+                    app:stat_Name="@string/vaccines_by_segment" />
+
+                <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                    android:id="@+id/vaccines_by_age_stats_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/center_guideline"
+                    app:layout_constraintTop_toTopOf="@+id/vaccines_by_segment_stats_card"
+                    app:stat_Icon="@drawable/ic_age"
+                    app:stat_Name="@string/vaccines_by_age" />
+
+                <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                    android:id="@+id/vaccines_global_stats_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toStartOf="@+id/center_guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vaccines_by_segment_stats_card"
+                    app:stat_Icon="@drawable/ic_syringe"
+                    app:stat_Name="@string/general_data" />
+
+                <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                    android:id="@+id/vaccines_by_city_stats_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/center_guideline"
+                    app:layout_constraintTop_toTopOf="@+id/vaccines_global_stats_card"
+                    app:stat_Icon="@drawable/ic_uruguay"
+                    app:stat_Name="@string/data_by_city" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/center_guideline"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent=".5" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/graphs_label"
-                style="@style/TextAppearance.AppCompat.Title"
+                android:id="@+id/last_updated"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/general_data"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.nerdscorner.guiad.stats.ui.custom.StatCard
-                android:id="@+id/cti_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:padding="16dp"
-                app:layout_constraintEnd_toStartOf="@+id/center_guideline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/graphs_label"
-                app:stat_Icon="@drawable/ic_cti"
-                app:stat_Name="@string/cti_data" />
-
-            <com.nerdscorner.guiad.stats.ui.custom.StatCard
-                android:id="@+id/cities_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:padding="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/center_guideline"
-                app:layout_constraintTop_toTopOf="@+id/cti_card"
-                app:stat_Icon="@drawable/ic_uruguay"
-                app:stat_Name="@string/data_by_city" />
-
-            <com.nerdscorner.guiad.stats.ui.custom.StatCard
-                android:id="@+id/general_stats_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:padding="16dp"
-                app:layout_constraintEnd_toStartOf="@+id/center_guideline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cti_card"
-                app:stat_Icon="@drawable/ic_chart"
-                app:stat_Name="@string/general_stats" />
-
-            <com.nerdscorner.guiad.stats.ui.custom.StatCard
-                android:id="@+id/deceases_stats_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:padding="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/center_guideline"
-                app:layout_constraintTop_toTopOf="@+id/general_stats_card"
-                app:stat_Icon="@drawable/ic_cross"
-                app:stat_Name="@string/deceases_stats" />
-
-            <com.nerdscorner.guiad.stats.ui.custom.StatCard
-                android:id="@+id/p7_stats_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:padding="16dp"
-                app:layout_constraintEnd_toStartOf="@+id/center_guideline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/general_stats_card"
-                app:stat_Icon="@drawable/ic_coronavirus"
-                app:stat_Name="@string/p7_stats" />
-
-            <com.nerdscorner.guiad.stats.ui.custom.StatCard
-                android:id="@+id/mobility_stats_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:padding="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/center_guideline"
-                app:layout_constraintTop_toTopOf="@+id/p7_stats_card"
-                app:stat_Icon="@drawable/ic_mobility"
-                app:stat_Name="@string/mobility_stats" />
-
-            <TextView
-                android:id="@+id/raw_data_label"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@string/data_by_date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/p7_stats_card" />
-
-            <com.nerdscorner.guiad.stats.ui.custom.StatCard
-                android:id="@+id/raw_data_general_stats_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:padding="16dp"
-                app:layout_constraintEnd_toStartOf="@+id/center_guideline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/raw_data_label"
-                app:stat_Icon="@drawable/ic_calendar"
-                app:stat_Name="@string/stats_and_charts" />
-
-            <TextView
-                android:id="@+id/vaccines_data_label"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@string/vaccines"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/raw_data_general_stats_card" />
-
-            <com.nerdscorner.guiad.stats.ui.custom.StatCard
-                android:id="@+id/vaccines_by_segment_stats_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:padding="16dp"
-                app:layout_constraintEnd_toStartOf="@+id/center_guideline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vaccines_data_label"
-                app:stat_Icon="@drawable/ic_segment"
-                app:stat_Name="@string/vaccines_by_segment" />
-
-            <com.nerdscorner.guiad.stats.ui.custom.StatCard
-                android:id="@+id/vaccines_by_age_stats_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:padding="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/center_guideline"
-                app:layout_constraintTop_toTopOf="@+id/vaccines_by_segment_stats_card"
-                app:stat_Icon="@drawable/ic_age"
-                app:stat_Name="@string/vaccines_by_age" />
-
-            <com.nerdscorner.guiad.stats.ui.custom.StatCard
-                android:id="@+id/vaccines_global_stats_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:padding="16dp"
-                app:layout_constraintEnd_toStartOf="@+id/center_guideline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vaccines_by_segment_stats_card"
-                app:stat_Icon="@drawable/ic_syringe"
-                app:stat_Name="@string/general_stats" />
-
-            <com.nerdscorner.guiad.stats.ui.custom.StatCard
-                android:id="@+id/vaccines_by_city_stats_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:padding="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/center_guideline"
-                app:layout_constraintTop_toTopOf="@+id/vaccines_global_stats_card"
-                app:stat_Icon="@drawable/ic_uruguay"
-                app:stat_Name="@string/data_by_city" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/center_guideline"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent=".5" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                tools:text="Última actualización: 30/04/2021 - 14:05" />
+        </LinearLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/last_updated"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="Última actualización: 30/04/2021 - 14:05" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

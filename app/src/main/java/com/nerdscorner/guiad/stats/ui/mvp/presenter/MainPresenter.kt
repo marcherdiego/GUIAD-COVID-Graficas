@@ -2,23 +2,18 @@ package com.nerdscorner.guiad.stats.ui.mvp.presenter
 
 import android.view.Menu
 import android.view.MenuItem
-import androidx.annotation.ColorInt
 import com.nerdscorner.guiad.stats.R
-import com.nerdscorner.guiad.stats.domain.*
 import com.nerdscorner.guiad.stats.ui.activities.*
 import com.nerdscorner.guiad.stats.ui.fragment.MessageDialogFragment
-import com.nerdscorner.guiad.stats.ui.fragment.ProgressDialogFragment
 import com.nerdscorner.guiad.stats.ui.fragment.RotateDeviceDialogFragment
 import com.nerdscorner.guiad.stats.ui.mvp.model.MainModel
 import com.nerdscorner.guiad.stats.ui.mvp.view.MainView
-import com.nerdscorner.guiad.stats.utils.ColorUtils
 import com.nerdscorner.mvplib.events.presenter.BaseActivityPresenter
-import kotlinx.coroutines.*
 import org.greenrobot.eventbus.Subscribe
 
 class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<MainView, MainModel>(view, model) {
 
-    private var progressDialog: ProgressDialogFragment? = null
+    private var refreshing = false
     private var errorDialog: MessageDialogFragment? = null
 
     init {
@@ -81,6 +76,11 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     }
 
     @Subscribe
+    fun onOnRefreshTriggered(event: MainView.OnRefreshTriggeredEvent) {
+        triggerRefreshData(true)
+    }
+
+    @Subscribe
     fun onStatsFetchedSuccessfully(event: MainModel.StatsFetchedSuccessfullyEvent) {
         model.setLastUpdateDateTime()
         refreshWidgetsState()
@@ -100,197 +100,39 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
             return
         }
 
-        val baseColorIndex = 5
-        val graphColor = ColorUtils.getColor(baseColorIndex)
-        buildCtiStatChart(graphColor)
-        buildCitiesDataChart(baseColorIndex)
-        buildGeneralsDaraChart(graphColor)
-        buildDeceasesDataChart(graphColor)
-        buildP7DataChart(graphColor)
-        buildMobilityDataChart(graphColor)
-        buildRawDataChart(graphColor)
-
-        buildVaccinesBySegmentStatChart(graphColor)
-        buildVaccinesByAgeStatChart(graphColor)
-        buildVaccinesGlobalStatChart(graphColor)
-        buildVaccinesByCityStatChart(graphColor)
-    }
-
-    private fun buildCtiStatChart(@ColorInt graphColor: Int) {
-        buildStatChart(
-            CtiData.getInstance(),
-            CtiData.patientsQuantityStat,
-            dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
-            },
-            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
-                view.setupCtiCard(dataSet, statName, lastValue, isTrendingUp)
-            }
-        )
-    }
-
-    private fun buildCitiesDataChart(baseColorIndex: Int) {
-        buildStatChart(
-            CitiesData.getInstance(),
-            CitiesData.inCourseStat,
-            dataSetFunc = { dataObject, stat ->
-                model
-                    .getAllCities()
-                    .drop(1)
-                    .mapIndexed { index, city ->
-                        val chartColor = ColorUtils.getColor(baseColorIndex + index)
-                        dataObject.getDataSet(stat, listOf(city), chartColor, chartColor, HOME_CHARTS_DATA_LIMIT)
-                    }
-            },
-            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
-                view.setupCitiesCard(dataSet, statName, lastValue, isTrendingUp)
-            }
-        )
-    }
-
-    private fun buildGeneralsDaraChart(@ColorInt graphColor: Int) {
-        buildStatChart(
-            GeneralStatsData.getInstance(),
-            GeneralStatsData.inCourseStat,
-            dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
-            },
-            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
-                view.setupGeneralsCard(dataSet, statName, lastValue, isTrendingUp)
-            }
-        )
-    }
-
-    private fun buildDeceasesDataChart(@ColorInt graphColor: Int) {
-        buildStatChart(
-            GeneralStatsData.getInstance(),
-            GeneralStatsData.newDeceasesStat,
-            dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
-            },
-            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
-                view.setupDeceasesCard(dataSet, statName, lastValue, isTrendingUp)
-            }
-        )
-    }
-
-    private fun buildP7DataChart(@ColorInt graphColor: Int) {
-        buildStatChart(
-            P7Data.getInstance(),
-            P7Data.p7Stat,
-            dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
-            },
-            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
-                view.setupP7Card(dataSet, statName, lastValue, isTrendingUp)
-            }
-        )
-    }
-
-    private fun buildMobilityDataChart(@ColorInt graphColor: Int) {
-        buildStatChart(
-            MobilityData.getInstance(),
-            MobilityData.mobilityIndexStat,
-            dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
-            },
-            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
-                view.setupMobilityCard(dataSet, statName, lastValue, isTrendingUp)
-            }
-        )
-    }
-
-    private fun buildRawDataChart(@ColorInt graphColor: Int) {
-        buildStatChart(
-            GeneralStatsData.getInstance(),
-            GeneralStatsData.positivityStat,
-            dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
-            },
-            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
-                view.setupRawDataCard(dataSet, statName, lastValue, isTrendingUp)
-            }
-        )
-    }
-
-    private fun buildVaccinesBySegmentStatChart(@ColorInt graphColor: Int) {
-        buildStatChart(
-            VaccinesBySegmentData.getInstance(),
-            VaccinesBySegmentData.dailyNoRiskStat,
-            dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
-            },
-            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
-                view.setupVaccinesBySegmentCard(dataSet, statName, lastValue, isTrendingUp)
-            }
-        )
-    }
-
-    private fun buildVaccinesByAgeStatChart(@ColorInt graphColor: Int) {
-        buildStatChart(
-            VaccinesByAgeData.getInstance(),
-            VaccinesByAgeData.daily18_49Stat,
-            dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
-            },
-            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
-                view.setupVaccinesByAgeCard(dataSet, statName, lastValue, isTrendingUp)
-            }
-        )
-    }
-
-    private fun buildVaccinesGlobalStatChart(@ColorInt graphColor: Int) {
-        buildStatChart(
-            VaccinesData.getInstance(),
-            VaccinesData.dailyPeopleVaccinatedStat,
-            dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
-            },
-            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
-                view.setupVaccinesGlobalStatsCard(dataSet, statName, lastValue, isTrendingUp)
-            }
-        )
-    }
-
-    private fun buildVaccinesByCityStatChart(@ColorInt graphColor: Int) {
-        buildStatChart(
-            VaccinesByCityData.getInstance(),
-            VaccinesByCityData.dailyVaccinationsMontevideoStat,
-            dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSetAbsoluteIndex(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
-            },
-            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
-                view.setupVaccinesByCityStatsCard(dataSet, statName, lastValue, isTrendingUp)
-            }
-        )
-    }
-
-    private fun <T, D : DataObject> buildStatChart(
-        dataObject: D,
-        stat: Stat,
-        dataSetFunc: (D, Stat) -> T,
-        resultFunc: (dataSet: T?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit
-    ) {
-        resultFunc(null, stat.name, DataObject.N_A, null)
-        CoroutineScope(Dispatchers.Main).launch {
-            val (result, latestValue, isTrendingUp) = withContext(Dispatchers.Default) {
-                Triple(
-                    dataSetFunc(dataObject, stat),
-                    dataObject.getLatestValue(stat),
-                    dataObject.isTrendingUp(stat)
-                )
-            }
-            resultFunc(result, stat.name, latestValue, isTrendingUp)
+        model.buildCtiStatChart { dataSet, statName, lastValue, isTrendingUp ->
+            view.setupCtiCard(dataSet, statName, lastValue, isTrendingUp)
         }
-    }
+        model.buildCitiesDataChart { dataSet, statName, lastValue, isTrendingUp ->
+            view.setupCitiesCard(dataSet, statName, lastValue, isTrendingUp)
+        }
+        model.buildGeneralsDaraChart { dataSet, statName, lastValue, isTrendingUp ->
+            view.setupGeneralsCard(dataSet, statName, lastValue, isTrendingUp)
+        }
+        model.buildDeceasesDataChart { dataSet, statName, lastValue, isTrendingUp ->
+            view.setupDeceasesCard(dataSet, statName, lastValue, isTrendingUp)
+        }
+        model.buildP7DataChart { dataSet, statName, lastValue, isTrendingUp ->
+            view.setupP7Card(dataSet, statName, lastValue, isTrendingUp)
+        }
+        model.buildMobilityDataChart { dataSet, statName, lastValue, isTrendingUp ->
+            view.setupMobilityCard(dataSet, statName, lastValue, isTrendingUp)
+        }
+        model.buildRawDataChart { dataSet, statName, lastValue, isTrendingUp ->
+            view.setupRawDataCard(dataSet, statName, lastValue, isTrendingUp)
+        }
 
-    private fun showLoadingState() {
-        view.withFragmentManager {
-            progressDialog = ProgressDialogFragment.showProgressDialog(
-                fragmentManager = this,
-                text = "Actualizando datos...",
-                cancelable = false
-            )
+        model.buildVaccinesBySegmentStatChart { dataSet, statName, lastValue, isTrendingUp ->
+            view.setupVaccinesBySegmentCard(dataSet, statName, lastValue, isTrendingUp)
+        }
+        model.buildVaccinesByAgeStatChart { dataSet, statName, lastValue, isTrendingUp ->
+            view.setupVaccinesByAgeCard(dataSet, statName, lastValue, isTrendingUp)
+        }
+        model.buildVaccinesGlobalStatChart { dataSet, statName, lastValue, isTrendingUp ->
+            view.setupVaccinesGlobalStatsCard(dataSet, statName, lastValue, isTrendingUp)
+        }
+        model.buildVaccinesByCityStatChart { dataSet, statName, lastValue, isTrendingUp ->
+            view.setupVaccinesByCityStatsCard(dataSet, statName, lastValue, isTrendingUp)
         }
     }
 
@@ -304,8 +146,7 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
                 text = "Error al actualizar los datos",
                 cancelable = true,
                 primaryActionCallback = {
-                    showLoadingState()
-                    model.fetchStats()
+                    triggerRefreshData(true)
                 },
                 secondaryActionCallback = if (model.getLastUpdateDateTime() == null) {
                     null
@@ -319,19 +160,19 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
         }
     }
 
-    private fun hideLoadingState() {
-        progressDialog?.dismiss()
-        progressDialog = null
-    }
-
     private fun triggerRefreshData(shouldShowProgress: Boolean) {
-        if (progressDialog != null) {
+        if (refreshing) {
             return
         }
         if (shouldShowProgress) {
-            showLoadingState()
+            view.setRefreshing(true)
         }
         model.fetchStats()
+    }
+
+    private fun hideLoadingState() {
+        view.setRefreshing(false)
+        refreshing = false
     }
 
     override fun onResume() {
@@ -348,7 +189,7 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     override fun onPause() {
         super.onPause()
         model.cancelPendingJobs()
-        progressDialog?.dismiss()
+        hideLoadingState()
         errorDialog?.dismiss()
     }
 
