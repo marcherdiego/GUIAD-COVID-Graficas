@@ -132,6 +132,67 @@
                 app:stat_Icon="@drawable/ic_calendar"
                 app:stat_Name="@string/stats_and_charts" />
 
+            <TextView
+                android:id="@+id/vaccines_data_label"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/vaccines"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/raw_data_general_stats_card" />
+
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                android:id="@+id/vaccines_by_segment_stats_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:padding="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/center_guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vaccines_data_label"
+                app:stat_Icon="@drawable/ic_segment"
+                app:stat_Name="@string/vaccines_by_segment" />
+
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                android:id="@+id/vaccines_by_age_stats_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/center_guideline"
+                app:layout_constraintTop_toTopOf="@+id/vaccines_by_segment_stats_card"
+                app:stat_Icon="@drawable/ic_age"
+                app:stat_Name="@string/vaccines_by_age" />
+
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                android:id="@+id/vaccines_global_stats_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:padding="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/center_guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vaccines_by_segment_stats_card"
+                app:stat_Icon="@drawable/ic_syringe"
+                app:stat_Name="@string/general_stats" />
+
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                android:id="@+id/vaccines_by_city_stats_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/center_guideline"
+                app:layout_constraintTop_toTopOf="@+id/vaccines_global_stats_card"
+                app:stat_Icon="@drawable/ic_uruguay"
+                app:stat_Name="@string/data_by_city" />
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/center_guideline"
                 android:layout_width="1dp"

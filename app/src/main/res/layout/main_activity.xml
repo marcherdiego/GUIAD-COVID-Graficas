@@ -153,7 +153,17 @@
                 android:padding="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/vaccines_by_age_stats_card"
                 app:stat_Icon="@drawable/ic_syringe"
-                app:stat_Name="Datos generales" />
+                app:stat_Name="@string/general_stats" />
+
+            <com.nerdscorner.guiad.stats.ui.custom.StatCard
+                android:id="@+id/vaccines_by_city_stats_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/vaccines_global_stats_card"
+                app:stat_Icon="@drawable/ic_uruguay"
+                app:stat_Name="@string/data_by_city" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

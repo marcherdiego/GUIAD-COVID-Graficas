@@ -57,6 +57,7 @@
     <string name="vaccines_by_age">Vacunas por edad</string>
     <string name="data_vaccine_by_age_title">Vacunación por edad</string>
     <string name="vaccination_global_data_title">Vacunación: Datos generales</string>
+    <string name="vaccination_by_city_data_title">Vacunas por departamento</string>
 
     <!-- Plurals -->
     <plurals name="selected_stats">

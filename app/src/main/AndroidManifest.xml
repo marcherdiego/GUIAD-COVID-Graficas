@@ -54,6 +54,9 @@
         <activity
             android:name=".ui.activities.StatsVaccineGlobalActivity"
             android:label="@string/vaccination_global_data_title" />
+        <activity
+            android:name=".ui.activities.StatsVaccineByCityActivity"
+            android:label="@string/vaccination_by_city_data_title" />
     </application>
 
 </manifest>

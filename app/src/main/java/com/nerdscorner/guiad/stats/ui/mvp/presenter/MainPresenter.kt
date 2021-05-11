@@ -76,6 +76,11 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     }
 
     @Subscribe
+    fun onVaccinesByCityStatsButtonClicked(event: MainView.VaccinesByCityStatsButtonClickedEvent) {
+        startActivity(StatsVaccineByCityActivity::class.java)
+    }
+
+    @Subscribe
     fun onStatsFetchedSuccessfully(event: MainModel.StatsFetchedSuccessfullyEvent) {
         model.setLastUpdateDateTime()
         refreshWidgetsState()
@@ -108,6 +113,7 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
         buildVaccinesBySegmentStatChart(graphColor)
         buildVaccinesByAgeStatChart(graphColor)
         buildVaccinesGlobalStatChart(graphColor)
+        buildVaccinesByCityStatChart(graphColor)
     }
 
     private fun buildCtiStatChart(@ColorInt graphColor: Int) {
@@ -236,12 +242,25 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
     private fun buildVaccinesGlobalStatChart(@ColorInt graphColor: Int) {
         buildStatChart(
             VaccinesData.getInstance(),
-            VaccinesData.dailyCoronavacStat,
+            VaccinesData.dailyPeopleVaccinatedStat,
             dataSetFunc = { dataObject, stat ->
                 dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
             resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
                 view.setupVaccinesGlobalStatsCard(dataSet, statName, lastValue, isTrendingUp)
+            }
+        )
+    }
+
+    private fun buildVaccinesByCityStatChart(@ColorInt graphColor: Int) {
+        buildStatChart(
+            VaccinesByCityData.getInstance(),
+            VaccinesByCityData.dailyVaccinationsMontevideoStat,
+            dataSetFunc = { dataObject, stat ->
+                dataObject.getDataSetAbsoluteIndex(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
+            },
+            resultFunc = { dataSet, statName, lastValue, isTrendingUp ->
+                view.setupVaccinesByCityStatsCard(dataSet, statName, lastValue, isTrendingUp)
             }
         )
     }
