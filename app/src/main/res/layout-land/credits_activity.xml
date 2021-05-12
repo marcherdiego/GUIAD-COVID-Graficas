@@ -11,9 +11,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/stat_card_background"
         android:padding="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -60,13 +61,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/david_giordano_container"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:background="@drawable/stat_card_background"
         android:padding="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/guiad_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guiad_container">
+        app:layout_constraintStart_toEndOf="@+id/vertical_guideline_50"
+        app:layout_constraintTop_toTopOf="@+id/guiad_container">
 
         <TextView
             android:id="@+id/david_giordano_name"
@@ -107,4 +109,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/david_giordano_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical_guideline_50"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

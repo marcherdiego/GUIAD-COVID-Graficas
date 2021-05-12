@@ -1,26 +1,19 @@
 package com.nerdscorner.guiad.stats.ui.mvp.view
 
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import com.nerdscorner.guiad.stats.R
 import com.nerdscorner.mvplib.events.view.BaseActivityView
 import com.nerdscorner.guiad.stats.ui.activities.CreditsActivity
 
+import com.nerdscorner.guiad.stats.R
+
 class CreditsView(activity: CreditsActivity) : BaseActivityView(activity) {
-    private val webView: WebView = activity.findViewById(R.id.web_view)
-
     init {
-        webView.settings.javaScriptEnabled = true
+        activity.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+        }
+        onClick(R.id.guiad_view_more_button, GuiadViewMoreButtonClickedEvent())
+        onClick(R.id.david_giordano_view_more_button, DavidGiordanoViewMoreButtonClickedEvent())
     }
 
-    fun loadUrl(url: String) {
-        webView.loadUrl(url)
-        webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                view?.loadUrl(url)
-                return true
-            }
-        }
-    }
+    class GuiadViewMoreButtonClickedEvent
+    class DavidGiordanoViewMoreButtonClickedEvent
 }

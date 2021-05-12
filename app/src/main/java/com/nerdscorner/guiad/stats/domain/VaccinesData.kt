@@ -12,6 +12,7 @@ class VaccinesData private constructor() : DataObject() {
         dataLines.forEach { dataTokens ->
             dataTokens[INDEX_VACCINE] = EMPTY_STRING
             dataTokens[INDEX_DATE] = DateUtils.convertUsDateToUyDate(dataTokens[INDEX_DATE])
+            dataTokens[INDEX_DAILY_PROGRESS] = dataTokens[INDEX_DAILY_PROGRESS].replace("%", EMPTY_STRING)
         }
     }
 
@@ -92,6 +93,6 @@ class VaccinesData private constructor() : DataObject() {
         val dailyPeopleFullyAstrazenecaStat = Stat("Completamente vacunados Astrazeneca (por día)", INDEX_PEOPLE_FULLY_ASTRAZENECA)
 
         val dailyAgendaStat = Stat("Agendados (por día)", INDEX_DAILY_AGENDA)
-        val totalProgressStat = Stat("Progreso de vacunación (por día)", INDEX_DAILY_PROGRESS)
+        val totalProgressStat = Stat("Progreso de vacunación (% por día)", INDEX_DAILY_PROGRESS)
     }
 }

@@ -129,7 +129,7 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
             view.setupVaccinesByAgeCard(dataSet, statName, lastValue, isTrendingUp)
         }
         model.buildVaccinesGlobalStatChart { dataSet, statName, lastValue, isTrendingUp ->
-            view.setupVaccinesGlobalStatsCard(dataSet, statName, lastValue, isTrendingUp)
+            view.setupVaccinesGlobalStatsCard(dataSet, statName, "$lastValue%", isTrendingUp)
         }
         model.buildVaccinesByCityStatChart { dataSet, statName, lastValue, isTrendingUp ->
             view.setupVaccinesByCityStatsCard(dataSet, statName, lastValue, isTrendingUp)
@@ -204,9 +204,5 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
             R.id.action_credits -> startActivity(CreditsActivity::class.java)
         }
         return true
-    }
-
-    companion object {
-        private const val HOME_CHARTS_DATA_LIMIT = 30
     }
 }

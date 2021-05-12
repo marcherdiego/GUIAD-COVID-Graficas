@@ -205,7 +205,7 @@ class MainModel : BaseEventsModel() {
     fun buildVaccinesGlobalStatChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit) {
         buildStatChart(
             VaccinesData.getInstance(),
-            VaccinesData.dailyPeopleVaccinatedStat,
+            VaccinesData.totalProgressStat,
             dataSetFunc = { dataObject, stat ->
                 dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
@@ -215,10 +215,10 @@ class MainModel : BaseEventsModel() {
 
     fun buildVaccinesByCityStatChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit) {
         buildStatChart(
-            VaccinesByCityData.getInstance(),
-            VaccinesByCityData.dailyVaccinationsMontevideoStat,
+            VaccinesData.getInstance(),
+            VaccinesData.dailyPeopleVaccinatedStat,
             dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSetAbsoluteIndex(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
+                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
             resultFunc = resultFunc
         )
