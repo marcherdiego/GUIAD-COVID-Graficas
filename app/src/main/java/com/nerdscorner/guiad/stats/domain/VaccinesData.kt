@@ -9,17 +9,10 @@ class VaccinesData private constructor() : DataObject() {
 
     override fun setData(data: String?) {
         super.setData(data?.replace(csvStringLiteralsRegex, EMPTY_STRING))
-
-        dataLines = dataLines.map { line ->
-            line
-                .split(COMMA)
-                .toMutableList()
-                .apply {
-                    this[INDEX_VACCINE] = EMPTY_STRING
-                    this[INDEX_DATE] = DateUtils.convertUsDateToUyDate(this[INDEX_DATE])
-                }
-                .joinToString()
-        }.toMutableList()
+        dataLines.forEach { dataTokens ->
+            dataTokens[INDEX_VACCINE] = EMPTY_STRING
+            dataTokens[INDEX_DATE] = DateUtils.convertUsDateToUyDate(dataTokens[INDEX_DATE])
+        }
     }
 
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
@@ -82,22 +75,22 @@ class VaccinesData private constructor() : DataObject() {
         val totalPeopleVaccinatedStat = Stat("Total vacunados (acumulado)", INDEX_TOTAL_PEOPLE_VACCINATED)
         val totalPeopleFullyVaccinatedStat = Stat("Completamente vacunados (acumulado)", INDEX_TOTAL_PEOPLE_FULLY_VACCINATED)
         val dailyPeopleVaccinatedStat = Stat("Vacunados (por día)", INDEX_DAILY_PEOPLE_VACCINATED)
-        
+
         val dailyCoronavacStat = Stat("Vacunaciones Coronavac (por día)", INDEX_DAILY_CORONAVAC)
         val totalCoronavacStat = Stat("Vacunaciones Coronavac (acumulado)", INDEX_TOTAL_CORONAVAC)
         val dailyPeopleCoronavacStat = Stat("Vacunados Coronavac (por día)", INDEX_PEOPLE_CORONAVAC)
         val dailyPeopleFullyCoronavacStat = Stat("Completamente vacunados Coronavac (por día)", INDEX_PEOPLE_FULLY_CORONAVAC)
-        
+
         val dailyPfizerStat = Stat("Vacunaciones Pfizer (por día)", INDEX_DAILY_PFIZER)
         val totalPfizerStat = Stat("Vacunaciones Pfizer (acumulado)", INDEX_TOTAL_PFIZER)
         val dailyPeoplePfizerStat = Stat("Vacunados Pfizer (por día)", INDEX_PEOPLE_PFIZER)
         val dailyPeopleFullyPfizerStat = Stat("Completamente vacunados Pfizer (por día)", INDEX_PEOPLE_FULLY_PFIZER)
-        
+
         val dailyAstrazenecaStat = Stat("Vacunaciones Astrazeneca (por día)", INDEX_DAILY_ASTRAZENECA)
         val totalAstrazenecaStat = Stat("Vacunaciones Astrazeneca (acumulado)", INDEX_TOTAL_ASTRAZENECA)
         val dailyPeopleAstrazenecaStat = Stat("Vacunados Astrazeneca (por día)", INDEX_PEOPLE_ASTRAZENECA)
         val dailyPeopleFullyAstrazenecaStat = Stat("Completamente vacunados Astrazeneca (por día)", INDEX_PEOPLE_FULLY_ASTRAZENECA)
-        
+
         val dailyAgendaStat = Stat("Agendados (por día)", INDEX_DAILY_AGENDA)
         val totalProgressStat = Stat("Progreso de vacunación (por día)", INDEX_DAILY_PROGRESS)
     }

@@ -7,7 +7,7 @@ import com.nerdscorner.guiad.stats.extensions.format
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 
 class GeneralStatsData private constructor() : DataObject() {
-    private lateinit var dataByDate: Map<String, List<String>>
+    private var dataByDate = mapOf<String, List<String>>()
 
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
         return getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
@@ -16,11 +16,7 @@ class GeneralStatsData private constructor() : DataObject() {
     @WorkerThread
     override fun setData(data: String?) {
         super.setData(data)
-
-        dataByDate = dataLines.associate {
-            val tokens = it.split(COMMA)
-            Pair(tokens[INDEX_DATE], it.split(COMMA))
-        }
+        dataByDate = dataLines.associateBy { tokens -> tokens[INDEX_DATE] }
     }
 
     override fun getStats() = listOf(

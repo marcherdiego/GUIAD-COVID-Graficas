@@ -13,23 +13,28 @@ import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 import kotlin.math.min
 
 abstract class DataObject {
-    protected lateinit var dataLines: MutableList<String>
+    protected var dataLines = mutableListOf<MutableList<String>>()
 
     private val standardValueFormatter = object : ValueFormatter() {
         override fun getFormattedValue(value: Float) = value.roundToString()
     }
+
+    abstract fun getStats(): List<Stat>
+
+    protected abstract fun persist(data: String?)
     
     @WorkerThread
     open fun setData(data: String?) {
         dataLines = data
             ?.split(LINE_FEED)
             ?.drop(1)
+            ?.map { 
+                it.split(COMMA).toMutableList()
+            }
             ?.toMutableList()
             ?: mutableListOf() //Drop header
         persist(data)
     }
-
-    abstract fun getStats(): List<Stat>
 
     open fun getLatestValue(stat: Stat): String {
         val latestValue = getValueAt(dataLines.size - 1, stat)
@@ -54,14 +59,12 @@ abstract class DataObject {
         return (latestValue - preLatestValue) > 0
     }
 
-    protected abstract fun persist(data: String?)
-
-    protected fun getLineTokensAt(row: Int) = dataLines.getOrNull(row)?.split(COMMA)
+    protected fun getLineTokensAt(row: Int) = dataLines.getOrNull(row)
 
     protected fun getValueAt(row: Int, stat: Stat) = getLineTokensAt(row)?.get(stat.index)
 
     protected fun getDataSet(
-        dataLines: List<String>,
+        dataLines: List<List<String>>,
         dateIndex: Int,
         valueIndex: Int,
         statFactorMultiplier: Float,
@@ -71,11 +74,9 @@ abstract class DataObject {
         limit: Int?
     ): ILineDataSet {
         val entries = dataLines
-            .filterNot { it.trim() == EMPTY_STRING }
             .takeLast(getDataLimit(dataLines, limit))
             .mapIndexed { index, line ->
-                val dataTokens = line.split(COMMA)
-                Entry(index.toFloat(), (dataTokens[valueIndex].toFloatOrNull() ?: 0f) * statFactorMultiplier, dataTokens[dateIndex])
+                Entry(index.toFloat(), (line[valueIndex].toFloatOrNull() ?: 0f) * statFactorMultiplier, line[dateIndex])
             }
         return LineDataSet(entries, label).apply {
             this.color = color
@@ -93,14 +94,14 @@ abstract class DataObject {
         return RangeUtils.getDaysCountForRangeIndex(selectedRangeIndex, dataLines.size)
     }
 
-    private fun getDataLimit(dataLines: List<String>, limit: Int?): Int {
+    private fun getDataLimit(dataLines: List<List<String>>, limit: Int?): Int {
         return limit ?: min(dataLines.size, getSelectedDataRange())
     }
 
     companion object {
         const val EMPTY_STRING = ""
         const val LINE_FEED = "\n"
-        const val COMMA = ","
+        private const val COMMA = ","
         const val N_A = "N/A"
     }
 }

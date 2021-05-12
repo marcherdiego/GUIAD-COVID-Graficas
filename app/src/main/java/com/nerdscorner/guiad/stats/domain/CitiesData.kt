@@ -7,16 +7,15 @@ import com.nerdscorner.guiad.stats.extensions.roundToString
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 
 class CitiesData private constructor() : DataObject() {
-    private lateinit var dataByCity: Map<String, Map<String, List<List<String>>>>
+    private var dataByCity = mapOf<String, Map<String, List<List<String>>>>()
 
     override fun setData(data: String?) {
         super.setData(data)
         dataByCity = dataLines
-            .groupBy { it.split(COMMA)[INDEX_CITY] }
+            .groupBy { it[INDEX_CITY] }
             .mapValues {
                 it
                     .value
-                    .map { it.split(COMMA) }
                     .groupBy { it[INDEX_DATE] }
             }
     }
@@ -32,7 +31,7 @@ class CitiesData private constructor() : DataObject() {
         return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
     }
 
-    private fun getDataLinesForCities(stat: Stat, selectedCities: List<String>): List<String> {
+    private fun getDataLinesForCities(stat: Stat, selectedCities: List<String>): List<List<String>> {
         return dataByCity
             .filter { it.key in selectedCities }
             .flatMap { dataByCity ->
@@ -52,7 +51,7 @@ class CitiesData private constructor() : DataObject() {
                 it.value.forEach {
                     valuesSum += it.second
                 }
-                listOf(date, valuesSum).joinToString()
+                listOf(date, valuesSum.toString())
             }
     }
 
@@ -72,7 +71,7 @@ class CitiesData private constructor() : DataObject() {
         return (latestValue - preLatestValue) > 0
     }
 
-    private fun getValueAt(dataLines: List<String>, row: Int) = dataLines.getOrNull(row)?.split(COMMA)?.get(1)?.toFloatOrNull()
+    private fun getValueAt(dataLines: List<List<String>>, row: Int) = dataLines.getOrNull(row)?.get(1)?.toFloatOrNull()
 
     override fun getStats() = listOf(
         inCourseStat,

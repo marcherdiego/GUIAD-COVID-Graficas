@@ -9,16 +9,9 @@ class VaccinesBySegmentData private constructor() : DataObject() {
 
     override fun setData(data: String?) {
         super.setData(data)
-
-        dataLines = dataLines.map { line ->
-            line
-                .split(COMMA)
-                .toMutableList()
-                .apply {
-                    this[INDEX_DATE] = DateUtils.convertUsDateToUyDate(this[INDEX_DATE])
-                }
-                .joinToString()
-        }.toMutableList()
+        dataLines.forEach { dataTokens ->
+            dataTokens[INDEX_DATE] = DateUtils.convertUsDateToUyDate(dataTokens[INDEX_DATE])
+        }
     }
 
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {

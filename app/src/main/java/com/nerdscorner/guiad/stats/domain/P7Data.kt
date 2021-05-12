@@ -9,8 +9,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class P7Data private constructor() : DataObject() {
-    private lateinit var dataByDate: Map<String, List<String>>
-    
+    private var dataByDate = mapOf<String, List<String>>()
     private val cachedDatesIndexes = mutableListOf<String>()
 
     fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
@@ -22,12 +21,9 @@ class P7Data private constructor() : DataObject() {
         dataLines.addAll(0, getMissingDummyData())
         cachedDatesIndexes.clear()
         dataLines.forEach {
-            cachedDatesIndexes.add(it.split(COMMA)[INDEX_DATE])
+            cachedDatesIndexes.add(it[INDEX_DATE])
         }
-        dataByDate = dataLines.associate {
-            val tokens = it.split(COMMA)
-            Pair(tokens[INDEX_DATE], it.split(COMMA))
-        }
+        dataByDate = dataLines.associateBy { tokens -> tokens[INDEX_DATE] }
     }
 
     override fun getStats() = listOf(p7Stat)
@@ -51,14 +47,14 @@ class P7Data private constructor() : DataObject() {
         return cachedDatesIndexes.takeLast(selectedDataRange).indexOf(filterDate).toFloat()
     }
 
-    private fun getMissingDummyData(): List<String> {
+    private fun getMissingDummyData(): List<MutableList<String>> {
         val dateFormat = SimpleDateFormat(DateUtils.DATE_FORMAT, Locale.getDefault())
         val startDate = GregorianCalendar(2020, 2, 25)
         val endDate = GregorianCalendar(2020, 4, 6)
-        val result = mutableListOf<String>()
+        val result = mutableListOf<MutableList<String>>()
         do {
             val filterDate = dateFormat.format(startDate.time)
-            result.add(listOf(filterDate, 0).joinToString())
+            result.add(mutableListOf(filterDate, "0"))
             startDate.add(Calendar.DATE, 1)
         } while (startDate.before(endDate))
         return result

@@ -2,8 +2,6 @@ package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.nerdscorner.guiad.stats.extensions.formatNumberString
-import com.nerdscorner.guiad.stats.extensions.roundToString
 import com.nerdscorner.guiad.stats.utils.DateUtils
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 
@@ -11,17 +9,10 @@ class VaccinesByCityData private constructor() : DataObject() {
 
     override fun setData(data: String?) {
         super.setData(data?.replace(csvStringLiteralsRegex, EMPTY_STRING))
-
-        dataLines = dataLines.map { line ->
-            line
-                .split(COMMA)
-                .toMutableList()
-                .apply {
-                    this[INDEX_VACCINE] = EMPTY_STRING
-                    this[INDEX_DATE] = DateUtils.convertUsDateToUyDate(this[INDEX_DATE])
-                }
-                .joinToString()
-        }.toMutableList()
+        dataLines.forEach { dataTokens ->
+            dataTokens[INDEX_VACCINE] = EMPTY_STRING
+            dataTokens[INDEX_DATE] = DateUtils.convertUsDateToUyDate(dataTokens[INDEX_DATE])
+        }
     }
 
     fun getDataSet(

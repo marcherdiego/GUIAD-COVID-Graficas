@@ -5,16 +5,15 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 
 class P7ByCityData private constructor() : DataObject() {
-    private lateinit var dataByCity: Map<String, Map<String, List<List<String>>>>
+    private var dataByCity = mapOf<String, Map<String, List<List<String>>>>()
 
     override fun setData(data: String?) {
         super.setData(data)
         dataByCity = dataLines
-            .groupBy { it.split(COMMA)[INDEX_CITY] }
+            .groupBy { it[INDEX_CITY] }
             .mapValues {
                 it
                     .value
-                    .map { it.split(COMMA) }
                     .groupBy { it[INDEX_DATE] }
             }
     }
@@ -45,7 +44,7 @@ class P7ByCityData private constructor() : DataObject() {
                 it.value.forEach {
                     valuesSum += it.second
                 }
-                listOf(date, valuesSum).joinToString()
+                listOf(date, valuesSum.toString())
             }
         return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
     }

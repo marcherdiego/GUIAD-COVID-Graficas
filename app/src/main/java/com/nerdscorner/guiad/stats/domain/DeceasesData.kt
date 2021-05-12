@@ -16,18 +16,16 @@ class DeceasesData private constructor() : DataObject() {
         @ColorInt color: Int,
         @ColorInt valueTextColor: Int
     ): ILineDataSet {
-        val dataMap = dataLines
-            .groupBy { it.split(COMMA)[stat.index] }
-            .sortIf(stat.isSorted)
         val selectedDataRange = getSelectedDataRange()
         val today = Date()
-        val dataLines = dataMap
+        val dataLines = dataLines
+            .groupBy { it[stat.index] }
+            .sortIf(stat.isSorted)
             .map { dataEntries ->
                 val dataX = dataEntries.key
                 val valuesSum = dataEntries
                     .value
-                    .map {
-                        val dataTokens = it.split(COMMA)
+                    .map { dataTokens ->
                         val date = DateUtils.parseDate(dataTokens[INDEX_DATE])
                         val city = dataTokens[INDEX_CITY]
                         if (today.getDaysDiff(date) <= selectedDataRange && city in selectedCities) {
@@ -40,7 +38,7 @@ class DeceasesData private constructor() : DataObject() {
                 return@map if (valuesSum == 0) {
                     null
                 } else {
-                    listOf(dataX, valuesSum).joinToString()
+                    listOf(dataX, valuesSum.toString())
                 }
             }
             .filterNotNull()
