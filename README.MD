@@ -1,12 +1,23 @@
 # Gráficos evolución Covid-19 en Uruguay
  
+## Estadísticas COVID
 GUIAD-COVID (Grupo Uruguayo Interdisciplinario de Análisis de Datos - COVID 19.)
 Referencia [GUIAD-COVID](https://guiad-covid.github.io/)
 
 Todos los datos son extraídos de la página de github del grupo ubicados en [esta carpeta](https://github.com/GUIAD-COVID/datos-y-visualizaciones-GUIAD/tree/master/datos)
 
+## Estadísticas de vacunación
+David Giordano [Github](https://github.com/3dgiordano/covid-19-uy-vacc-data)
+Referencia [Vacuna.uy](https://vacuna.uy/)
+
+Todos los datos son extraídos de la página de github del grupo ubicados en [esta carpeta](https://github.com/3dgiordano/covid-19-uy-vacc-data/tree/main/data)
+
+
 Capturas de pantalla de la App
 -
+### Principal
+![Principal](googleplay/ss8.png)
+
 ### Estadísticas generales
 ![Estadísticas generales](googleplay/ss3.png)
 
@@ -15,6 +26,9 @@ Capturas de pantalla de la App
 
 ### Datos por fecha
 ![Datos por fecha](googleplay/ss6.png)
+
+### Datos de vacunación
+![Datos de vacunación](googleplay/ss9.png)
 
 
 Librerías utilizadas
