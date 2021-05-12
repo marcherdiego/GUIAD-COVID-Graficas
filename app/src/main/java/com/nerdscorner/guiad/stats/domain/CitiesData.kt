@@ -95,6 +95,7 @@ class CitiesData private constructor() : DataObject() {
 
         private const val INDEX_DATE = 0
         private const val INDEX_CITY = 1
+        
         private const val INDEX_IN_COURSE = 2
         private const val INDEX_NEW_CASES_CALCULATED = 3
         private const val INDEX_NEW_CASES_APP = 4

@@ -31,6 +31,7 @@ class CtiData private constructor() : DataObject() {
         fun getInstance() = instance
 
         private const val INDEX_DATE = 1
+        
         private const val INDEX_PATIENTS_QUANTITY = 2
         private const val INDEX_TOTAL_OCCUPATION = 3
         private const val INDEX_COVID_OCCUPATION = 4
