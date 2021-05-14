@@ -13,9 +13,9 @@
         android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
+        android:contentDescription="@string/back_1_day"
         android:focusable="true"
         android:padding="10dp"
-        android:contentDescription="@string/back_1_day"
         android:src="@drawable/ic_back"
         app:layout_constraintBottom_toBottomOf="@+id/date_picker_container"
         app:layout_constraintEnd_toStartOf="@+id/date_picker_container"
@@ -28,8 +28,8 @@
         android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:focusable="true"
         android:contentDescription="@string/back_1_month"
+        android:focusable="true"
         android:padding="10dp"
         android:src="@drawable/ic_rewind"
         app:layout_constraintBottom_toBottomOf="@+id/date_picker_container"
@@ -74,8 +74,8 @@
         android:layout_marginStart="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:focusable="true"
         android:contentDescription="@string/forward_1_day"
+        android:focusable="true"
         android:padding="10dp"
         android:rotation="180"
         android:src="@drawable/ic_back"
@@ -87,10 +87,10 @@
         android:id="@+id/forward_month_button"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:contentDescription="@string/forward_1_month"
         android:layout_marginStart="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
+        android:contentDescription="@string/forward_1_month"
         android:focusable="true"
         android:padding="10dp"
         android:rotation="180"
@@ -280,6 +280,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -297,10 +298,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp" />
+
+                <com.nerdscorner.guiad.stats.ui.custom.ChartTypeSelector
+                    android:id="@+id/chart_type_selector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart"
+            <FrameLayout
+                android:id="@+id/charts_container_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -309,7 +315,18 @@
                 app:layout_constraintBottom_toTopOf="@+id/legends_container"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/data_limit_selector_container" />
+                app:layout_constraintTop_toBottomOf="@+id/data_limit_selector_container">
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/line_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/bar_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
 
             <com.nex3z.flowlayout.FlowLayout
                 android:id="@+id/legends_container"

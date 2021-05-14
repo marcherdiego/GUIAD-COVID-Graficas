@@ -63,20 +63,32 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/chart_type_selector"
         app:layout_constraintStart_toEndOf="@+id/data_limit_label"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/chart"
+    <FrameLayout
+        android:id="@+id/charts_container_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/background_color_33"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/legends_container_scroll"
-        app:layout_constraintTop_toBottomOf="@+id/stat_selector" />
+        app:layout_constraintTop_toBottomOf="@+id/stat_selector">
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/bar_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
     <ScrollView
         android:id="@+id/legends_container_scroll"
@@ -99,6 +111,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </ScrollView>
+
+    <com.nerdscorner.guiad.stats.ui.custom.ChartTypeSelector
+        android:id="@+id/chart_type_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_33"

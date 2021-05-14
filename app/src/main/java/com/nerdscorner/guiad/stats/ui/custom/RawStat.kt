@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.nerdscorner.guiad.stats.R
 import com.nerdscorner.guiad.stats.domain.Stat
+import com.nerdscorner.guiad.stats.extensions.animateScaleUp
 
 class RawStat @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -68,6 +69,7 @@ class RawStat @JvmOverloads constructor(
 
     override fun setOnClickListener(listener: OnClickListener?) {
         super.setOnClickListener {
+            chartIcon.animateScaleUp(duration = 200L)
             itemSelected = itemSelected.not()
             updateSelectedState()
             listener?.onClick(this)

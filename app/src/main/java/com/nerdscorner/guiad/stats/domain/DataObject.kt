@@ -2,9 +2,9 @@ package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
 import androidx.annotation.WorkerThread
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.extensions.formatNumberString
 import com.nerdscorner.guiad.stats.extensions.roundToString
@@ -22,13 +22,13 @@ abstract class DataObject {
     abstract fun getStats(): List<Stat>
 
     protected abstract fun persist(data: String?)
-    
+
     @WorkerThread
     open fun setData(data: String?) {
         dataLines = data
             ?.split(LINE_FEED)
             ?.drop(1)
-            ?.map { 
+            ?.map {
                 it.split(COMMA).toMutableList()
             }
             ?.toMutableList()
@@ -63,7 +63,7 @@ abstract class DataObject {
 
     protected fun getValueAt(row: Int, stat: Stat) = getLineTokensAt(row)?.get(stat.index)
 
-    protected fun getDataSet(
+    protected fun getLineDataSet(
         dataLines: List<List<String>>,
         dateIndex: Int,
         valueIndex: Int,
@@ -85,6 +85,30 @@ abstract class DataObject {
             this.highLightColor = color
             this.isHighlightEnabled = true
             this.setDrawHighlightIndicators(true)
+            this.valueFormatter = standardValueFormatter
+        }
+    }
+
+    protected fun getBarDataSet(
+        dataLines: List<List<String>>,
+        dateIndex: Int,
+        valueIndex: Int,
+        statFactorMultiplier: Float,
+        label: String,
+        @ColorInt color: Int,
+        @ColorInt valueTextColor: Int,
+        limit: Int?
+    ): IBarDataSet {
+        val entries = dataLines
+            .takeLast(getDataLimit(dataLines, limit))
+            .mapIndexed { index, line ->
+                BarEntry(index.toFloat(), (line[valueIndex].toFloatOrNull() ?: 0f) * statFactorMultiplier, line[dateIndex])
+            }
+        return BarDataSet(entries, label).apply {
+            this.color = color
+            this.valueTextColor = valueTextColor
+            this.highLightColor = color
+            this.isHighlightEnabled = true
             this.valueFormatter = standardValueFormatter
         }
     }

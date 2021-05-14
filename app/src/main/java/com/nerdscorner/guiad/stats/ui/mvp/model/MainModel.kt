@@ -103,7 +103,7 @@ class MainModel : BaseEventsModel() {
             CtiData.getInstance(),
             CtiData.patientsQuantityStat,
             dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
+                dataObject.getLineDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
             resultFunc = resultFunc
         )
@@ -118,7 +118,7 @@ class MainModel : BaseEventsModel() {
                     .drop(1)
                     .mapIndexed { index, city ->
                         val chartColor = ColorUtils.getColor(baseColorIndex + index)
-                        dataObject.getDataSet(stat, listOf(city), chartColor, chartColor, HOME_CHARTS_DATA_LIMIT)
+                        dataObject.getLineDataSet(stat, listOf(city), chartColor, chartColor, HOME_CHARTS_DATA_LIMIT)
                     }
             },
             resultFunc = resultFunc
@@ -130,7 +130,7 @@ class MainModel : BaseEventsModel() {
             GeneralStatsData.getInstance(),
             GeneralStatsData.inCourseStat,
             dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
+                dataObject.getLineDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
             resultFunc = resultFunc
         )
@@ -141,7 +141,7 @@ class MainModel : BaseEventsModel() {
             GeneralStatsData.getInstance(),
             GeneralStatsData.newDeceasesStat,
             dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
+                dataObject.getLineDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
             resultFunc = resultFunc
         )
@@ -152,7 +152,7 @@ class MainModel : BaseEventsModel() {
             P7Data.getInstance(),
             P7Data.p7Stat,
             dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
+                dataObject.getLineDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
             resultFunc = resultFunc
         )
@@ -163,7 +163,7 @@ class MainModel : BaseEventsModel() {
             MobilityData.getInstance(),
             MobilityData.mobilityIndexStat,
             dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
+                dataObject.getLineDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
             resultFunc = resultFunc
         )
@@ -174,7 +174,7 @@ class MainModel : BaseEventsModel() {
             GeneralStatsData.getInstance(),
             GeneralStatsData.positivityStat,
             dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
+                dataObject.getLineDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
             resultFunc = resultFunc
         )
@@ -185,7 +185,7 @@ class MainModel : BaseEventsModel() {
             VaccinesBySegmentData.getInstance(),
             VaccinesBySegmentData.dailyNoRiskStat,
             dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
+                dataObject.getLineDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
             resultFunc = resultFunc
         )
@@ -196,7 +196,7 @@ class MainModel : BaseEventsModel() {
             VaccinesByAgeData.getInstance(),
             VaccinesByAgeData.daily18_49Stat,
             dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
+                dataObject.getLineDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
             resultFunc = resultFunc
         )
@@ -207,7 +207,7 @@ class MainModel : BaseEventsModel() {
             VaccinesData.getInstance(),
             VaccinesData.totalProgressStat,
             dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
+                dataObject.getLineDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
             resultFunc = resultFunc
         )
@@ -218,7 +218,7 @@ class MainModel : BaseEventsModel() {
             VaccinesData.getInstance(),
             VaccinesData.dailyPeopleVaccinatedStat,
             dataSetFunc = { dataObject, stat ->
-                dataObject.getDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
+                dataObject.getLineDataSet(stat, graphColor, graphColor, HOME_CHARTS_DATA_LIMIT)
             },
             resultFunc = resultFunc
         )

@@ -1,6 +1,7 @@
 package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.utils.DateUtils
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
@@ -15,7 +16,7 @@ class VaccinesByCityData private constructor() : DataObject() {
         }
     }
 
-    fun getDataSet(
+    fun getLineDataSet(
         stat: Stat,
         selectedCity: String,
         @ColorInt color: Int,
@@ -23,16 +24,36 @@ class VaccinesByCityData private constructor() : DataObject() {
         limit: Int? = null
     ): ILineDataSet {
         val statOffset = getStatOffset(selectedCity)
-        return getDataSet(dataLines, INDEX_DATE, stat.index + statOffset, stat.factor, stat.name, color, valueTextColor, limit)
+        return getLineDataSet(dataLines, INDEX_DATE, stat.index + statOffset, stat.factor, stat.name, color, valueTextColor, limit)
     }
 
-    fun getDataSetAbsoluteIndex(
+    fun getBarDataSet(
+        stat: Stat,
+        selectedCity: String,
+        @ColorInt color: Int,
+        @ColorInt valueTextColor: Int,
+        limit: Int? = null
+    ): IBarDataSet {
+        val statOffset = getStatOffset(selectedCity)
+        return getBarDataSet(dataLines, INDEX_DATE, stat.index + statOffset, stat.factor, stat.name, color, valueTextColor, limit)
+    }
+
+    fun getLineDataSetAbsoluteIndex(
         stat: Stat,
         @ColorInt color: Int,
         @ColorInt valueTextColor: Int,
         limit: Int? = null
     ): ILineDataSet {
-        return getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
+        return getLineDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
+    }
+
+    fun getBarDataSetAbsoluteIndex(
+        stat: Stat,
+        @ColorInt color: Int,
+        @ColorInt valueTextColor: Int,
+        limit: Int? = null
+    ): IBarDataSet {
+        return getBarDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
     }
 
     private fun getStatOffset(selectedCity: String): Int {

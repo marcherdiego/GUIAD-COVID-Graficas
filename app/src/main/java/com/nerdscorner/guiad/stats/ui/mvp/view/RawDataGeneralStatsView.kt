@@ -8,22 +8,29 @@ import android.widget.SpinnerAdapter
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.ContextCompat
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.charts.BarLineChartBase
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
+import com.github.mikephil.charting.interfaces.datasets.IDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.nerdscorner.guiad.stats.R
+import com.nerdscorner.guiad.stats.domain.ChartType
 import com.nerdscorner.guiad.stats.domain.Stat
 import com.nerdscorner.guiad.stats.extensions.setItemSelectedListener
 import com.nerdscorner.mvplib.events.view.BaseActivityView
 import com.nerdscorner.guiad.stats.ui.activities.RawDataGeneralStatsActivity
 import com.nerdscorner.guiad.stats.ui.custom.ChartMarker
+import com.nerdscorner.guiad.stats.ui.custom.ChartTypeSelector
 import com.nerdscorner.guiad.stats.ui.custom.DatePicker
 import com.nerdscorner.guiad.stats.ui.custom.RawStat
 import com.nex3z.flowlayout.FlowLayout
@@ -64,7 +71,9 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
         harvardIndex
     )
 
-    private val chart: LineChart = activity.findViewById(R.id.chart)
+    private val chartTypeSelector: ChartTypeSelector = activity.findViewById(R.id.chart_type_selector)
+    private val lineChart: LineChart = activity.findViewById(R.id.line_chart)
+    private val barChart: BarChart = activity.findViewById(R.id.bar_chart)
     private val legendsContainer: FlowLayout = activity.findViewById(R.id.legends_container)
 
     private var manualHighlightUpdate = false
@@ -76,6 +85,31 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
         rangeSelector.setItemSelectedListener {
             bus.post(RangeSelectedEvent(it))
         }
+        datePicker.setDatePickedListener {
+            bus.post(DatePickedEvent(it))
+        }
+        chartTypeSelector.setOnChartTypeSelectedListener {
+            bus.post(ChartTypeSelectedEvent(it))
+        }
+        onClick(backDayButton, BackDayButtonClickedEvent())
+        onClick(backMonthButton, BackMonthButtonClickedEvent())
+        onClick(forwardDayButton, ForwardDayButtonClickedEvent())
+        onClick(forwardMonthButton, ForwardMonthButtonClickedEvent())
+        onClick(R.id.today_button, TodayButtonClickedEvent())
+
+        rawStatsList.forEach { rawStat ->
+            rawStat.setOnClickListener {
+                bus.post(StatClickedEvent(rawStat))
+            }
+        }
+
+        styleChartView(lineChart)
+        styleChartView(barChart)
+        barChart.visibility = View.INVISIBLE
+    }
+
+    private fun styleChartView(chart: BarLineChartBase<*>) {
+        val activity = activity ?: return
         val chartPadding = activity.resources.getDimensionPixelSize(R.dimen.chart_padding).toFloat()
         chart.setNoDataText(activity.getString(R.string.select_a_stat))
         chart.setNoDataTextColor(ContextCompat.getColor(activity, R.color.graph_text_color))
@@ -94,21 +128,10 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
             override fun onNothingSelected() {
             }
         })
+    }
 
-        datePicker.setDatePickedListener {
-            bus.post(DatePickedEvent(it))
-        }
-        onClick(backDayButton, BackDayButtonClickedEvent())
-        onClick(backMonthButton, BackMonthButtonClickedEvent())
-        onClick(forwardDayButton, ForwardDayButtonClickedEvent())
-        onClick(forwardMonthButton, ForwardMonthButtonClickedEvent())
-        onClick(R.id.today_button, TodayButtonClickedEvent())
-
-        rawStatsList.forEach { rawStat ->
-            rawStat.setOnClickListener {
-                bus.post(StatClickedEvent(rawStat))
-            }
-        }
+    fun setSelectedChartType(chartType: ChartType) {
+        chartTypeSelector.setSelectedChartType(chartType)
     }
 
     fun setRangesAdapter(adapter: SpinnerAdapter) {
@@ -181,34 +204,78 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
         this.indexVariation.setValue(indexVariation)
     }
 
-    fun setChartsData(dataSets: List<ILineDataSet>) {
-        chart.clear()
+    fun showLineChart() {
+        lineChart.visibility = View.VISIBLE
+    }
+
+    fun hideLineChart() {
+        lineChart.visibility = View.INVISIBLE
+    }
+
+    fun showBarChart() {
+        barChart.visibility = View.VISIBLE
+    }
+
+    fun hideBarChart() {
+        barChart.visibility = View.INVISIBLE
+    }
+
+    fun setLineChartsData(dataSets: List<ILineDataSet>) {
+        lineChart.clear()
         legendsContainer.removeAllViews()
-        styleAxis(dataSets.firstOrNull() ?: return)
-        chart.data = LineData(dataSets)
-        chart.invalidate()
-        chart.legend.entries.forEach { legend ->
-            val legendView = LayoutInflater.from(activity).inflate(R.layout.chart_legend_item, null).apply {
-                findViewById<View>(R.id.indicator).setBackgroundColor(legend.formColor)
-                findViewById<TextView>(R.id.legend).text = legend.label
+        if (dataSets.isNotEmpty()) {
+            styleAxis(lineChart, dataSets.first())
+            lineChart.data = LineData(dataSets)
+            lineChart.invalidate()
+            lineChart.legend.entries.forEach { legend ->
+                val legendView = LayoutInflater.from(activity).inflate(R.layout.chart_legend_item, null).apply {
+                    findViewById<View>(R.id.indicator).setBackgroundColor(legend.formColor)
+                    findViewById<TextView>(R.id.legend).text = legend.label
+                }
+                legendsContainer.addView(legendView)
             }
-            legendsContainer.addView(legendView)
+        }
+    }
+
+    fun setBarChartData(dataSets: List<IBarDataSet>) {
+        barChart.clear()
+        legendsContainer.removeAllViews()
+        if (dataSets.isNotEmpty()) {
+            styleAxis(barChart, dataSets.first())
+            val widthSpaceRatio = 4
+            val groupSpace = 0.06f
+            val barSpace = (1f - groupSpace) / (dataSets.size.toFloat() * (widthSpaceRatio + 1))
+            val barWidth = widthSpaceRatio * barSpace
+            barChart.data = BarData(dataSets).apply {
+                this.barWidth = barWidth
+            }
+            if (dataSets.size > 1) {
+                barChart.groupBars(0f, groupSpace, barSpace)
+            }
+            barChart.legend.entries.forEach { legend ->
+                val legendView = LayoutInflater.from(activity).inflate(R.layout.chart_legend_item, null).apply {
+                    findViewById<View>(R.id.indicator).setBackgroundColor(legend.formColor)
+                    findViewById<TextView>(R.id.legend).text = legend.label
+                }
+                legendsContainer.addView(legendView)
+            }
+            barChart.invalidate()
         }
     }
 
     fun setChartSelectedItem(x: Float) {
         manualHighlightUpdate = true
         if (x == -1f) {
-            chart.highlightValue(null)
+            lineChart.highlightValue(null)
         } else {
-            chart.data?.dataSets?.let {
-                chart.highlightValue(x, 0)
+            lineChart.data?.dataSets?.let {
+                lineChart.highlightValue(x, 0)
             }
         }
         manualHighlightUpdate = false
     }
 
-    private fun styleAxis(dataSet: ILineDataSet) {
+    private fun styleAxis(chart: BarLineChartBase<*>, dataSet: IDataSet<*>) {
         val chartTextColor = ContextCompat.getColor(activity ?: return, R.color.graph_text_color)
         chart.getAxis(YAxis.AxisDependency.LEFT).textColor = chartTextColor
         chart.getAxis(YAxis.AxisDependency.RIGHT).textColor = chartTextColor
@@ -219,9 +286,10 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
             valueFormatter = object : ValueFormatter() {
                 override fun getAxisLabel(value: Float, axis: AxisBase?): String {
                     return try {
-                        dataSet.getEntryForIndex(value.toInt()).data.toString()
-                    } catch (e: Exception) {
-                        super.getAxisLabel(value, axis)
+                        val entry = dataSet.getEntryForIndex(value.toInt())
+                        entry.data.toString()
+                    } catch (_: Exception) {
+                        ""
                     }
                 }
             }
@@ -263,6 +331,7 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
     class ChartValueSelectedEvent(val entry: Entry?)
     class StatClickedEvent(val rawStat: RawStat)
     class RangeSelectedEvent(val position: Int)
+    class ChartTypeSelectedEvent(val chartType: ChartType)
 
     class BackDayButtonClickedEvent
     class BackMonthButtonClickedEvent

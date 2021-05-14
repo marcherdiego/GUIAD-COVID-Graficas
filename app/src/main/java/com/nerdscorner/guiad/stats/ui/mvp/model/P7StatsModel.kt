@@ -1,5 +1,6 @@
 package com.nerdscorner.guiad.stats.ui.mvp.model
 
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.domain.CitiesData
 import com.nerdscorner.guiad.stats.domain.P7ByCityData
@@ -25,14 +26,20 @@ class P7StatsModel : StatsModel() {
 
     override fun buildDataSets() {
         withResult(
-            resultFunc = ::createDataSets,
+            resultFunc = ::createLineDataSets,
             success = {
-                bus.post(DataSetsBuiltEvent(this!!))
+                bus.post(LineDataSetsBuiltEvent(this!!))
+            }
+        )
+        withResult(
+            resultFunc = ::createBarDataSets,
+            success = {
+                bus.post(BarDataSetsBuiltEvent(this!!))
             }
         )
     }
 
-    override suspend fun createDataSets(): List<ILineDataSet> {
+    override suspend fun createLineDataSets(): List<ILineDataSet> {
         return runAsync {
             val selectedCities = if (selectedCity == 0) {
                 allCities
@@ -42,9 +49,27 @@ class P7StatsModel : StatsModel() {
             selectedStats.map { stat ->
                 val chartColor = ColorUtils.getColor(stat.index)
                 if (stat in p7Data.getStats()) {
-                    p7Data.getDataSet(stat, chartColor, chartColor)
+                    p7Data.getLineDataSet(stat, chartColor, chartColor)
                 } else {
-                    p7ByCityData.getDataSet(stat, selectedCities, chartColor, chartColor)
+                    p7ByCityData.getLineDataSet(stat, selectedCities, chartColor, chartColor)
+                }
+            }
+        }.await()
+    }
+
+    override suspend fun createBarDataSets(): List<IBarDataSet> {
+        return runAsync {
+            val selectedCities = if (selectedCity == 0) {
+                allCities
+            } else {
+                listOf(allCities[selectedCity])
+            }
+            selectedStats.map { stat ->
+                val chartColor = ColorUtils.getColor(stat.index)
+                if (stat in p7Data.getStats()) {
+                    p7Data.getBarDataSet(stat, chartColor, chartColor)
+                } else {
+                    p7ByCityData.getBarDataSet(stat, selectedCities, chartColor, chartColor)
                 }
             }
         }.await()

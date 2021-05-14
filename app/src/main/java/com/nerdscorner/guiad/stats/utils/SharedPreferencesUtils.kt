@@ -2,6 +2,7 @@ package com.nerdscorner.guiad.stats.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.nerdscorner.guiad.stats.domain.ChartType
 
 object SharedPreferencesUtils {
     private lateinit var sharedPreferences: SharedPreferences
@@ -22,6 +23,7 @@ object SharedPreferencesUtils {
 
     private const val ROTATE_DEVICE_SHOWN = "rotate_device_shown"
     private const val SELECTED_DATA_RANGE_INDEX = "data_range_index"
+    private const val SELECTED_CHART_TYPE_INDEX = "chart_type_index"
 
     fun init(context: Context) {
         sharedPreferences = context.getSharedPreferences("preferences", Context.MODE_PRIVATE)
@@ -109,6 +111,16 @@ object SharedPreferencesUtils {
 
     fun saveSelectedDataRangeIndex(rangeIndex: Int) {
         saveInt(SELECTED_DATA_RANGE_INDEX, rangeIndex)
+    }
+
+    fun getSelectedChartType(): ChartType {
+        val index = sharedPreferences.getInt(SELECTED_CHART_TYPE_INDEX, 0)
+        return ChartType.values()[index]
+    }
+
+    fun saveSelectedChartType(chartType: ChartType) {
+        val chartTypeIndex = ChartType.values().indexOf(chartType)
+        saveInt(SELECTED_CHART_TYPE_INDEX, chartTypeIndex)
     }
 
     private fun saveString(key: String, value: String?) {

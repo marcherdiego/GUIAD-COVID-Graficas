@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import com.nerdscorner.guiad.stats.R
+import com.nerdscorner.guiad.stats.domain.ChartType
 import com.nerdscorner.guiad.stats.domain.GeneralStatsData
 import com.nerdscorner.guiad.stats.domain.P7Data
 import com.nerdscorner.guiad.stats.domain.Stat
@@ -99,10 +100,30 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
         model.selectedRange = event.position
         model.buildDataSets()
     }
-    
+
     @Subscribe
-    fun onDataSetsBuilt(event: RawDataGeneralStatsModel.DataSetsBuiltEvent) {
-        view.setChartsData(event.dataSets)
+    fun onLineDataSetsBuilt(event: RawDataGeneralStatsModel.LineDataSetsBuiltEvent) {
+        view.setLineChartsData(event.dataSets)
+    }
+
+    @Subscribe
+    fun onBarDataSetsBuilt(event: RawDataGeneralStatsModel.BarDataSetsBuiltEvent) {
+        view.setBarChartData(event.dataSets)
+    }
+
+    @Subscribe
+    fun onChartTypeSelected(event: RawDataGeneralStatsView.ChartTypeSelectedEvent) {
+        model.chartType = event.chartType
+        when (model.chartType) {
+            ChartType.LINE -> {
+                view.showLineChart()
+                view.hideBarChart()
+            }
+            ChartType.BAR -> {
+                view.showBarChart()
+                view.hideLineChart()
+            }
+        }
     }
 
     private fun refreshDateSeekButtons() {
@@ -146,6 +167,7 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
         view.withActivity {
             view.setRangesAdapter(ArrayAdapter(this, R.layout.simple_spinner_layout, RangeUtils.dateRanges))
             view.setSelectedRange(model.selectedRange)
+            view.setSelectedChartType(model.chartType)
         }
         refreshDateStats()
     }
@@ -165,6 +187,7 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
         outState.putBoolean("max_date_reached", model.maxDateReached)
         outState.putBoolean("min_date_reached", model.minDateReached)
         outState.putSerializable("selected_stats", model.selectedStats)
+        outState.putSerializable("selected_chart_type", model.chartType)
         super.onSaveInstanceState(outState)
     }
 
@@ -176,6 +199,7 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
             model.minDateReached = it.getBoolean("min_date_reached", false)
             val selectedStats = it.getSerializable("selected_stats") as ArrayList<Stat>
             model.updateSelectedStats(selectedStats)
+            model.chartType = (it.getSerializable("selected_chart_type") as? ChartType) ?: ChartType.LINE
         }
     }
 }

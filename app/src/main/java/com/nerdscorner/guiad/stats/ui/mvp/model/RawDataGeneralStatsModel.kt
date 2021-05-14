@@ -1,5 +1,6 @@
 package com.nerdscorner.guiad.stats.ui.mvp.model
 
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.domain.GeneralStatsData
 import com.nerdscorner.guiad.stats.domain.P7Data
@@ -7,6 +8,7 @@ import com.nerdscorner.guiad.stats.domain.Stat
 import com.nerdscorner.guiad.stats.ui.custom.RawStat
 import com.nerdscorner.events.coroutines.extensions.runAsync
 import com.nerdscorner.events.coroutines.extensions.withResult
+import com.nerdscorner.guiad.stats.domain.ChartType
 import com.nerdscorner.guiad.stats.extensions.isSameDayOrAfter
 import com.nerdscorner.guiad.stats.extensions.isSameDayOrBefore
 import com.nerdscorner.guiad.stats.utils.*
@@ -19,6 +21,11 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
     private val generalStatsData = GeneralStatsData.getInstance()
     private val p7Data = P7Data.getInstance()
 
+    var chartType: ChartType = SharedPreferencesUtils.getSelectedChartType()
+        set(value) {
+            field = value
+            SharedPreferencesUtils.saveSelectedChartType(value)
+        }
     val selectedStats = arrayListOf<Stat>()
     var currentDate = Date()
     var maxDateReached = true
@@ -47,14 +54,20 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
 
     fun buildDataSets() {
         withResult(
-            resultFunc = ::createDataSets,
+            resultFunc = ::createLineDataSets,
             success = {
-                bus.post(DataSetsBuiltEvent(this!!))
+                bus.post(LineDataSetsBuiltEvent(this!!))
+            }
+        )
+        withResult(
+            resultFunc = ::createBarDataSets,
+            success = {
+                bus.post(BarDataSetsBuiltEvent(this!!))
             }
         )
     }
 
-    private suspend fun createDataSets(): List<ILineDataSet> {
+    private suspend fun createLineDataSets(): List<ILineDataSet> {
         return runAsync {
             val generalStatsDataSet = selectedStats
                 .filter {
@@ -62,14 +75,35 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
                 }
                 .map { stat ->
                     val chartColor = ColorUtils.getColor(stat.index)
-                    generalStatsData.getDataSet(stat, chartColor, chartColor)
+                    generalStatsData.getLineDataSet(stat, chartColor, chartColor)
                 }
             val p7DataSet = selectedStats
                 .filter {
                     it == P7Data.p7Stat
                 }.map { stat ->
                     val chartColor = ColorUtils.getColor(generalStatsData.getStats().size + stat.index)
-                    p7Data.getDataSet(stat, chartColor, chartColor)
+                    p7Data.getLineDataSet(stat, chartColor, chartColor)
+                }
+            generalStatsDataSet.union(p7DataSet).toList()
+        }.await()
+    }
+
+    private suspend fun createBarDataSets(): List<IBarDataSet> {
+        return runAsync {
+            val generalStatsDataSet = selectedStats
+                .filter {
+                    it != P7Data.p7Stat
+                }
+                .map { stat ->
+                    val chartColor = ColorUtils.getColor(stat.index)
+                    generalStatsData.getBarDataSet(stat, chartColor, chartColor)
+                }
+            val p7DataSet = selectedStats
+                .filter {
+                    it == P7Data.p7Stat
+                }.map { stat ->
+                    val chartColor = ColorUtils.getColor(generalStatsData.getStats().size + stat.index)
+                    p7Data.getBarDataSet(stat, chartColor, chartColor)
                 }
             generalStatsDataSet.union(p7DataSet).toList()
         }.await()
@@ -145,7 +179,8 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
         }
     }
 
-    class DataSetsBuiltEvent(val dataSets: List<ILineDataSet>)
+    class LineDataSetsBuiltEvent(val dataSets: List<ILineDataSet>)
+    class BarDataSetsBuiltEvent(val dataSets: List<IBarDataSet>)
 
     companion object {
         val MIN_DATE: Date = GregorianCalendar(2020, 2, 13).time //March = 2

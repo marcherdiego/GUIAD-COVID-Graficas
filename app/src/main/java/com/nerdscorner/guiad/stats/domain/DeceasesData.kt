@@ -1,6 +1,7 @@
 package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.extensions.getDaysDiff
 import com.nerdscorner.guiad.stats.extensions.sortIf
@@ -10,7 +11,7 @@ import java.util.*
 
 class DeceasesData private constructor() : DataObject() {
 
-    fun getDataSet(
+    fun getLineDataSet(
         stat: Stat,
         selectedCities: List<String>,
         @ColorInt color: Int,
@@ -42,7 +43,42 @@ class DeceasesData private constructor() : DataObject() {
                 }
             }
             .filterNotNull()
-        return getDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, dataLines.size)
+        return getLineDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, dataLines.size)
+    }
+    
+    fun getBarDataSet(
+        stat: Stat,
+        selectedCities: List<String>,
+        @ColorInt color: Int,
+        @ColorInt valueTextColor: Int
+    ): IBarDataSet {
+        val selectedDataRange = getSelectedDataRange()
+        val today = Date()
+        val dataLines = dataLines
+            .groupBy { it[stat.index] }
+            .sortIf(stat.isSorted)
+            .map { dataEntries ->
+                val dataX = dataEntries.key
+                val valuesSum = dataEntries
+                    .value
+                    .map { dataTokens ->
+                        val date = DateUtils.parseDate(dataTokens[INDEX_DATE])
+                        val city = dataTokens[INDEX_CITY]
+                        if (today.getDaysDiff(date) <= selectedDataRange && city in selectedCities) {
+                            1
+                        } else {
+                            0
+                        }
+                    }
+                    .reduce { acc, s -> acc + s }
+                return@map if (valuesSum == 0) {
+                    null
+                } else {
+                    listOf(dataX, valuesSum.toString())
+                }
+            }
+            .filterNotNull()
+        return getBarDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, dataLines.size)
     }
 
     override fun getStats() = listOf(dateStat, ageStat)

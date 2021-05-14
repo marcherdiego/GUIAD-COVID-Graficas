@@ -22,7 +22,7 @@ class StatCard @JvmOverloads constructor(
     private val statLatestValue: TextView
     private val statLabel: TextView
     private val trendIcon: ImageView
-    private val chart: LineChart
+    private val lineChart: LineChart
 
     init {
         LayoutInflater.from(context).inflate(R.layout.stat_card_item, this)
@@ -36,7 +36,7 @@ class StatCard @JvmOverloads constructor(
         findViewById<TextView>(R.id.stat_name).text = statName
         findViewById<ImageView>(R.id.stat_icon).setImageResource(statIcon)
         trendIcon = findViewById(R.id.stat_trend_icon)
-        chart = findViewById(R.id.chart)
+        lineChart = findViewById(R.id.line_chart)
         statLatestValue = findViewById(R.id.stat_latest_value)
         statLabel = findViewById(R.id.stat_label)
 
@@ -44,14 +44,14 @@ class StatCard @JvmOverloads constructor(
     }
 
     private fun setupChartWidget() {
-        chart.setNoDataText(context.getString(R.string.building_chart))
-        chart.setNoDataTextColor(ContextCompat.getColor(context, R.color.graph_text_color))
-        chart.xAxis.isEnabled = false
-        chart.getAxis(YAxis.AxisDependency.LEFT).isEnabled = false
-        chart.getAxis(YAxis.AxisDependency.RIGHT).isEnabled = false
-        chart.legend.isEnabled = false
-        chart.setTouchEnabled(false)
-        chart.description = null
+        lineChart.setNoDataText(context.getString(R.string.building_chart))
+        lineChart.setNoDataTextColor(ContextCompat.getColor(context, R.color.graph_text_color))
+        lineChart.xAxis.isEnabled = false
+        lineChart.getAxis(YAxis.AxisDependency.LEFT).isEnabled = false
+        lineChart.getAxis(YAxis.AxisDependency.RIGHT).isEnabled = false
+        lineChart.legend.isEnabled = false
+        lineChart.setTouchEnabled(false)
+        lineChart.description = null
     }
 
     fun setup(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?, upIsBad: Boolean = true) {
@@ -63,8 +63,8 @@ class StatCard @JvmOverloads constructor(
             chartData.forEach {
                 it.setDrawValues(false)
             }
-            chart.data = LineData(chartData)
-            chart.invalidate()
+            lineChart.data = LineData(chartData)
+            lineChart.invalidate()
         }
         this.statLabel.text = statLabel
         statLatestValue.text = latestValue

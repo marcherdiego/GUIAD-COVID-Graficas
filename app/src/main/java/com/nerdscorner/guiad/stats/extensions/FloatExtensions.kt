@@ -4,7 +4,7 @@ fun Float.format(digits: Int = 2) = "%.${digits}f".format(this)
 
 fun Float.roundToString(): String {
     return if (this - toInt() == 0f) {
-        toInt().toString()
+        String.format("%,d", toInt())
     } else {
         format()
     }

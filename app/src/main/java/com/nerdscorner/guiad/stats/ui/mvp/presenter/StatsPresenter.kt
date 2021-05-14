@@ -3,8 +3,8 @@ package com.nerdscorner.guiad.stats.ui.mvp.presenter
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ArrayAdapter
-import androidx.annotation.CallSuper
 import com.nerdscorner.guiad.stats.R
+import com.nerdscorner.guiad.stats.domain.ChartType
 import com.nerdscorner.guiad.stats.domain.Stat
 import com.nerdscorner.guiad.stats.ui.adapter.StatsAdapter
 import com.nerdscorner.guiad.stats.ui.mvp.model.StatsModel
@@ -20,10 +20,30 @@ abstract class StatsPresenter<V : StatsView, M : StatsModel>(view: V, model: M) 
         model.selectedRange = event.position
         model.buildDataSets()
     }
-    
+
     @Subscribe
-    fun onDataSetsBuilt(event: StatsModel.DataSetsBuiltEvent) {
-        view.setChartsData(event.dataSets)
+    fun onLineDataSetsBuilt(event: StatsModel.LineDataSetsBuiltEvent) {
+        view.setLineChartData(event.dataSets)
+    }
+
+    @Subscribe
+    fun onBarDataSetsBuilt(event: StatsModel.BarDataSetsBuiltEvent) {
+        view.setBarChartData(event.dataSets)
+    }
+
+    @Subscribe
+    fun onChartTypeSelected(event: StatsView.ChartTypeSelectedEvent) {
+        model.chartType = event.chartType
+        when (model.chartType) {
+            ChartType.LINE -> {
+                view.showLineChart()
+                view.hideBarChart()
+            }
+            ChartType.BAR -> {
+                view.showBarChart()
+                view.hideLineChart()
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -39,6 +59,7 @@ abstract class StatsPresenter<V : StatsView, M : StatsModel>(view: V, model: M) 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putInt("selected_city", model.selectedCity)
         outState.putSerializable("selected_stats", model.selectedStats)
+        outState.putSerializable("selected_chart_type", model.chartType)
         super.onSaveInstanceState(outState)
     }
 
@@ -54,6 +75,7 @@ abstract class StatsPresenter<V : StatsView, M : StatsModel>(view: V, model: M) 
                     }
                 }
             )
+            model.chartType = (it.getSerializable("selected_chart_type") as? ChartType) ?: ChartType.LINE
         }
     }
 
@@ -69,6 +91,7 @@ abstract class StatsPresenter<V : StatsView, M : StatsModel>(view: V, model: M) 
 
             view.setSelectedCity(model.selectedCity)
             view.setSelectedRange(model.selectedRange)
+            view.setSelectedChartType(model.chartType)
         }
         model.buildDataSets()
     }

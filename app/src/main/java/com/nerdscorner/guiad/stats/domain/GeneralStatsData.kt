@@ -2,6 +2,7 @@ package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
 import androidx.annotation.WorkerThread
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.extensions.format
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
@@ -9,8 +10,12 @@ import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 class GeneralStatsData private constructor() : DataObject() {
     private var dataByDate = mapOf<String, List<String>>()
 
-    fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
-        return getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
+    fun getLineDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
+        return getLineDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
+    }
+    
+    fun getBarDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): IBarDataSet {
+        return getBarDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
     }
 
     @WorkerThread

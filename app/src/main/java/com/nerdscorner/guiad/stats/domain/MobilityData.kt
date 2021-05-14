@@ -1,6 +1,7 @@
 package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.extensions.formatNumberString
 import com.nerdscorner.guiad.stats.extensions.roundToString
@@ -10,11 +11,19 @@ import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 class MobilityData private constructor() : DataObject() {
     private var mobilityIndexDataLines = listOf<List<String>>()
 
-    fun getDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
+    fun getLineDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
         return if (stat == mobilityIndexStat) {
-            getDataSet(mobilityIndexDataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
+            getLineDataSet(mobilityIndexDataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
         } else {
-            getDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
+            getLineDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
+        }
+    }
+
+    fun getBarDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): IBarDataSet {
+        return if (stat == mobilityIndexStat) {
+            getBarDataSet(mobilityIndexDataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
+        } else {
+            getBarDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
         }
     }
 
