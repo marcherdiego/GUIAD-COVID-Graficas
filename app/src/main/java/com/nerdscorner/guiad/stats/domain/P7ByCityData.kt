@@ -1,6 +1,7 @@
 package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
+import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
@@ -24,7 +25,8 @@ class P7ByCityData private constructor() : DataObject() {
         selectedCities: List<String>,
         @ColorInt color: Int,
         @ColorInt valueTextColor: Int,
-        limit: Int? = null
+        limit: Int? = null,
+        mode: LineDataSet.Mode? = null
     ): ILineDataSet {
         val dataLines = dataByCity
             .filter { it.key in selectedCities }
@@ -47,7 +49,7 @@ class P7ByCityData private constructor() : DataObject() {
                 }
                 listOf(date, valuesSum.toString())
             }
-        return getLineDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit)
+        return getLineDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, limit, mode)
     }
 
     fun getBarDataSet(

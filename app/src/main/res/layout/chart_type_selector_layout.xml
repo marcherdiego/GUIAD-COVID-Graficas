@@ -20,6 +20,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/smooth_chart_button"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:contentDescription="@string/line_chart_type"
+        android:focusable="true"
+        android:padding="8dp"
+        android:src="@drawable/ic_smooth_chart"
+        app:layout_constraintStart_toEndOf="@+id/lines_chart_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
         android:id="@+id/bar_chart_button"
         android:layout_width="45dp"
         android:layout_height="45dp"
@@ -30,6 +44,6 @@
         android:focusable="true"
         android:padding="10dp"
         android:src="@drawable/ic_bar_chart"
-        app:layout_constraintStart_toEndOf="@+id/lines_chart_button"
+        app:layout_constraintStart_toEndOf="@+id/smooth_chart_button"
         app:layout_constraintTop_toTopOf="parent" />
 </merge>

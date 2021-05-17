@@ -1,14 +1,21 @@
 package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
+import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 
 class CtiData private constructor() : DataObject() {
 
-    fun getLineDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
-        return getLineDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
+    fun getLineDataSet(
+        stat: Stat,
+        @ColorInt color: Int,
+        @ColorInt valueTextColor: Int,
+        limit: Int? = null,
+        mode: LineDataSet.Mode? = null
+    ): ILineDataSet {
+        return getLineDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit, mode)
     }
 
     fun getBarDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): IBarDataSet {
@@ -36,7 +43,7 @@ class CtiData private constructor() : DataObject() {
         fun getInstance() = instance
 
         private const val INDEX_DATE = 1
-        
+
         private const val INDEX_PATIENTS_QUANTITY = 2
         private const val INDEX_TOTAL_OCCUPATION = 3
         private const val INDEX_COVID_OCCUPATION = 4

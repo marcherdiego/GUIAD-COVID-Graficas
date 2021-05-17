@@ -1,6 +1,7 @@
 package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
+import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.utils.DateUtils
@@ -21,10 +22,11 @@ class VaccinesByCityData private constructor() : DataObject() {
         selectedCity: String,
         @ColorInt color: Int,
         @ColorInt valueTextColor: Int,
-        limit: Int? = null
+        limit: Int? = null,
+        mode: LineDataSet.Mode? = null
     ): ILineDataSet {
         val statOffset = getStatOffset(selectedCity)
-        return getLineDataSet(dataLines, INDEX_DATE, stat.index + statOffset, stat.factor, stat.name, color, valueTextColor, limit)
+        return getLineDataSet(dataLines, INDEX_DATE, stat.index + statOffset, stat.factor, stat.name, color, valueTextColor, limit, mode)
     }
 
     fun getBarDataSet(
@@ -42,9 +44,10 @@ class VaccinesByCityData private constructor() : DataObject() {
         stat: Stat,
         @ColorInt color: Int,
         @ColorInt valueTextColor: Int,
-        limit: Int? = null
+        limit: Int? = null,
+        mode: LineDataSet.Mode? = null
     ): ILineDataSet {
-        return getLineDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
+        return getLineDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit, mode)
     }
 
     fun getBarDataSetAbsoluteIndex(

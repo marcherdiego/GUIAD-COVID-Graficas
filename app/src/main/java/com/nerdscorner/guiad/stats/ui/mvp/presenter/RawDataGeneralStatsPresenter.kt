@@ -87,14 +87,14 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
         refreshDateStats()
         refreshDateSeekButtons()
     }
-    
+
     @Subscribe
     fun onTodayButtonClicked(event: RawDataGeneralStatsView.TodayButtonClickedEvent) {
         model.updateCurrentDate(Date())
         refreshDateStats()
         refreshDateSeekButtons()
     }
-    
+
     @Subscribe
     fun onRangeSelected(event: RawDataGeneralStatsView.RangeSelectedEvent) {
         model.selectedRange = event.position
@@ -114,8 +114,10 @@ class RawDataGeneralStatsPresenter(view: RawDataGeneralStatsView, model: RawData
     @Subscribe
     fun onChartTypeSelected(event: RawDataGeneralStatsView.ChartTypeSelectedEvent) {
         model.chartType = event.chartType
+        model.buildDataSets()
         when (model.chartType) {
-            ChartType.LINE -> {
+            ChartType.LINE,
+            ChartType.SMOOTH_LINE -> {
                 view.showLineChart()
                 view.hideBarChart()
             }

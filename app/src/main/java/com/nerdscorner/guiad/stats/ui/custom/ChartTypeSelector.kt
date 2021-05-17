@@ -30,21 +30,29 @@ class ChartTypeSelector @JvmOverloads constructor(
     private var listener: ((ChartType) -> Unit)? = null
     private var selectedChartType: ImageView? = null
     private var linesChartButton: ImageView
+    private var smoothLineChartButton: ImageView
     private var barChartButton: ImageView
 
     init {
         LayoutInflater.from(context).inflate(R.layout.chart_type_selector_layout, this)
 
         linesChartButton = findViewById(R.id.lines_chart_button)
+        smoothLineChartButton = findViewById(R.id.smooth_chart_button)
         barChartButton = findViewById(R.id.bar_chart_button)
 
         selectedChartType = linesChartButton
         linesChartButton.colorFilter = selectedColorFilter
+        smoothLineChartButton.colorFilter = unselectedColorFilter
         barChartButton.colorFilter = unselectedColorFilter
 
         linesChartButton.setOnClickListener {
             selectChartType(linesChartButton)
             listener?.invoke(ChartType.LINE)
+            it.animateScaleUp()
+        }
+        smoothLineChartButton.setOnClickListener {
+            selectChartType(smoothLineChartButton)
+            listener?.invoke(ChartType.SMOOTH_LINE)
             it.animateScaleUp()
         }
         barChartButton.setOnClickListener {
@@ -67,6 +75,7 @@ class ChartTypeSelector @JvmOverloads constructor(
     fun setSelectedChartType(chartType: ChartType) {
         when(chartType) {
             ChartType.LINE -> linesChartButton.performClick()
+            ChartType.SMOOTH_LINE -> smoothLineChartButton.performClick()
             ChartType.BAR -> barChartButton.performClick()
         }
     }

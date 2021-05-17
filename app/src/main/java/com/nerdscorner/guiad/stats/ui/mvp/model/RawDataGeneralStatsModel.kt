@@ -68,17 +68,14 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
     private suspend fun createLineDataSets(): List<ILineDataSet> {
         return runAsync {
             val generalStatsDataSet = selectedStats
-                .filter {
-                    it != P7Data.p7Stat
-                }
+                .filter { it != P7Data.p7Stat }
                 .map { stat ->
                     val chartColor = ColorUtils.getColor(stat.index)
                     generalStatsData.getLineDataSet(stat, chartColor, chartColor)
                 }
             val p7DataSet = selectedStats
-                .filter {
-                    it == P7Data.p7Stat
-                }.map { stat ->
+                .filter { it == P7Data.p7Stat }
+                .map { stat ->
                     val chartColor = ColorUtils.getColor(generalStatsData.getStats().size + stat.index)
                     p7Data.getLineDataSet(stat, chartColor, chartColor)
                 }

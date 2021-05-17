@@ -71,7 +71,8 @@ abstract class DataObject {
         label: String,
         @ColorInt color: Int,
         @ColorInt valueTextColor: Int,
-        limit: Int?
+        limit: Int?,
+        mode: LineDataSet.Mode?
     ): ILineDataSet {
         val entries = dataLines
             .takeLast(getDataLimit(dataLines, limit))
@@ -79,6 +80,10 @@ abstract class DataObject {
                 Entry(index.toFloat(), (line[valueIndex].toFloatOrNull() ?: 0f) * statFactorMultiplier, line[dateIndex])
             }
         return LineDataSet(entries, label).apply {
+            this.mode = mode ?: when (SharedPreferencesUtils.getSelectedChartType()) {
+                ChartType.SMOOTH_LINE -> LineDataSet.Mode.CUBIC_BEZIER
+                else -> LineDataSet.Mode.LINEAR
+            }
             this.color = color
             this.valueTextColor = valueTextColor
             this.circleColors = colors

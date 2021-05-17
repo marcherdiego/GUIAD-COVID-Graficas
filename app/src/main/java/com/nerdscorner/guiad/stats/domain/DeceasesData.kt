@@ -1,6 +1,7 @@
 package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
+import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.extensions.getDaysDiff
@@ -15,7 +16,8 @@ class DeceasesData private constructor() : DataObject() {
         stat: Stat,
         selectedCities: List<String>,
         @ColorInt color: Int,
-        @ColorInt valueTextColor: Int
+        @ColorInt valueTextColor: Int,
+        mode: LineDataSet.Mode? = null
     ): ILineDataSet {
         val selectedDataRange = getSelectedDataRange()
         val today = Date()
@@ -42,7 +44,7 @@ class DeceasesData private constructor() : DataObject() {
                 listOf(dataX, valuesSum.toString())
             }
         }
-        return getLineDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, dataLines.size)
+        return getLineDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, dataLines.size, mode)
     }
 
     fun getBarDataSet(

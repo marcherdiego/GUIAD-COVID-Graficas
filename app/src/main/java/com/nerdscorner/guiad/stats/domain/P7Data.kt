@@ -1,6 +1,7 @@
 package com.nerdscorner.guiad.stats.domain
 
 import androidx.annotation.ColorInt
+import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.utils.DateUtils
@@ -13,8 +14,14 @@ class P7Data private constructor() : DataObject() {
     private var dataByDate = mapOf<String, List<String>>()
     private val cachedDatesIndexes = mutableListOf<String>()
 
-    fun getLineDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): ILineDataSet {
-        return getLineDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit)
+    fun getLineDataSet(
+        stat: Stat,
+        @ColorInt color: Int,
+        @ColorInt valueTextColor: Int,
+        limit: Int? = null,
+        mode: LineDataSet.Mode? = null
+    ): ILineDataSet {
+        return getLineDataSet(dataLines, INDEX_DATE, stat.index, stat.factor, stat.name, color, valueTextColor, limit, mode)
     }
 
     fun getBarDataSet(stat: Stat, @ColorInt color: Int, @ColorInt valueTextColor: Int, limit: Int? = null): IBarDataSet {
