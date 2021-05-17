@@ -5,7 +5,7 @@ import com.nerdscorner.guiad.stats.domain.*
 import com.nerdscorner.guiad.stats.networking.ServiceGenerator
 import com.nerdscorner.guiad.stats.networking.GuiadStatsService
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
-import com.nerdscorner.events.coroutines.extensions.withResult
+import com.nerdscorner.guiad.stats.extensions.withResult
 import com.nerdscorner.guiad.stats.networking.VaccinesService
 import com.nerdscorner.guiad.stats.utils.ColorUtils
 import com.nerdscorner.guiad.stats.utils.DateUtils

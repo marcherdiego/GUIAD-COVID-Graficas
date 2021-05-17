@@ -7,6 +7,8 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 
+private val animatingViews = mutableListOf<View>()
+
 fun ImageView.rotateCounterClockwise(degrees: Float = 90f) {
     animate()
         .rotationBy(-degrees)
@@ -32,6 +34,10 @@ fun ImageView.rotateClockwise(degrees: Float = 90f) {
 }
 
 fun View.animateScaleUp(duration: Long = 350L, scaleValue: Float = 0.3f, animationEndListener: () -> Unit = {}) {
+    if (animatingViews.contains(this)) {
+        return
+    }
+    animatingViews.add(this)
     animate()
         .scaleXBy(scaleValue)
         .scaleYBy(scaleValue)
@@ -44,7 +50,7 @@ fun View.animateScaleUp(duration: Long = 350L, scaleValue: Float = 0.3f, animati
         })
 }
 
-fun View.animateRestoreScale(duration: Long = 350L, scaleValue: Float = 0.3f, animationEndListener: () -> Unit = {}) {
+private fun View.animateRestoreScale(duration: Long = 350L, scaleValue: Float = 0.3f, animationEndListener: () -> Unit = {}) {
     animate()
         .scaleXBy(scaleValue)
         .scaleYBy(scaleValue)
@@ -52,6 +58,7 @@ fun View.animateRestoreScale(duration: Long = 350L, scaleValue: Float = 0.3f, an
         .setDuration(duration)
         .setListener(object : BaseAnimatorListener() {
             override fun onAnimationEnd(animation: Animator?) {
+                animatingViews.remove(this@animateRestoreScale)
                 animationEndListener()
             }
         })

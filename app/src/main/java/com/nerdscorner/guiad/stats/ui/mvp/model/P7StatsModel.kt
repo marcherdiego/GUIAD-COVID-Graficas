@@ -6,8 +6,9 @@ import com.nerdscorner.guiad.stats.domain.CitiesData
 import com.nerdscorner.guiad.stats.domain.P7ByCityData
 import com.nerdscorner.guiad.stats.domain.P7Data
 import com.nerdscorner.guiad.stats.utils.ColorUtils
-import com.nerdscorner.events.coroutines.extensions.runAsync
-import com.nerdscorner.events.coroutines.extensions.withResult
+import com.nerdscorner.guiad.stats.extensions.runAsync
+import com.nerdscorner.guiad.stats.extensions.withResult
+import org.greenrobot.eventbus.ThreadMode
 
 class P7StatsModel : StatsModel() {
     private var p7Data = P7Data.getInstance()
@@ -22,21 +23,6 @@ class P7StatsModel : StatsModel() {
             .getStats()
             .union(p7ByCityData.getStats())
             .toList()
-    }
-
-    override fun buildDataSets() {
-        withResult(
-            resultFunc = ::createLineDataSets,
-            success = {
-                bus.post(LineDataSetsBuiltEvent(this!!))
-            }
-        )
-        withResult(
-            resultFunc = ::createBarDataSets,
-            success = {
-                bus.post(BarDataSetsBuiltEvent(this!!))
-            }
-        )
     }
 
     override suspend fun createLineDataSets(): List<ILineDataSet> {

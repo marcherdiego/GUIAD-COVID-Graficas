@@ -1,12 +1,16 @@
 package com.nerdscorner.guiad.stats.ui.mvp.model
 
+import androidx.annotation.CallSuper
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.domain.ChartType
 import com.nerdscorner.guiad.stats.domain.CitiesData
 import com.nerdscorner.guiad.stats.domain.Stat
+import com.nerdscorner.guiad.stats.extensions.withResult
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 import com.nerdscorner.mvplib.events.model.BaseEventsModel
+import kotlinx.coroutines.Job
+import org.greenrobot.eventbus.ThreadMode
 
 abstract class StatsModel : BaseEventsModel() {
 
@@ -17,6 +21,7 @@ abstract class StatsModel : BaseEventsModel() {
         }
     var allCities = CitiesData.getAllCities()
     abstract val availableStats: List<Stat>
+    private val pendingJobs = mutableListOf<Job>()
 
     // State vars
     var selectedCity = 0
@@ -27,7 +32,16 @@ abstract class StatsModel : BaseEventsModel() {
         }
     var selectedStats = arrayListOf<Stat>()
 
-    abstract fun buildDataSets()
+    @CallSuper
+    open fun buildDataSets() {
+        cancelPendingJobs()
+        withResult(
+            resultFunc = {
+                bus.post(LineDataSetsBuiltEvent(createLineDataSets()), ThreadMode.MAIN)
+                bus.post(BarDataSetsBuiltEvent(createBarDataSets()), ThreadMode.MAIN)
+            }
+        ).enqueue()
+    }
 
     protected abstract suspend fun createLineDataSets(): List<ILineDataSet>
 
@@ -39,6 +53,17 @@ abstract class StatsModel : BaseEventsModel() {
             .apply {
                 add(0, Stat())
             }
+    }
+    
+    protected fun cancelPendingJobs() {
+        pendingJobs.forEach { 
+            it.cancel()
+        }
+        pendingJobs.clear()
+    }
+    
+    fun Job.enqueue() {
+        pendingJobs.add(this)
     }
 
     class LineDataSetsBuiltEvent(val dataSets: List<ILineDataSet>)

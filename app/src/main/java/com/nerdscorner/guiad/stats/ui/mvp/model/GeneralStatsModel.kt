@@ -4,28 +4,12 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.domain.GeneralStatsData
 import com.nerdscorner.guiad.stats.utils.ColorUtils
-import com.nerdscorner.events.coroutines.extensions.runAsync
-import com.nerdscorner.events.coroutines.extensions.withResult
+import com.nerdscorner.guiad.stats.extensions.runAsync
 
 class GeneralStatsModel : StatsModel() {
     private var generalStatsData = GeneralStatsData.getInstance()
 
     override val availableStats by lazy { generalStatsData.getStats() }
-
-    override fun buildDataSets() {
-        withResult(
-            resultFunc = ::createLineDataSets,
-            success = {
-                bus.post(LineDataSetsBuiltEvent(this!!))
-            }
-        )
-        withResult(
-            resultFunc = ::createBarDataSets,
-            success = {
-                bus.post(BarDataSetsBuiltEvent(this!!))
-            }
-        )
-    }
 
     override suspend fun createLineDataSets(): List<ILineDataSet> {
         return runAsync {

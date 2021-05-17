@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        app:layout_constraintStart_toStartOf="@+id/data_limit_selector"
+        app:layout_constraintStart_toStartOf="@+id/data_limit_selector_container"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -30,27 +30,37 @@
         android:layout_marginStart="16dp"
         android:text="@string/data_limit"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/data_limit_selector"
+        app:layout_constraintBottom_toBottomOf="@+id/data_limit_selector_container"
         app:layout_constraintEnd_toEndOf="@+id/stat_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/data_limit_selector" />
+        app:layout_constraintTop_toTopOf="@+id/data_limit_selector_container" />
 
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/data_limit_selector"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/data_limit_selector_container"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:padding="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/chart_type_selector"
         app:layout_constraintStart_toEndOf="@+id/data_limit_label"
-        app:layout_constraintTop_toBottomOf="@+id/stat_selector" />
+        app:layout_constraintTop_toBottomOf="@+id/stat_selector">
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/data_limit_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.nerdscorner.guiad.stats.ui.custom.ChartTypeSelector
         android:id="@+id/chart_type_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/data_limit_selector"
+        app:layout_constraintBottom_toBottomOf="@+id/data_limit_selector_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/data_limit_selector" />
+        app:layout_constraintTop_toTopOf="@+id/data_limit_selector_container" />
 
     <FrameLayout
         android:id="@+id/charts_container_view"
@@ -61,7 +71,7 @@
         app:layout_constraintBottom_toTopOf="@+id/legends_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/data_limit_selector">
+        app:layout_constraintTop_toBottomOf="@+id/data_limit_selector_container">
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/line_chart"

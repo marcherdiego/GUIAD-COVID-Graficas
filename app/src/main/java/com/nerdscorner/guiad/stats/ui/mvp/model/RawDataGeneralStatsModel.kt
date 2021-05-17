@@ -6,13 +6,15 @@ import com.nerdscorner.guiad.stats.domain.GeneralStatsData
 import com.nerdscorner.guiad.stats.domain.P7Data
 import com.nerdscorner.guiad.stats.domain.Stat
 import com.nerdscorner.guiad.stats.ui.custom.RawStat
-import com.nerdscorner.events.coroutines.extensions.runAsync
-import com.nerdscorner.events.coroutines.extensions.withResult
+import com.nerdscorner.guiad.stats.extensions.runAsync
+import com.nerdscorner.guiad.stats.extensions.withResult
 import com.nerdscorner.guiad.stats.domain.ChartType
 import com.nerdscorner.guiad.stats.extensions.isSameDayOrAfter
 import com.nerdscorner.guiad.stats.extensions.isSameDayOrBefore
 import com.nerdscorner.guiad.stats.utils.*
 import com.nerdscorner.mvplib.events.model.BaseEventsModel
+import kotlinx.coroutines.Job
+import org.greenrobot.eventbus.ThreadMode
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,6 +22,7 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
 
     private val generalStatsData = GeneralStatsData.getInstance()
     private val p7Data = P7Data.getInstance()
+    private val pendingJobs = mutableListOf<Job>()
 
     var chartType: ChartType = SharedPreferencesUtils.getSelectedChartType()
         set(value) {
@@ -53,18 +56,13 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
     }
 
     fun buildDataSets() {
+        cancelPendingJobs()
         withResult(
-            resultFunc = ::createLineDataSets,
-            success = {
-                bus.post(LineDataSetsBuiltEvent(this!!))
+            resultFunc = {
+                bus.post(LineDataSetsBuiltEvent(createLineDataSets()), ThreadMode.MAIN)
+                bus.post(BarDataSetsBuiltEvent(createBarDataSets()), ThreadMode.MAIN)
             }
-        )
-        withResult(
-            resultFunc = ::createBarDataSets,
-            success = {
-                bus.post(BarDataSetsBuiltEvent(this!!))
-            }
-        )
+        ).enqueue()
     }
 
     private suspend fun createLineDataSets(): List<ILineDataSet> {
@@ -177,6 +175,17 @@ class RawDataGeneralStatsModel : BaseEventsModel() {
                     this.selectedStats.add(it)
                 }
         }
+    }
+
+    private fun cancelPendingJobs() {
+        pendingJobs.forEach {
+            it.cancel()
+        }
+        pendingJobs.clear()
+    }
+
+    private fun Job.enqueue() {
+        pendingJobs.add(this)
     }
 
     class LineDataSetsBuiltEvent(val dataSets: List<ILineDataSet>)

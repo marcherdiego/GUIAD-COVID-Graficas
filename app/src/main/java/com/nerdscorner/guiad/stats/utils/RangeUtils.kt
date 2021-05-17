@@ -1,5 +1,7 @@
 package com.nerdscorner.guiad.stats.utils
 
+import android.util.Log
+
 object RangeUtils {
     private const val LAST_7_DAYS = "Últimos 7 días"
     private const val LAST_14_DAYS = "Últimos 14 días"
@@ -17,7 +19,10 @@ object RangeUtils {
             2 -> 30
             3 -> 60
             4 -> 90
-            else -> default
+            else -> {
+                Log.e("RangeUtils", "RETURNING DEFAULT RANGE: $default")
+                default
+            }
         }
     }
 }

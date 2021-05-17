@@ -19,33 +19,32 @@ class DeceasesData private constructor() : DataObject() {
     ): ILineDataSet {
         val selectedDataRange = getSelectedDataRange()
         val today = Date()
-        val dataLines = dataLines
-            .groupBy { it[stat.index] }
-            .sortIf(stat.isSorted)
-            .map { dataEntries ->
-                val dataX = dataEntries.key
-                val valuesSum = dataEntries
-                    .value
-                    .map { dataTokens ->
-                        val date = DateUtils.parseDate(dataTokens[INDEX_DATE])
-                        val city = dataTokens[INDEX_CITY]
-                        if (today.getDaysDiff(date) <= selectedDataRange && city in selectedCities) {
-                            1
-                        } else {
-                            0
-                        }
+        val groupedLines = dataLines.groupBy { it[stat.index] }
+        val sortedLines = groupedLines.sortIf(stat.isSorted)
+        val dataLines = sortedLines.mapNotNull { dataEntries ->
+            val dataX = dataEntries.key
+            val valuesSum = dataEntries
+                .value
+                .map { dataTokens ->
+                    val date = DateUtils.parseDate(dataTokens[INDEX_DATE])
+                    val city = dataTokens[INDEX_CITY]
+                    val daysDiff = today.getDaysDiff(date)
+                    if (daysDiff in 0..selectedDataRange && city in selectedCities) {
+                        1
+                    } else {
+                        0
                     }
-                    .reduce { acc, s -> acc + s }
-                return@map if (valuesSum == 0) {
-                    null
-                } else {
-                    listOf(dataX, valuesSum.toString())
                 }
+                .reduce { acc, s -> acc + s }
+            return@mapNotNull if (valuesSum == 0) {
+                null
+            } else {
+                listOf(dataX, valuesSum.toString())
             }
-            .filterNotNull()
+        }
         return getLineDataSet(dataLines, 0, 1, Stat.DEFAULT_FACTOR, stat.name, color, valueTextColor, dataLines.size)
     }
-    
+
     fun getBarDataSet(
         stat: Stat,
         selectedCities: List<String>,
