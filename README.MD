@@ -19,16 +19,16 @@ Capturas de pantalla de la App
 <img alt='Principal' src='googleplay/ss8.png' width='400'/>
 
 ### Estadísticas generales
-![Estadísticas generales](googleplay/ss3.png)
+<img alt='Estadísticas generales' src='googleplay/ss3.png' height='400'/>
 
 ### Datos de movilidad
-![Datos de movilidad](googleplay/ss4.png)
+<img alt='Datos de movilidad' src='googleplay/ss4.png' height='400'/>
 
 ### Datos por fecha
-![Datos por fecha](googleplay/ss6.png)
+<img alt='Datos por fecha' src='googleplay/ss6.png' height='400'/>
 
 ### Datos de vacunación
-![Datos de vacunación](googleplay/ss9.png)
+<img alt='Datos de vacunación' src='googleplay/ss9.png' height='400'/>
 
 
 Librerías utilizadas
