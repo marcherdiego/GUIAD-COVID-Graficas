@@ -7,11 +7,9 @@ Referencia [GUIAD-COVID](https://guiad-covid.github.io/)
 Todos los datos son extraídos de la página de github del grupo ubicados en [esta carpeta](https://github.com/GUIAD-COVID/datos-y-visualizaciones-GUIAD/tree/master/datos)
 
 ## Estadísticas de vacunación
-David Giordano [Github](https://github.com/3dgiordano/covid-19-uy-vacc-data)
+Todos los datos son extraídos de la recopilación David Giordano publicado en su [Github](https://github.com/3dgiordano/covid-19-uy-vacc-data/tree/main/data)
+
 Referencia [Vacuna.uy](https://vacuna.uy/)
-
-Todos los datos son extraídos de la página de github del grupo ubicados en [esta carpeta](https://github.com/3dgiordano/covid-19-uy-vacc-data/tree/main/data)
-
 
 Capturas de pantalla de la App
 -
