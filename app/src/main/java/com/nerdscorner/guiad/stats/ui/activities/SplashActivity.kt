@@ -17,12 +17,6 @@ class SplashActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.Default) {
-                // Init shared preferences
-                SharedPreferencesUtils.init(this@SplashActivity)
-
-                // Init chart colors array
-                ColorUtils.init(this@SplashActivity)
-
                 // Load pre-saved data onto data objects
                 CitiesData.getInstance().setData(SharedPreferencesUtils.getCitiesData())
                 CtiData.getInstance().setData(SharedPreferencesUtils.getCtiData())

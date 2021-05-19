@@ -10,9 +10,10 @@ import com.nerdscorner.guiad.stats.extensions.formatNumberString
 import com.nerdscorner.guiad.stats.extensions.roundToString
 import com.nerdscorner.guiad.stats.utils.RangeUtils
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
+import java.io.Serializable
 import kotlin.math.min
 
-abstract class DataObject {
+abstract class DataObject : Serializable {
     protected var dataLines = mutableListOf<MutableList<String>>()
 
     private val standardValueFormatter = object : ValueFormatter() {

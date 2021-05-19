@@ -65,32 +65,32 @@ class VaccinesByAgeData private constructor() : DataObject() {
         private val instance = VaccinesByAgeData()
 
         fun getInstance() = instance
-
+        
         private const val INDEX_DATE = 0
         private const val INDEX_DAILY_18_24 = 1
         private const val INDEX_TOTAL_18_24 = 2
-        private const val INDEX_DAILY_25_34 = 3
-        private const val INDEX_TOTAL_25_34 = 4
-        private const val INDEX_DAILY_35_44 = 5
-        private const val INDEX_TOTAL_35_44 = 6
-        private const val INDEX_DAILY_45_54 = 7
-        private const val INDEX_TOTAL_45_54 = 8
-        private const val INDEX_DAILY_55_64 = 9
-        private const val INDEX_TOTAL_55_64 = 10
-        private const val INDEX_DAILY_65_74 = 11
-        private const val INDEX_TOTAL_65_74 = 12
-        private const val INDEX_DAILY_75_115 = 13
-        private const val INDEX_TOTAL_75_115 = 14
-        private const val INDEX_DAILY_UNDEFINED = 15
-        private const val INDEX_TOTAL_UNDEFINED = 16
-        private const val INDEX_DAILY_18_49 = 17
-        private const val INDEX_TOTAL_18_49 = 18
-        private const val INDEX_DAILY_50_70 = 19
-        private const val INDEX_TOTAL_50_70 = 20
-        private const val INDEX_DAILY_71_79 = 21
-        private const val INDEX_TOTAL_71_79 = 22
-        private const val INDEX_DAILY_80_115 = 23
-        private const val INDEX_TOTAL_80_115 = 24
+        private const val INDEX_DAILY_25_34 = 7
+        private const val INDEX_TOTAL_25_34 = 8
+        private const val INDEX_DAILY_35_44 = 13
+        private const val INDEX_TOTAL_35_44 = 14
+        private const val INDEX_DAILY_45_54 = 19
+        private const val INDEX_TOTAL_45_54 = 20
+        private const val INDEX_DAILY_55_64 = 25
+        private const val INDEX_TOTAL_55_64 = 26
+        private const val INDEX_DAILY_65_74 = 32
+        private const val INDEX_TOTAL_65_74 = 32
+        private const val INDEX_DAILY_75_115 = 37
+        private const val INDEX_TOTAL_75_115 = 38
+        private const val INDEX_DAILY_UNDEFINED = 43
+        private const val INDEX_TOTAL_UNDEFINED = 44
+        private const val INDEX_DAILY_18_49 = 45
+        private const val INDEX_TOTAL_18_49 = 46
+        private const val INDEX_DAILY_50_70 = 47
+        private const val INDEX_TOTAL_50_70 = 48
+        private const val INDEX_DAILY_71_79 = 49
+        private const val INDEX_TOTAL_71_79 = 50
+        private const val INDEX_DAILY_80_115 = 51
+        private const val INDEX_TOTAL_80_115 = 52
 
         val daily18_24Stat = Stat("18 a 24 años (por día)", INDEX_DAILY_18_24)
         val total18_24Stat = Stat("18 a 24 años (acumulado)", INDEX_TOTAL_18_24)

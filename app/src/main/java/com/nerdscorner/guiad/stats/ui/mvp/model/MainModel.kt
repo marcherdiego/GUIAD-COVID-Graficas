@@ -1,6 +1,5 @@
 package com.nerdscorner.guiad.stats.ui.mvp.model
 
-import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.data.LineDataSet.Mode
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.nerdscorner.guiad.stats.domain.*

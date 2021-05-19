@@ -1,12 +1,14 @@
 package com.nerdscorner.guiad.stats.domain
 
+import java.io.Serializable
+
 data class Stat(
     var name: String = "",
     val index: Int = DUMMY,
     var selected: Boolean = false,
     val factor: Float = DEFAULT_FACTOR,
     val isSorted: Boolean = false
-) {
+) : Serializable {
     override fun toString() = name
 
     fun toggle() {
