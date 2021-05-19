@@ -67,6 +67,7 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
         chart.isHighlightPerDragEnabled = true
         chart.marker = ChartMarker(activity, R.layout.custom_chart_marker)
         chart.legend.isEnabled = false
+        chart.description = null
     }
 
     fun setSelectedChartType(chartType: ChartType) {

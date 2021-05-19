@@ -119,6 +119,7 @@ class RawDataGeneralStatsView(activity: RawDataGeneralStatsActivity) : BaseActiv
         chart.isHighlightPerTapEnabled = true
         chart.marker = ChartMarker(activity, R.layout.custom_chart_marker)
         chart.legend.isEnabled = false
+        chart.description = null
         chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onValueSelected(entry: Entry?, h: Highlight?) {
                 if (manualHighlightUpdate.not()) {
