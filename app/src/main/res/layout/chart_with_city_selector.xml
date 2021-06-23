@@ -35,7 +35,7 @@
         app:layout_constraintEnd_toEndOf="@+id/city_label"
         app:layout_constraintTop_toTopOf="@+id/stat_selector" />
 
-    <androidx.appcompat.widget.AppCompatSpinner
+    <TextView
         android:id="@+id/stat_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -86,7 +86,7 @@ class MessageDialogFragment : DialogFragment() {
     }
 
     companion object {
-        private const val TAG = "ProgressDialogFragment"
+        private const val TAG = "MessageDialogFragment"
         private const val MESSAGE = "dialog_message"
         private const val CUSTOM_VIEW = "custom_view"
         private const val CANCELABLE = "cancelable"

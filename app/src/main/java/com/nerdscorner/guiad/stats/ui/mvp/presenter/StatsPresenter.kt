@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter
 import com.nerdscorner.guiad.stats.R
 import com.nerdscorner.guiad.stats.domain.ChartType
 import com.nerdscorner.guiad.stats.domain.Stat
-import com.nerdscorner.guiad.stats.ui.adapter.StatsAdapter
+import com.nerdscorner.guiad.stats.ui.fragment.StatPickerDialogFragment
 import com.nerdscorner.guiad.stats.ui.mvp.model.StatsModel
 import com.nerdscorner.guiad.stats.ui.mvp.view.StatsView
 import com.nerdscorner.guiad.stats.utils.RangeUtils
@@ -46,6 +46,23 @@ abstract class StatsPresenter<V : StatsView, M : StatsModel>(view: V, model: M) 
                 view.hideLineChart()
             }
         }
+    }
+
+    @Subscribe
+    open fun onStatsClicked(event: StatsView.StatsClickedEvent) {
+        view.withFragmentManager {
+            StatPickerDialogFragment.show(this, model.getStatsStateList()).apply {
+                setItemsChangedListener {
+                    model.notifyStatsChanged(it)
+                    updateSelectedStatsLabel()
+                }
+            }
+        }
+    }
+
+    @Subscribe
+    open fun onStatSelected(event: StatsView.StatsSelectedEvent) {
+        updateSelectedStatsLabel()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -88,13 +105,27 @@ abstract class StatsPresenter<V : StatsView, M : StatsModel>(view: V, model: M) 
         }
         view.withActivity {
             view.setCitiesAdapter(ArrayAdapter(this, R.layout.simple_spinner_layout, model.allCities))
-            view.setStatsAdapter(StatsAdapter(this, model.getStatsStateList()))
             view.setRangesAdapter(ArrayAdapter(this, R.layout.simple_spinner_layout, RangeUtils.dateRanges))
 
             view.setSelectedCity(model.selectedCity)
             view.setSelectedRange(model.selectedRange)
             view.setSelectedChartType(model.chartType)
+
+            updateSelectedStatsLabel()
         }
         model.buildDataSets()
+    }
+
+    private fun updateSelectedStatsLabel() {
+        view.withActivity {
+            val statsCount = model.selectedStats.size
+            view.setStatsLabelText(
+                if (statsCount == 0) {
+                    getString(R.string.select)
+                } else {
+                    resources.getQuantityString(R.plurals.selected_stats, statsCount, statsCount)
+                }
+            )
+        }
     }
 }

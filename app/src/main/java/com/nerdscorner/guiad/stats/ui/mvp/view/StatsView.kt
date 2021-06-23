@@ -21,8 +21,6 @@ import com.nerdscorner.guiad.stats.R
 import com.nerdscorner.guiad.stats.domain.ChartType
 import com.nerdscorner.guiad.stats.domain.Stat
 import com.nerdscorner.guiad.stats.extensions.setItemSelectedListener
-import com.nerdscorner.guiad.stats.extensions.setSelectedItemsChangedListener
-import com.nerdscorner.guiad.stats.ui.adapter.StatsAdapter
 import com.nerdscorner.guiad.stats.ui.custom.ChartMarker
 import com.nerdscorner.guiad.stats.ui.custom.ChartTypeSelector
 import com.nerdscorner.mvplib.events.view.BaseActivityView
@@ -31,7 +29,7 @@ import com.nex3z.flowlayout.FlowLayout
 abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activity) {
     private val legendsContainer: FlowLayout = activity.findViewById(R.id.legends_container)
     private val citiesSelector: AppCompatSpinner? = activity.findViewById(R.id.cities_selector)
-    private val statSelector: AppCompatSpinner = activity.findViewById(R.id.stat_selector)
+    private val statSelector: TextView = activity.findViewById(R.id.stat_selector)
     private val rangeSelector: AppCompatSpinner = activity.findViewById(R.id.data_limit_selector)
     private val chartTypeSelector: ChartTypeSelector = activity.findViewById(R.id.chart_type_selector)
 
@@ -41,6 +39,9 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
     init {
         activity.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
+        }
+        statSelector.setOnClickListener { 
+            bus.post(StatsClickedEvent())
         }
         citiesSelector?.setItemSelectedListener {
             bus.post(CitySelectedEvent(it))
@@ -78,12 +79,8 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
         citiesSelector?.adapter = adapter
     }
 
-    fun setStatsAdapter(adapter: StatsAdapter) {
-        statSelector.adapter = adapter
-        statSelector.setSelectedItemsChangedListener {
-            adapter.notifyDataSetChanged()
-            bus.post(StatsSelectedEvent(it))
-        }
+    fun setStatsLabelText(text: String?) {
+        statSelector.text = text
     }
 
     fun setRangesAdapter(adapter: SpinnerAdapter) {
@@ -178,6 +175,7 @@ abstract class StatsView(activity: AppCompatActivity) : BaseActivityView(activit
         }
     }
 
+    class StatsClickedEvent
     class CitySelectedEvent(val position: Int)
     class StatsSelectedEvent(val selectedStats: ArrayList<Stat>)
     class RangeSelectedEvent(val position: Int)

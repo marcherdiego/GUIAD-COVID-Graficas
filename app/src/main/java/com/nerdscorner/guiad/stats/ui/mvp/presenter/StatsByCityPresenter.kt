@@ -14,8 +14,7 @@ class StatsByCityPresenter(view: StatsByCityView, model: StatsByCityModel) :
         model.buildDataSets()
     }
 
-    @Subscribe
-    fun onStatSelected(event: StatsView.StatsSelectedEvent) {
+    override fun onStatSelected(event: StatsView.StatsSelectedEvent) {
         model.selectedStats = event.selectedStats
         model.buildDataSets()
     }

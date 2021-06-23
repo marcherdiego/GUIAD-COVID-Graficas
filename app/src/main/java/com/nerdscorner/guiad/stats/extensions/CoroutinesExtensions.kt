@@ -1,6 +1,5 @@
 package com.nerdscorner.guiad.stats.extensions
 
-
 import com.nerdscorner.mvplib.events.model.BaseEventsModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -8,19 +7,9 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-/**
- * Runs suspend a function on the main thread
- *
- * @param block suspend function to be executed on the main thread
- */
-fun <T> BaseEventsModel.launchMain(block: suspend () -> T) = CoroutineScope(Dispatchers.Main).launch {
-    block()
-}
 
 /**
  * Runs suspend a function on any scope/dispatcher (Main and IO by default)
