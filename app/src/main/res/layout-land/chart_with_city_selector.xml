@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/stat_selector"
         app:layout_constraintEnd_toStartOf="@+id/guideline_33"
         app:layout_constraintStart_toEndOf="@+id/city_label"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,7 +38,7 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_33"
         app:layout_constraintTop_toTopOf="@+id/stat_selector" />
 
-    <androidx.appcompat.widget.AppCompatSpinner
+    <TextView
         android:id="@+id/stat_selector"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -65,6 +66,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/stat_selector"
         app:layout_constraintEnd_toStartOf="@+id/chart_type_selector"
         app:layout_constraintStart_toEndOf="@+id/data_limit_label"
         app:layout_constraintTop_toTopOf="parent" />
@@ -73,6 +75,7 @@
         android:id="@+id/charts_container_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:background="@color/background_color_33"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,6 +97,7 @@
         android:id="@+id/legends_container_scroll"
         android:layout_width="150dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:background="@color/background_color_33"
         android:overScrollMode="never"
         android:paddingStart="16dp"

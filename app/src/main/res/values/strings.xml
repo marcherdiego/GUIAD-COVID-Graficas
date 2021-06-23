@@ -3,7 +3,6 @@
     <string name="no_data_selected">Seleccione un dato para ver detalles</string>
     <string name="select_a_stat">Seleccione un dato para ver detalles</string>
 
-    <string name="select">Seleccionar</string>
     <string name="city">Departamento</string>
     <string name="stat">Dato</string>
     <string name="general_data">Datos generales</string>
@@ -58,7 +57,10 @@
     <string name="vaccination_global_data_title">Vacunación: Datos generales</string>
     <string name="vaccination_by_city_data_title">Vacunas por departamento</string>
     <string name="line_chart_type">Gráfico de líneas</string>
+    <string name="last_data_date">Último dato: %1$s</string>
+    <string name="done">Listo</string>
 
+    <string name="select">Click aquí para seleccionar</string>
     <!-- Plurals -->
     <plurals name="selected_stats">
         <item quantity="one">%d seleccionado</item>

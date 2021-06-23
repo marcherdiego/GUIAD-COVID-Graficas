@@ -17,12 +17,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/stat_selector" />
 
-    <androidx.appcompat.widget.AppCompatSpinner
+    <TextView
         android:id="@+id/stat_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/data_limit_selector"
         app:layout_constraintStart_toEndOf="@+id/stat_label"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,6 +53,7 @@
         android:layout_height="0dp"
         android:background="@color/background_color_33"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/legends_container_scroll"
         app:layout_constraintTop_toBottomOf="@+id/stat_selector">
@@ -75,6 +77,7 @@
         android:overScrollMode="never"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:layout_marginTop="8dp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -7,6 +7,7 @@ import com.nerdscorner.guiad.stats.domain.ChartType
 import com.nerdscorner.guiad.stats.domain.CitiesData
 import com.nerdscorner.guiad.stats.domain.Stat
 import com.nerdscorner.guiad.stats.extensions.withResult
+import com.nerdscorner.guiad.stats.ui.mvp.view.StatsView
 import com.nerdscorner.guiad.stats.utils.SharedPreferencesUtils
 import com.nerdscorner.mvplib.events.model.BaseEventsModel
 import kotlinx.coroutines.Job
@@ -35,24 +36,21 @@ abstract class StatsModel : BaseEventsModel() {
     @CallSuper
     open fun buildDataSets() {
         cancelPendingJobs()
-        withResult(
+        val job = withResult(
             resultFunc = {
                 bus.post(LineDataSetsBuiltEvent(createLineDataSets()), ThreadMode.MAIN)
                 bus.post(BarDataSetsBuiltEvent(createBarDataSets()), ThreadMode.MAIN)
             }
-        ).enqueue()
+        )
+        pendingJobs.add(job)
     }
 
     protected abstract suspend fun createLineDataSets(): List<ILineDataSet>
 
     protected abstract suspend fun createBarDataSets(): List<IBarDataSet>
 
-    fun getStatsStateList(): List<Stat> {
-        return availableStats
-            .toMutableList()
-            .apply {
-                add(0, Stat())
-            }
+    fun getStatsStateList(): ArrayList<Stat> {
+        return ArrayList(availableStats)
     }
     
     protected fun cancelPendingJobs() {
@@ -61,9 +59,9 @@ abstract class StatsModel : BaseEventsModel() {
         }
         pendingJobs.clear()
     }
-    
-    fun Job.enqueue() {
-        pendingJobs.add(this)
+
+    fun notifyStatsChanged(selectedStats: ArrayList<Stat>) {
+        bus.post(StatsView.StatsSelectedEvent(selectedStats))
     }
 
     class LineDataSetsBuiltEvent(val dataSets: List<ILineDataSet>)

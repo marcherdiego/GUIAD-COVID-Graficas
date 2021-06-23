@@ -36,7 +36,7 @@ class RotateDeviceDialogFragment : DialogFragment() {
     }
 
     companion object {
-        private const val TAG = "ProgressDialogFragment"
+        private const val TAG = "RotateDeviceDialogFragment"
 
         private fun searchFragment(fm: FragmentManager) = fm.findFragmentByTag(TAG) as? RotateDeviceDialogFragment
 

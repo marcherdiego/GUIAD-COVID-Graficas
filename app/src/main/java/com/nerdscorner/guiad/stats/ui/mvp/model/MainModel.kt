@@ -102,7 +102,7 @@ class MainModel : BaseEventsModel() {
         }
     }
 
-    fun buildCtiStatChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit) {
+    fun buildCtiStatChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, lastUpdate: String, isTrendingUp: Boolean?) -> Unit) {
         buildStatChart(
             CtiData.getInstance(),
             CtiData.patientsQuantityStat,
@@ -113,7 +113,7 @@ class MainModel : BaseEventsModel() {
         )
     }
 
-    fun buildCitiesDataChart(resultFunc: (dataSet: List<ILineDataSet>?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit) {
+    fun buildCitiesDataChart(resultFunc: (dataSet: List<ILineDataSet>?, statName: String, lastValue: String, lastUpdate: String, isTrendingUp: Boolean?) -> Unit) {
         buildStatChart(
             CitiesData.getInstance(),
             CitiesData.inCourseStat,
@@ -129,7 +129,7 @@ class MainModel : BaseEventsModel() {
         )
     }
 
-    fun buildGeneralsDaraChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit) {
+    fun buildGeneralsDaraChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, lastUpdate: String, isTrendingUp: Boolean?) -> Unit) {
         buildStatChart(
             GeneralStatsData.getInstance(),
             GeneralStatsData.inCourseStat,
@@ -140,7 +140,7 @@ class MainModel : BaseEventsModel() {
         )
     }
 
-    fun buildDeceasesDataChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit) {
+    fun buildDeceasesDataChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, lastUpdate: String, isTrendingUp: Boolean?) -> Unit) {
         buildStatChart(
             GeneralStatsData.getInstance(),
             GeneralStatsData.newDeceasesStat,
@@ -151,7 +151,7 @@ class MainModel : BaseEventsModel() {
         )
     }
 
-    fun buildP7DataChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit) {
+    fun buildP7DataChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, lastUpdate: String, isTrendingUp: Boolean?) -> Unit) {
         buildStatChart(
             P7Data.getInstance(),
             P7Data.p7Stat,
@@ -162,7 +162,7 @@ class MainModel : BaseEventsModel() {
         )
     }
 
-    fun buildMobilityDataChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit) {
+    fun buildMobilityDataChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, lastUpdate: String, isTrendingUp: Boolean?) -> Unit) {
         buildStatChart(
             MobilityData.getInstance(),
             MobilityData.mobilityIndexStat,
@@ -173,7 +173,7 @@ class MainModel : BaseEventsModel() {
         )
     }
 
-    fun buildRawDataChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit) {
+    fun buildRawDataChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, lastUpdate: String, isTrendingUp: Boolean?) -> Unit) {
         buildStatChart(
             GeneralStatsData.getInstance(),
             GeneralStatsData.positivityStat,
@@ -184,7 +184,7 @@ class MainModel : BaseEventsModel() {
         )
     }
 
-    fun buildVaccinesBySegmentStatChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit) {
+    fun buildVaccinesBySegmentStatChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, lastUpdate: String, isTrendingUp: Boolean?) -> Unit) {
         buildStatChart(
             VaccinesBySegmentData.getInstance(),
             VaccinesBySegmentData.dailyNoRiskStat,
@@ -195,7 +195,7 @@ class MainModel : BaseEventsModel() {
         )
     }
 
-    fun buildVaccinesByAgeStatChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit) {
+    fun buildVaccinesByAgeStatChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, lastUpdate: String, isTrendingUp: Boolean?) -> Unit) {
         buildStatChart(
             VaccinesByAgeData.getInstance(),
             VaccinesByAgeData.daily18_49Stat,
@@ -206,7 +206,7 @@ class MainModel : BaseEventsModel() {
         )
     }
 
-    fun buildVaccinesGlobalStatChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit) {
+    fun buildVaccinesGlobalStatChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, lastUpdate: String, isTrendingUp: Boolean?) -> Unit) {
         buildStatChart(
             VaccinesData.getInstance(),
             VaccinesData.totalProgressStat,
@@ -217,7 +217,7 @@ class MainModel : BaseEventsModel() {
         )
     }
 
-    fun buildVaccinesByCityStatChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit) {
+    fun buildVaccinesByCityStatChart(resultFunc: (dataSet: ILineDataSet?, statName: String, lastValue: String, lastUpdate: String, isTrendingUp: Boolean?) -> Unit) {
         buildStatChart(
             VaccinesData.getInstance(),
             VaccinesData.dailyPeopleVaccinatedStat,
@@ -232,18 +232,19 @@ class MainModel : BaseEventsModel() {
         dataObject: D,
         stat: Stat,
         dataSetFunc: (D, Stat) -> T,
-        resultFunc: (dataSet: T?, statName: String, lastValue: String, isTrendingUp: Boolean?) -> Unit
+        resultFunc: (dataSet: T?, statName: String, lastValue: String, lastUpdate: String, isTrendingUp: Boolean?) -> Unit
     ) {
-        resultFunc(null, stat.name, DataObject.N_A, null)
+        resultFunc(null, stat.name, DataObject.N_A, DataObject.N_A, null)
         CoroutineScope(Dispatchers.Main).launch {
-            val (result, latestValue, isTrendingUp) = withContext(Dispatchers.Default) {
-                Triple(
+            val (result, latestValue, lastUpdate, isTrendingUp) = withContext(Dispatchers.Default) {
+                Tuple(
                     dataSetFunc(dataObject, stat),
                     dataObject.getLatestValue(stat),
+                    dataObject.getLatestUpdate(),
                     dataObject.isTrendingUp(stat)
                 )
             }
-            resultFunc(result, stat.name, latestValue, isTrendingUp)
+            resultFunc(result, stat.name, latestValue, lastUpdate, isTrendingUp)
         }
     }
 

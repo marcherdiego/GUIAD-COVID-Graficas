@@ -35,78 +35,78 @@ class MainView(activity: MainActivity) : BaseActivityView(activity) {
         swipeRefreshLayout.isRefreshing = refreshing
     }
 
-    fun setupCtiCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
-        ctiCard.setup(chartData, statLabel, latestValue, isTrendingUp)
+    fun setupCtiCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, lastUpdate: String, isTrendingUp: Boolean?) {
+        ctiCard.setup(chartData, statLabel, latestValue, lastUpdate, isTrendingUp)
         ctiCard.setOnClickListener {
             bus.post(CtiButtonClickedEvent())
         }
     }
 
-    fun setupCitiesCard(chartData: List<ILineDataSet>?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
-        citiesCard.setup(chartData, statLabel, latestValue, isTrendingUp)
+    fun setupCitiesCard(chartData: List<ILineDataSet>?, statLabel: String, latestValue: String, lastUpdate: String, isTrendingUp: Boolean?) {
+        citiesCard.setup(chartData, statLabel, latestValue, lastUpdate, isTrendingUp)
         citiesCard.setOnClickListener {
             bus.post(CitiesButtonClickedEvent())
         }
     }
 
-    fun setupGeneralsCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
-        generalsCard.setup(chartData, statLabel, latestValue, isTrendingUp)
+    fun setupGeneralsCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, lastUpdate: String, isTrendingUp: Boolean?) {
+        generalsCard.setup(chartData, statLabel, latestValue, lastUpdate, isTrendingUp)
         generalsCard.setOnClickListener {
             bus.post(GeneralStatsButtonClickedEvent())
         }
     }
 
-    fun setupDeceasesCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
-        deceasesCard.setup(chartData, statLabel, latestValue, isTrendingUp)
+    fun setupDeceasesCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, lastUpdate: String, isTrendingUp: Boolean?) {
+        deceasesCard.setup(chartData, statLabel, latestValue, lastUpdate, isTrendingUp)
         deceasesCard.setOnClickListener {
             bus.post(DeceasesStatsButtonClickedEvent())
         }
     }
 
-    fun setupP7Card(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
-        p7Card.setup(chartData, statLabel, latestValue, isTrendingUp)
+    fun setupP7Card(chartData: ILineDataSet?, statLabel: String, latestValue: String, lastUpdate: String, isTrendingUp: Boolean?) {
+        p7Card.setup(chartData, statLabel, latestValue, lastUpdate, isTrendingUp)
         p7Card.setOnClickListener {
             bus.post(P7StatsButtonClickedEvent())
         }
     }
 
-    fun setupMobilityCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
-        mobilityCard.setup(chartData, statLabel, latestValue, isTrendingUp)
+    fun setupMobilityCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, lastUpdate: String, isTrendingUp: Boolean?) {
+        mobilityCard.setup(chartData, statLabel, latestValue, lastUpdate, isTrendingUp)
         mobilityCard.setOnClickListener {
             bus.post(MobilityStatsButtonClickedEvent())
         }
     }
 
-    fun setupRawDataCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
-        rawDataCard.setup(chartData, statLabel, latestValue, isTrendingUp)
+    fun setupRawDataCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, lastUpdate: String, isTrendingUp: Boolean?) {
+        rawDataCard.setup(chartData, statLabel, latestValue, lastUpdate, isTrendingUp)
         rawDataCard.setOnClickListener {
             bus.post(RawDataGeneralStatsButtonClickedEvent())
         }
     }
 
-    fun setupVaccinesBySegmentCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
-        vaccinesBySegmentCard.setup(chartData, statLabel, latestValue, isTrendingUp, upIsBad = false)
+    fun setupVaccinesBySegmentCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, lastUpdate: String, isTrendingUp: Boolean?) {
+        vaccinesBySegmentCard.setup(chartData, statLabel, latestValue, lastUpdate, isTrendingUp, upIsBad = false)
         vaccinesBySegmentCard.setOnClickListener {
             bus.post(VaccinesBySegmentStatsButtonClickedEvent())
         }
     }
 
-    fun setupVaccinesByAgeCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
-        vaccinesByAgeCard.setup(chartData, statLabel, latestValue, isTrendingUp, upIsBad = false)
+    fun setupVaccinesByAgeCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, lastUpdate: String, isTrendingUp: Boolean?) {
+        vaccinesByAgeCard.setup(chartData, statLabel, latestValue, lastUpdate, isTrendingUp, upIsBad = false)
         vaccinesByAgeCard.setOnClickListener {
             bus.post(VaccinesByAgeStatsButtonClickedEvent())
         }
     }
 
-    fun setupVaccinesGlobalStatsCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
-        vaccinesGlobalStatsCard.setup(chartData, statLabel, latestValue, isTrendingUp, upIsBad = false)
+    fun setupVaccinesGlobalStatsCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, lastUpdate: String, isTrendingUp: Boolean?) {
+        vaccinesGlobalStatsCard.setup(chartData, statLabel, latestValue, lastUpdate, isTrendingUp, upIsBad = false)
         vaccinesGlobalStatsCard.setOnClickListener {
             bus.post(VaccinesGlobalStatsButtonClickedEvent())
         }
     }
 
-    fun setupVaccinesByCityStatsCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?) {
-        vaccinesByCityStatsCard.setup(chartData, statLabel, latestValue, isTrendingUp, upIsBad = false)
+    fun setupVaccinesByCityStatsCard(chartData: ILineDataSet?, statLabel: String, latestValue: String, lastUpdate: String, isTrendingUp: Boolean?) {
+        vaccinesByCityStatsCard.setup(chartData, statLabel, latestValue, lastUpdate, isTrendingUp, upIsBad = false)
         vaccinesByCityStatsCard.setOnClickListener {
             bus.post(VaccinesByCityStatsButtonClickedEvent())
         }

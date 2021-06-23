@@ -43,10 +43,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:text="@string/not_available"
         app:layout_constraintStart_toEndOf="@+id/stat_trend_icon"
-        app:layout_constraintTop_toBottomOf="@+id/stat_name"
+        app:layout_constraintTop_toTopOf="@id/line_chart"
         tools:text="541" />
 
     <TextView
@@ -60,6 +59,16 @@
         app:layout_constraintEnd_toStartOf="@+id/line_chart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stat_latest_value"
+        tools:text="Pacientes internados" />
+
+    <TextView
+        android:id="@+id/last_data_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/last_data_date"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stat_name"
         tools:text="Pacientes internados" />
 
     <TextView
@@ -87,11 +96,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:background="@color/background_color_33"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/view_more_button"
-        app:layout_constraintTop_toBottomOf="@+id/stat_name" />
+        app:layout_constraintTop_toBottomOf="@+id/last_data_date" />
 
 </merge>

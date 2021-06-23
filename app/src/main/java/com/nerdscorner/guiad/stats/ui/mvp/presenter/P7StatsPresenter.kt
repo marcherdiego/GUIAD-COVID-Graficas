@@ -13,8 +13,7 @@ class P7StatsPresenter(view: P7StatsView, model: P7StatsModel) : StatsPresenter<
         model.buildDataSets()
     }
 
-    @Subscribe
-    fun onStatSelected(event: StatsView.StatsSelectedEvent) {
+    override fun onStatSelected(event: StatsView.StatsSelectedEvent) {
         model.selectedStats = event.selectedStats
         model.buildDataSets()
     }

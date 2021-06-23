@@ -72,6 +72,8 @@ class P7Data private constructor() : DataObject() {
         return result
     }
 
+    override fun getLatestUpdate() = getValueAt(dataLines.size - 1, dateStat) ?: N_A
+
     data class StatsForDate(val p7: String = "N/A")
 
     companion object {
@@ -82,6 +84,7 @@ class P7Data private constructor() : DataObject() {
         private const val INDEX_DATE = 0
         private const val INDEX_P7 = 1
 
+        private val dateStat = Stat("Date", INDEX_DATE)
         val p7Stat = Stat("Índice p7/100.000 habitantes (País)", INDEX_P7)
     }
 }

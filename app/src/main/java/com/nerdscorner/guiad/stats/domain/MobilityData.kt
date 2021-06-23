@@ -95,6 +95,8 @@ class MobilityData private constructor() : DataObject() {
         SharedPreferencesUtils.saveMobilityData(data)
     }
 
+    override fun getLatestUpdate() = getValueAt(dataLines.size - 1, dateStat) ?: N_A
+
     companion object {
         private val instance = MobilityData()
 
@@ -112,6 +114,7 @@ class MobilityData private constructor() : DataObject() {
         private const val INDEX_WORKPLACES = 13
         private const val INDEX_RESIDENTIAL = 14
 
+        private val dateStat = Stat("Date", INDEX_DATE)
         val mobilityIndexStat = Stat("Índice de movilidad", INDEX_MOBILITY)
         val retailAndRecreationStat = Stat("Tiendas y espacio de ocio", INDEX_RETAIL_AND_RECREATION)
         val groceryAndPharmacyStat = Stat("Almacenes y farmacias", INDEX_GROCERY_AND_PHARMACY)

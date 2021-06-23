@@ -8,8 +8,7 @@ import org.greenrobot.eventbus.Subscribe
 class GeneralStatsPresenter(view: GeneralStatsView, model: GeneralStatsModel) :
     StatsPresenter<GeneralStatsView, GeneralStatsModel>(view, model) {
 
-    @Subscribe
-    fun onStatSelected(event: StatsView.StatsSelectedEvent) {
+    override fun onStatSelected(event: StatsView.StatsSelectedEvent) {
         model.selectedStats = event.selectedStats
         model.buildDataSets()
     }
