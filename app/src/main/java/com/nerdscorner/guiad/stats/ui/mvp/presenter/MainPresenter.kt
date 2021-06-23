@@ -100,39 +100,38 @@ class MainPresenter(view: MainView, model: MainModel) : BaseActivityPresenter<Ma
             return
         }
 
-        model.buildCtiStatChart { dataSet, statName, lastValue, isTrendingUp ->
-            view.setupCtiCard(dataSet, statName, lastValue, isTrendingUp)
+        model.buildCtiStatChart { dataSet, statName, lastValue, lastUpdate, isTrendingUp ->
+            view.setupCtiCard(dataSet, statName, lastValue, lastUpdate, isTrendingUp)
         }
-        model.buildCitiesDataChart { dataSet, statName, lastValue, isTrendingUp ->
-            view.setupCitiesCard(dataSet, statName, lastValue, isTrendingUp)
+        model.buildCitiesDataChart { dataSet, statName, lastValue, lastUpdate,  isTrendingUp ->
+            view.setupCitiesCard(dataSet, statName, lastValue, lastUpdate,  isTrendingUp)
         }
-        model.buildGeneralsDaraChart { dataSet, statName, lastValue, isTrendingUp ->
-            view.setupGeneralsCard(dataSet, statName, lastValue, isTrendingUp)
+        model.buildGeneralsDaraChart { dataSet, statName, lastValue, lastUpdate,  isTrendingUp ->
+            view.setupGeneralsCard(dataSet, statName, lastValue, lastUpdate,  isTrendingUp)
         }
-        model.buildDeceasesDataChart { dataSet, statName, lastValue, isTrendingUp ->
-            view.setupDeceasesCard(dataSet, statName, lastValue, isTrendingUp)
+        model.buildDeceasesDataChart { dataSet, statName, lastValue, lastUpdate,  isTrendingUp ->
+            view.setupDeceasesCard(dataSet, statName, lastValue, lastUpdate,  isTrendingUp)
         }
-        model.buildP7DataChart { dataSet, statName, lastValue, isTrendingUp ->
-            view.setupP7Card(dataSet, statName, lastValue, isTrendingUp)
+        model.buildP7DataChart { dataSet, statName, lastValue, lastUpdate,  isTrendingUp ->
+            view.setupP7Card(dataSet, statName, lastValue, lastUpdate,  isTrendingUp)
         }
-        model.buildMobilityDataChart { dataSet, statName, lastValue, isTrendingUp ->
-            view.setupMobilityCard(dataSet, statName, lastValue, isTrendingUp)
+        model.buildMobilityDataChart { dataSet, statName, lastValue, lastUpdate,  isTrendingUp ->
+            view.setupMobilityCard(dataSet, statName, lastValue, lastUpdate,  isTrendingUp)
         }
-        model.buildRawDataChart { dataSet, statName, lastValue, isTrendingUp ->
-            view.setupRawDataCard(dataSet, statName, lastValue, isTrendingUp)
+        model.buildRawDataChart { dataSet, statName, lastValue, lastUpdate,  isTrendingUp ->
+            view.setupRawDataCard(dataSet, statName, lastValue, lastUpdate,  isTrendingUp)
         }
-
-        model.buildVaccinesBySegmentStatChart { dataSet, statName, lastValue, isTrendingUp ->
-            view.setupVaccinesBySegmentCard(dataSet, statName, lastValue, isTrendingUp)
+        model.buildVaccinesBySegmentStatChart { dataSet, statName, lastValue, lastUpdate,  isTrendingUp ->
+            view.setupVaccinesBySegmentCard(dataSet, statName, lastValue, lastUpdate,  isTrendingUp)
         }
-        model.buildVaccinesByAgeStatChart { dataSet, statName, lastValue, isTrendingUp ->
-            view.setupVaccinesByAgeCard(dataSet, statName, lastValue, isTrendingUp)
+        model.buildVaccinesByAgeStatChart { dataSet, statName, lastValue, lastUpdate,  isTrendingUp ->
+            view.setupVaccinesByAgeCard(dataSet, statName, lastValue, lastUpdate,  isTrendingUp)
         }
-        model.buildVaccinesGlobalStatChart { dataSet, statName, lastValue, isTrendingUp ->
-            view.setupVaccinesGlobalStatsCard(dataSet, statName, "$lastValue%", isTrendingUp)
+        model.buildVaccinesGlobalStatChart { dataSet, statName, lastValue, lastUpdate,  isTrendingUp ->
+            view.setupVaccinesGlobalStatsCard(dataSet, statName, "$lastValue%",lastUpdate, isTrendingUp)
         }
-        model.buildVaccinesByCityStatChart { dataSet, statName, lastValue, isTrendingUp ->
-            view.setupVaccinesByCityStatsCard(dataSet, statName, lastValue, isTrendingUp)
+        model.buildVaccinesByCityStatChart { dataSet, statName, lastValue, lastUpdate,  isTrendingUp ->
+            view.setupVaccinesByCityStatsCard(dataSet, statName, lastValue, lastUpdate,  isTrendingUp)
         }
     }
 

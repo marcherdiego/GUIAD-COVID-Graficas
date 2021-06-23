@@ -88,6 +88,8 @@ class DeceasesData private constructor() : DataObject() {
         SharedPreferencesUtils.saveDeceasesData(data)
     }
 
+    override fun getLatestUpdate() = getValueAt(dataLines.size - 1, dateStat) ?: N_A
+
     companion object {
         private val instance = DeceasesData()
 

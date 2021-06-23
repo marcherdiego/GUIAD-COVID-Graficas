@@ -61,6 +61,8 @@ class VaccinesByAgeData private constructor() : DataObject() {
         SharedPreferencesUtils.saveVaccinesByAgeData(data)
     }
 
+    override fun getLatestUpdate() = getValueAt(dataLines.size - 1, dateStat) ?: N_A
+
     companion object {
         private val instance = VaccinesByAgeData()
 
@@ -92,6 +94,7 @@ class VaccinesByAgeData private constructor() : DataObject() {
         private const val INDEX_DAILY_80_115 = 51
         private const val INDEX_TOTAL_80_115 = 52
 
+        private val dateStat = Stat("Date", INDEX_DATE)
         val daily18_24Stat = Stat("18 a 24 años (por día)", INDEX_DAILY_18_24)
         val total18_24Stat = Stat("18 a 24 años (acumulado)", INDEX_TOTAL_18_24)
         val daily25_34Stat = Stat("25 a 34 años (por día)", INDEX_DAILY_25_34)

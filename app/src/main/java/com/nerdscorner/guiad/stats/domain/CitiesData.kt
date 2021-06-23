@@ -102,6 +102,8 @@ class CitiesData private constructor() : DataObject() {
         SharedPreferencesUtils.saveCitiesData(data)
     }
 
+    override fun getLatestUpdate() = getValueAt(dataLines.size - 1, dateStat) ?: N_A
+
     companion object {
         private val instance = CitiesData()
 
@@ -119,6 +121,7 @@ class CitiesData private constructor() : DataObject() {
         private const val INDEX_TOTAL_RECOVERED = 8
         private const val INDEX_TOTAL_CASES = 9
 
+        private val dateStat = Stat("Date", INDEX_DATE)
         val inCourseStat = Stat("Casos en curso", INDEX_IN_COURSE)
         val newCasesCalculatedStat = Stat("Nuevos casos (calculado)", INDEX_NEW_CASES_CALCULATED)
         val newCasesAppStat = Stat("Nuevos casos (App)", INDEX_NEW_CASES_APP)

@@ -94,6 +94,8 @@ class GeneralStatsData private constructor() : DataObject() {
         }
     }
 
+    override fun getLatestUpdate() = getValueAt(dataLines.size - 1, dateStat) ?: N_A
+
     data class StatsForDate(
         val inCourse: String = "N/A",
         val newCasesAdjusted: String = "N/A",
@@ -142,6 +144,7 @@ class GeneralStatsData private constructor() : DataObject() {
         private const val INDEX_REPORTED_OUT_OF_DATE = 16
         private const val INDEX_POSITIVITY = 17
 
+        private val dateStat = Stat("Date", INDEX_DATE)
         val inCourseStat = Stat("Casos en curso", INDEX_IN_COURSE)
         val newCasesAdjustedStat = Stat("Nuevos casos (Ajustado)", INDEX_NEW_CASES_ADJUSTED)
         val newCasesOriginalStat = Stat("Nuevos casos (Original)", INDEX_NEW_CASES_ORIGINAL)

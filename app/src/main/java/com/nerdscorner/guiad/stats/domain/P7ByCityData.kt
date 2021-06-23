@@ -89,6 +89,8 @@ class P7ByCityData private constructor() : DataObject() {
         SharedPreferencesUtils.saveP7ByCityData(data)
     }
 
+    override fun getLatestUpdate() = getValueAt(dataLines.size - 1, dateStat) ?: N_A
+
     companion object {
         private val instance = P7ByCityData()
 
@@ -99,6 +101,7 @@ class P7ByCityData private constructor() : DataObject() {
         private const val INDEX_P7 = 5
         private const val INDEX_P7_PER_100K = 6
 
+        private val dateStat = Stat("Date", INDEX_DATE)
         val p7Stat = Stat("Valor p7 (por departamento)", INDEX_P7)
         val p7Per100KStat = Stat("Índice p7/100.000 habitantes (por departamento)", INDEX_P7_PER_100K)
     }

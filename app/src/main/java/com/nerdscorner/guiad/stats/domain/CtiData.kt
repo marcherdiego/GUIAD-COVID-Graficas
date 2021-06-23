@@ -37,6 +37,8 @@ class CtiData private constructor() : DataObject() {
         SharedPreferencesUtils.saveCtiData(data)
     }
 
+    override fun getLatestUpdate() = getValueAt(dataLines.size - 1, dateStat) ?: N_A
+
     companion object {
         private val instance = CtiData()
 
@@ -44,6 +46,7 @@ class CtiData private constructor() : DataObject() {
 
         private const val INDEX_DATE = 1
 
+        private val dateStat = Stat("Date", INDEX_DATE)
         private const val INDEX_PATIENTS_QUANTITY = 2
         private const val INDEX_TOTAL_OCCUPATION = 3
         private const val INDEX_COVID_OCCUPATION = 4

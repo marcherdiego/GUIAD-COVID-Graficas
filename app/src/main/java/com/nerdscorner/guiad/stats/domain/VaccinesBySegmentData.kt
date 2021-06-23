@@ -57,6 +57,8 @@ class VaccinesBySegmentData private constructor() : DataObject() {
         SharedPreferencesUtils.saveVaccinesBySegmentData(data)
     }
 
+    override fun getLatestUpdate() = getValueAt(dataLines.size - 1, dateStat) ?: N_A
+
     companion object {
         private val instance = VaccinesBySegmentData()
 
@@ -84,6 +86,7 @@ class VaccinesBySegmentData private constructor() : DataObject() {
         private const val INDEX_DAILY_PREGNANT = 19
         private const val INDEX_TOTAL_PREGNANT = 20
 
+        private val dateStat = Stat("Date", INDEX_DATE)
         val dailyTeachersStat = Stat("Docentes (por día)", INDEX_DAILY_TEACHERS)
         val totalTeachersStat = Stat("Docentes (acumulado)", INDEX_TOTAL_TEACHERS)
         val dailyElepemStat = Stat("ELEPEM (por día)", INDEX_DAILY_ELEPEM)

@@ -24,6 +24,8 @@ abstract class DataObject : Serializable {
 
     protected abstract fun persist(data: String?)
 
+    abstract fun getLatestUpdate(): String
+
     @WorkerThread
     open fun setData(data: String?) {
         dataLines = data

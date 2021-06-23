@@ -21,6 +21,7 @@ class StatCard @JvmOverloads constructor(
 
     private val statLatestValue: TextView
     private val statLabel: TextView
+    private val lastDataDate: TextView
     private val trendIcon: ImageView
     private val lineChart: LineChart
 
@@ -37,6 +38,7 @@ class StatCard @JvmOverloads constructor(
         findViewById<ImageView>(R.id.stat_icon).setImageResource(statIcon)
         trendIcon = findViewById(R.id.stat_trend_icon)
         lineChart = findViewById(R.id.line_chart)
+        lastDataDate = findViewById(R.id.last_data_date)
         statLatestValue = findViewById(R.id.stat_latest_value)
         statLabel = findViewById(R.id.stat_label)
 
@@ -54,11 +56,25 @@ class StatCard @JvmOverloads constructor(
         lineChart.description = null
     }
 
-    fun setup(chartData: ILineDataSet?, statLabel: String, latestValue: String, isTrendingUp: Boolean?, upIsBad: Boolean = true) {
-        setup(chartData.toList(), statLabel, latestValue, isTrendingUp, upIsBad)
+    fun setup(
+        chartData: ILineDataSet?,
+        statLabel: String,
+        latestValue: String,
+        lastUpdate: String,
+        isTrendingUp: Boolean?,
+        upIsBad: Boolean = true
+    ) {
+        setup(chartData.toList(), statLabel, latestValue, lastUpdate, isTrendingUp, upIsBad)
     }
 
-    fun setup(chartData: List<ILineDataSet>?, statLabel: String, latestValue: String, isTrendingUp: Boolean?, upIsBad: Boolean = true) {
+    fun setup(
+        chartData: List<ILineDataSet>?,
+        statLabel: String,
+        latestValue: String,
+        lastUpdate: String,
+        isTrendingUp: Boolean?,
+        upIsBad: Boolean = true
+    ) {
         if (chartData != null) {
             chartData.forEach {
                 it.setDrawValues(false)
@@ -68,6 +84,7 @@ class StatCard @JvmOverloads constructor(
         }
         this.statLabel.text = statLabel
         statLatestValue.text = latestValue
+        this.lastDataDate.text = context.getString(R.string.last_data_date, lastUpdate)
         trendIcon.setImageResource(
             when {
                 isTrendingUp == null -> R.drawable.ic_clock

@@ -95,6 +95,8 @@ class VaccinesByCityData private constructor() : DataObject() {
         SharedPreferencesUtils.saveVaccinesGlobalData(data)
     }
 
+    override fun getLatestUpdate() = getValueAt(dataLines.size - 1, dateStat) ?: N_A
+
     companion object {
         private val csvStringLiteralsRegex = "\".*\"".toRegex()
         private val instance = VaccinesByCityData()
@@ -145,6 +147,7 @@ class VaccinesByCityData private constructor() : DataObject() {
         private const val TACUAREMBO = "Tacuarembó"
         private const val TREINTA_Y_TRES = "Treinta y Tres"
 
+        private val dateStat = Stat("Date", INDEX_DATE)
         val dailyVaccinationsStat = Stat("Vacunaciones (por día)", 0)
         val totalPeopleVaccinatedStat = Stat("Total vacunados (acumulado)", 1)
         val dailyPeopleVaccinatedStat = Stat("Vacunados (por día)", 2)
