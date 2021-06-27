@@ -37,6 +37,5 @@ Librerías utilizadas
 3. [Retrofit](http://square.github.io/retrofit/) Para la comunicación con el servidor
 4. [FlowLayout](https://github.com/nex3z/FlowLayout) Para mostrar las leyendas de los gráficos de manera más legible
 
-<a href='https://play.google.com/store/apps/details?id=uy.com.nerdscorner.guiad.stats&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
-<img alt='Disponible en Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/es-419_badge_web_generic.png' width='200'/>
-</a>
+## Descargar App (no disponible en Google Play)
+[Descargar APK](https://raw.githubusercontent.com/marcherdiego/GUIAD-COVID-Graficas/develop/app-release.apk)
